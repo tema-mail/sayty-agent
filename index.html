@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}</style>
+<title>Прототипировщик сайтов</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Макет: продолжение листа «Команда сайтов» – чертёж студии; цепочка как маршрутный лист, знания – карточки по агентам. */
+:root {
+  --paper: #f5f6f8;
+  --sheet: #ffffff;
+  --ink: #16203a;
+  --muted: #5d667b;
+  --line: #d9dde6;
+  --teal: #0b7a83;
+  --teal-soft: #e2f2f3;
+  --amber: #b5660a;
+  --amber-soft: #fbefdf;
+  --red: #b3261e;
+  --red-soft: #fbe9e8;
+  --violet: #5b4bb7;
+  --violet-soft: #ece9fa;
+  --display: 'Unbounded', 'Arial Black', system-ui, sans-serif;
+  --body: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0f1424; --sheet: #161d31; --ink: #e8ecf5; --muted: #9aa3b8; --line: #2a3350;
+  --teal: #4cc3cc; --teal-soft: #12343a; --amber: #f0a34a; --amber-soft: #3a2a14; --red: #f08a82; --red-soft: #3c1d1b;
+  --violet: #a99cf5; --violet-soft: #26214a; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #0f1424; --sheet: #161d31; --ink: #e8ecf5; --muted: #9aa3b8; --line: #2a3350;
+  --teal: #4cc3cc; --teal-soft: #12343a; --amber: #f0a34a; --amber-soft: #3a2a14; --red: #f08a82; --red-soft: #3c1d1b;
+  --violet: #a99cf5; --violet-soft: #26214a; color-scheme: dark; }
+
+body { background: var(--paper); color: var(--ink); font: 400 16px/1.6 var(--body); }
+.wrap { max-width: 1060px; margin: 0 auto; padding-block: 40px 72px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 64px; }
+h1, h2, h3 { margin: 0; line-height: 1.15; text-wrap: balance; }
+h1 { font: 700 clamp(28px, 5vw, 48px)/1.1 var(--display); letter-spacing: -0.01em; }
+h2 { font: 700 clamp(21px, 3vw, 28px)/1.2 var(--display); }
+h3 { font: 700 17px/1.3 var(--body); }
+p { margin: 0; }
+ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.eyebrow { font: 600 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--teal); }
+.muted { color: var(--muted); }
+code, .mono { font-family: var(--mono); font-size: .86em; }
+section { display: grid; gap: 22px; }
+.prose { max-width: 68ch; display: grid; gap: 12px; }
+.lead { font-size: 18px; max-width: 64ch; }
+.hero { display: grid; gap: 18px; }
+.quote { border-left: 3px solid var(--amber); padding: 4px 0 4px 18px; color: var(--muted); font-style: italic; max-width: 72ch; }
+
+.verdict { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.verdict > div { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
+.verdict b { font: 700 13px/1.3 var(--mono); color: var(--teal); text-transform: uppercase; letter-spacing: .06em; }
+
+/* маршрутный лист цепочки */
+.route { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: r; }
+.route > li { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 14px; position: relative; padding-bottom: 14px; }
+.route > li::before { counter-increment: r; content: counter(r); width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font: 700 17px/1 var(--display); background: var(--sheet); border: 2px solid var(--teal); color: var(--teal); position: relative; z-index: 1; }
+.route > li:not(:last-child)::after { content: ""; position: absolute; left: 22px; top: 46px; bottom: 0; width: 2px; background: var(--line); }
+.route .box { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 6px; min-width: 0; }
+.route .top { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+.route .who { font: 600 12.5px/1.4 var(--mono); color: var(--muted); }
+.route .out { font: 400 13px/1.5 var(--mono); color: var(--muted); }
+.route li.opt::before { border-style: dashed; }
+.route li.gate .box { border-color: var(--amber); background: var(--amber-soft); }
+.pill { font: 700 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; white-space: nowrap; }
+.p-new { background: var(--violet-soft); color: var(--violet); }
+.p-has { background: var(--teal-soft); color: var(--teal); }
+.p-up { background: var(--amber-soft); color: var(--amber); }
+.p-gate { background: var(--amber); color: var(--sheet); }
+.fork { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fork > div { border: 1px dashed var(--line); border-radius: 10px; padding: 10px 12px; font-size: 14.5px; min-width: 0; }
+
+/* блоки MASTER */
+.levels { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.levels > div { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.levels .code { font: 700 20px/1 var(--display); color: var(--teal); }
+.levels .n { font: 600 12px/1.3 var(--mono); color: var(--muted); }
+.stages { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.stages span { font: 600 12.5px/1 var(--mono); padding: 8px 10px; border-radius: 8px; background: var(--teal-soft); color: var(--teal); }
+.stages i { color: var(--muted); font-style: normal; }
+.formula { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; font: 400 14px/1.7 var(--mono); overflow-x: auto; white-space: pre; }
+
+/* карточки по агентам */
+.agents { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.agent { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.agent header { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.agent li { font-size: 14.5px; }
+.src { font: 600 10.5px/1 var(--mono); padding: 3px 6px; border-radius: 5px; background: var(--paper); color: var(--muted); border: 1px solid var(--line); margin-left: 4px; white-space: nowrap; }
+
+table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 600 11.5px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.sheet { background: var(--sheet); border: 1px solid var(--line); border-radius: 14px; padding: 6px 8px; }
+.scroll { overflow-x: auto; }
+td .mono { white-space: nowrap; }
+
+.loop { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.loop > div { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 4px; align-content: start; min-width: 0; font-size: 14px; }
+.loop b { font-size: 14.5px; }
+.loop .k { font: 600 11px/1.3 var(--mono); color: var(--muted); }
+
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.note { padding: 14px 16px; border-radius: 12px; background: var(--amber-soft); display: grid; gap: 6px; }
+.note b { color: var(--amber); }
+.bad { padding: 14px 16px; border-radius: 12px; background: var(--red-soft); display: grid; gap: 8px; min-width: 0; }
+.bad b { color: var(--red); }
+.q { list-style: none; padding: 0; display: grid; gap: 10px; counter-reset: q; }
+.q li { background: var(--sheet); border: 1px solid var(--amber); border-radius: 12px; padding: 14px 16px; display: grid; gap: 4px; }
+
+@media (max-width: 820px) {
+  .verdict, .agents, .two, .fork { grid-template-columns: 1fr; }
+  .levels, .loop { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wrap { gap: 48px; padding-block: 24px 56px; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <p class="eyebrow">Чат «САЙТЫ АГЕНТ» · разбор 18.10.2026</p>
+    <h1>Прототипировщик сайтов и цепочка до него</h1>
+    <p class="lead">Мы прочитали проект «Копирайтер Сайтов Агент» из Codex, классификатор MASTER на 834 блока, 54 статьи Смыслогена, всю базу знаний и готовые решения на GitHub и рынке. Здесь собрано, что из этого берём, в какого агента, как выглядит цепочка и как система будет учиться.</p>
+    <p class="quote">«Прототипировщик, который понимает типы блоков и берёт информацию у того, кто делает анализ. Можно с исследованием, можно без – но цепочка чтобы была. Будем его дорабатывать, учить, и ставить обучаемость».</p>
+  </header>
+
+  <section aria-labelledby="v-h">
+    <p class="eyebrow">Коротко</p>
+    <h2 id="v-h">Три вывода</h2>
+    <div class="verdict">
+      <div><b>Готового нет</b><p>Ни на GitHub, ни у Relume, Тильды или Flexbe нет цепочки «смыслы с доказательствами → блоки → тексты → прототип». Каждый закрывает 1–3 звена. Под Россию эта ниша пуста.</p></div>
+      <div><b>Основа уже есть</b><p>В Codex спроектирована цепочка из 12 ролей и метод прототипа по Paradigma, Парникову и Смыслогену. MASTER даёт язык блоков. Обкатан один шаг: исследование компании на Evolution.</p></div>
+      <div><b>Чего не хватает</b><p>Измеримой проверки (эталонные брифы и рубрика) и памяти на утверждённых примерах блоков. Рынок здесь тоже слаб – это наше преимущество, если сделаем.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="chain-h">
+    <p class="eyebrow">Как идёт работа</p>
+    <h2 id="chain-h">Цепочка от задачи до прототипа</h2>
+    <ol class="route">
+      <li><div class="box"><div class="top"><h3>Задача и вопрос «с исследованием?»</h3><span class="pill p-has">есть · site-lead</span></div><p class="muted">Главный определяет тип сайта и источник, затем один вопрос владельцу.</p>
+        <div class="fork"><div><b>Да</b> – запускается полное <code>исследование-бренда</code>: 16 агентов, рынок, спрос, конкуренты, отзывы, позиционирование. Отчёт становится входом для брифа.</div><div><b>Нет</b> – быстрая разведка: сайт компании, 5–10 конкурентов, карты и отзывы. Это company-researcher из Codex. Выводы помечаются «не проверено владельцем».</div></div></div></li>
+      <li class="opt"><div class="box"><div class="top"><h3>Бриф владельцу</h3><span class="pill p-new">новый · site-brief</span></div><p>Вопросы строятся из пробелов исследования, а не по анкете: 12 вопросов B01–B12, как у Evolution. Каждый ответ получает отметку «подтверждено», «гипотеза» или «без ответа».</p><p class="out">выход: бриф компании + решение «данных хватает / чего не хватает»</p></div></li>
+      <li><div class="box"><div class="top"><h3>Карта смыслов</h3><span class="pill p-new">новый · site-smysly</span></div><p>Цепочка «ситуация → боль, желание или возражение → обещание → доказательство → блок». У доказательства три статуса: есть, ждём, нет. Без доказательства смысл в блок не идёт.</p><p class="out">выход: карта смыслов с приоритетами</p></div></li>
+      <li class="gate"><div class="box"><div class="top"><h3>Карта страниц и «паспорт» каждой</h3><span class="pill p-up">дорабатываем · site-map</span><span class="pill p-gate">ваше «да»</span></div><p>Дерево с ЧПУ (уже умеет) плюс паспорт страницы: кому, какая задача, почему отдельной страницей, главное действие, чем измерим. Сначала владелец утверждает главную как эталон.</p></div></li>
+      <li><div class="box"><div class="top"><h3>План блоков</h3><span class="pill p-new">новый · site-prototype</span></div><p>Для каждой страницы прототипировщик выбирает блоки из MASTER по этапам решения клиента, сверяет с матрицей конкурентов и отбрасывает лишнее с причиной.</p><p class="out">выход: список блоков, у каждого вопрос клиента, смысл, доказательство, требование к фото, действие</p></div></li>
+      <li><div class="box"><div class="top"><h3>Тексты по блокам</h3><span class="pill p-up">дорабатываем · copywriting + stop-slop</span></div><p>Текст берётся только из брифа и фактов. Если данных нет, ставится пометка «запросить», без выдумок. Голос бренда хранится в файле, длина текста задаётся форматом блока.</p></div></li>
+      <li><div class="box"><div class="top"><h3>Конверсионный слой</h3><span class="pill p-new">часть site-prototype</span></div><p>Формы, квиз, мессенджеры, кнопки, липкая панель на телефоне. Каждая механика ставится только с причиной (лестница трения), без украшательства.</p></div></li>
+      <li><div class="box"><div class="top"><h3>Чёрно-белый прототип</h3><span class="pill p-new">site-prototype</span></div><p>Адаптивная страница с настоящим текстом, кнопками, формами и подписанными местами под фото («здесь фото команды у подъёмника»). Сразу телефон и компьютер.</p></div></li>
+      <li><div class="box"><div class="top"><h3>Независимая проверка</h3><span class="pill p-up">дорабатываем · site-landing / site-shop</span></div><p>Проверяет агент, который не собирал прототип, по рубрике ниже: каждый блок связан со смыслом, нет выдуманных цифр, этапы решения закрыты, телефон без переполнения.</p></div></li>
+      <li class="gate"><div class="box"><div class="top"><h3>Презентация и решение</h3><span class="pill p-gate">ваше «да»</span></div><p>Вам приходит ссылка: почему такой порядок блоков, зачем каждый блок, каких данных ещё нет. После «да» прототип уходит в дизайн и вёрстку на Astro по обычному пути site-lead.</p></div></li>
+      <li><div class="box"><div class="top"><h3>Урок в систему</h3><span class="pill p-up">дорабатываем · site-mentor</span></div><p>Ваши правки становятся строками «внести? да/нет». Принятое попадает в правила и в эталонные проверки, чтобы следующий прототип не повторил ошибку.</p></div></li>
+    </ol>
+    <p class="muted">Ролей меньше, чем в Codex (там 12). Отдельный агент нужен только там, где своё решение и свой результат: бриф, смыслы, прототип. Конверсионный слой – часть прототипировщика, проверку делают существующие site-landing и site-shop.</p>
+  </section>
+
+  <section aria-labelledby="blocks-h">
+    <p class="eyebrow">Как он понимает типы блоков</p>
+    <h2 id="blocks-h">Язык блоков: классификатор MASTER</h2>
+    <div class="levels">
+      <div><span class="code">L0</span><b>Страница</b><span class="n">9 шаблонов</span></div>
+      <div><span class="code">L1</span><b>Системный элемент</b><span class="n">20 · шапка, меню, подвал</span></div>
+      <div><span class="code">L2</span><b>Смысловой блок</b><span class="n">699 · «гарантии», «кейсы», «этапы»</span></div>
+      <div><span class="code">L3</span><b>Механика</b><span class="n">65 · форма, квиз, калькулятор</span></div>
+      <div><span class="code">L4</span><b>Формат</b><span class="n">41 · таблица, таймлайн, видео</span></div>
+    </div>
+    <p>Порядок блоков задают семь этапов решения клиента, а не шаблон «10 экранов»:</p>
+    <div class="stages"><span>Понять</span><i>→</i><span>Узнать себя</span><i>→</i><span>Захотеть</span><i>→</i><span>Поверить</span><i>→</i><span>Оценить</span><i>→</i><span>Снять риск</span><i>→</i><span>Действовать</span></div>
+    <p class="muted">Класс блока говорит, когда его ставить: базовый (42), условный – только при своей задаче (281), доказательство (65), усилитель (27), нишевый (262), конверсионный (87).</p>
+<pre class="formula">вопрос клиента  → этап решения     → смысловой блок L2   → доказательство      → механика L3 → формат L4
+«а вдруг сломаете?» REDUCE RISK        «Гарантии и ответственность»  договор, срок гарантии  кнопка «Скачать договор»  документ + подпись</pre>
+    <div class="two">
+      <div class="note"><b>Стартовые наборы из курсов</b><p>8 обязательных блоков лендинга по Paradigma, главная из 16 блоков и шаблоны 8 типов страниц из базы, продажник Кадырова. Это заготовки, от которых прототипировщик отталкивается и затем убирает лишнее.</p></div>
+      <div class="bad"><b>Что в MASTER надо починить</b><p>Поле «тип бизнеса» у всех 834 блоков стоит «Universal», то есть не заполнено. У блока нет вопроса клиента, примера и требования к доказательству. Первый шаг работ – нормализовать базовые, доказательные и конверсионные блоки (около 200), нишевые дозаполнять по мере проектов.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="take-h">
+    <p class="eyebrow">Что берём и в кого</p>
+    <h2 id="take-h">Знания по агентам</h2>
+    <p class="muted">Метки источника: <span class="src">Codex</span> ваш проект, <span class="src">Paradigma</span> и <span class="src">Смыслоген</span> курсы, <span class="src">База</span> viberendered, <span class="src">GitHub</span> открытые проекты (только идеи, ничего не ставим).</p>
+    <div class="agents">
+
+      <article class="agent"><header><h3>site-prototype – прототипировщик</h3><span class="pill p-new">новый</span></header>
+        <ul>
+          <li>Метод из 12 шагов и определение прототипа: смысл + доказательство + текст + действие + композиция + телефон <span class="src">Codex</span></li>
+          <li>Скелет страницы по вопросам: куда попал → решают ли мою задачу → почему верить → какие риски → что дальше <span class="src">Codex</span></li>
+          <li>Классификатор 834 блоков, этапы решения, классы <span class="src">MASTER</span></li>
+          <li>8 обязательных и около 30 дополнительных блоков, порядок по триггерам выбора, объединение похожих блоков <span class="src">Paradigma</span></li>
+          <li>Состав первого экрана: дескриптор «что, где и почему вам», оффер, буллеты с жирным ключом, кнопка с глаголом, подсказка под кнопкой <span class="src">Paradigma</span></li>
+          <li>13 критериев приоритета блоков, ситуативные блоки, очистка прототипа от мусора <span class="src">Смыслоген</span></li>
+          <li>Главная из 16 блоков, 8 шаблонов страниц, страница под поиск и ИИ-ответы из 12 пунктов <span class="src">База</span></li>
+          <li>Матрица элементов по конкурентам: обязательно, рекомендовано, по желанию <span class="src">База · ИИшак</span></li>
+          <li>Три уровня каждого блока: минимум, как у сильных конкурентов, лучший в классе <span class="src">GitHub · web-anatomy</span></li>
+          <li>Описание задачи у каждой секции ещё на карте страниц; замена блока с сохранением задачи <span class="src">Relume</span></li>
+        </ul></article>
+
+      <article class="agent"><header><h3>site-brief – бизнес-аналитик</h3><span class="pill p-new">новый</span></header>
+        <ul>
+          <li>Бриф из пробелов исследования: вопросы B01–B12 с колонкой «для какого решения» <span class="src">Codex</span></li>
+          <li>Карточка фактов компании: реквизиты, услуги, цены с датой, гарантии, кейсы с правами на фото <span class="src">Codex</span></li>
+          <li>База знаний клиента из 22 полей (цены, ограничения, FAQ из продаж, возражения, юр. запреты) <span class="src">База</span></li>
+          <li>Портрет из 5 частей с парой «что клиент думает о причине / настоящая причина»; правило «кто ищет на сайте ≠ кто решает» <span class="src">Paradigma</span></li>
+          <li>Тайный покупатель и анализ текущих продаж: путь заявки, скрипт, мессенджеры <span class="src">Paradigma</span></li>
+          <li>«Детектор утечек дохода» – 10 вопросов для живого сайта; «препятствия к покупке» отдельной графой <span class="src">База</span></li>
+          <li>Подтверждение – это выбор владельца, а не «ок» <span class="src">GitHub · ai-hub-open</span></li>
+        </ul></article>
+
+      <article class="agent"><header><h3>site-smysly – стратег смыслов</h3><span class="pill p-new">новый</span></header>
+        <ul>
+          <li>Карта смыслов «вопрос → ситуация → смысл → отличие или стандарт рынка → доказательство → блок» <span class="src">Codex</span></li>
+          <li>Карта аргументов Кадырова: боль / желание / возражение → обещание → аргумент <span class="src">База</span></li>
+          <li>Три уровня смыслов (идея, эксперт, продукт) и диагностика пробелов; 5 категорий страхов, 4 усилителя оффера <span class="src">База</span></li>
+          <li>Боль → решение → выгода, триггеры выбора подрядчика задают порядок <span class="src">Paradigma</span></li>
+          <li>5 групп ценностей, «что делать, если у клиента всё как у всех», 9 альтернатив кейсам <span class="src">Смыслоген</span></li>
+          <li>Статус «ждём доказательство»; решение, принятое молча, – дефект <span class="src">GitHub · wondelai</span></li>
+        </ul></article>
+
+      <article class="agent"><header><h3>Копирайтер</h3><span class="pill p-up">дорабатываем</span></header>
+        <ul>
+          <li>Только из источников: нет данных – пометка «запросить», без выдуманных цен, сроков, кейсов <span class="src">База</span></li>
+          <li>Файл голоса бренда: как звучим, как НЕ звучим, слова да и нет <span class="src">База · Shaz M</span></li>
+          <li>5 правил и заголовок-смысл вместо рубрики («Делаем под ключ» вместо «Наши услуги») <span class="src">Paradigma</span></li>
+          <li>Формула оффера «для X, которые хотят Y, через Z, без страха» <span class="src">База</span></li>
+          <li>Каждое обещание опирается на факт, пример или условие (метод Сарычевой) <span class="src">GitHub · redaktura</span></li>
+          <li>39 правил сильного текста, цифры в заголовках, заголовки-истории, структура кейса <span class="src">Смыслоген</span></li>
+          <li>Длина текста под формат блока – так генерирует Тильда <span class="src">рынок РФ</span></li>
+        </ul></article>
+
+      <article class="agent"><header><h3>Конверсионный слой</h3><span class="pill p-new">в site-prototype</span></header>
+        <ul>
+          <li>Проверка из 11 пунктов: панель действий, контакты в шапке, действие в каждом блоке, открытые формы, квиз, липкие «Позвонить» и WhatsApp на телефоне <span class="src">Paradigma</span></li>
+          <li>Лестница трения: мало заявок – меньше полей; много пустых – фильтрующий квиз <span class="src">База · Shaz M</span></li>
+          <li>Оценка лендинга с весами 40/25/20/15 и правило первых 10% текста <span class="src">База · Rush</span></li>
+          <li>Как сделать сильный призыв к действию за счёт оффера к нему; меню, которое конвертирует <span class="src">Смыслоген</span></li>
+          <li>Российские механики: мессенджер и звонок вместо email, квиз, доверие через юрлицо, карты и отзывы, 152-ФЗ <span class="src">наш стандарт</span></li>
+        </ul></article>
+
+      <article class="agent"><header><h3>site-map – карта страниц</h3><span class="pill p-up">дорабатываем</span></header>
+        <ul>
+          <li>Паспорт страницы: 5 вопросов «зачем отдельной страницей», при слабом ответе страницу не делать <span class="src">База</span></li>
+          <li>Мастер-промт архитектуры и URL: какие группы запросов берём и какие нет, 3 варианта логики URL на выбор <span class="src">База · Rush</span></li>
+          <li>Лендинг или многостраничник: высокочастотный запрос в Яндексе требует связанных разделов <span class="src">База · Маркин</span></li>
+          <li>Каталог из свойств товара под реальный спрос, без пустых страниц <span class="src">База</span></li>
+          <li>Главная сначала, её утверждают как эталон направления <span class="src">Relume</span></li>
+        </ul></article>
+
+      <article class="agent"><header><h3>Исследование компании</h3><span class="pill p-has">есть · дополняем</span></header>
+        <ul>
+          <li>Чек-лист коммерческих факторов из 7 групп с приоритетами – в разбор сайта <span class="src">База · Rush</span></li>
+          <li>Карта рынка по офферам: какое обещание у всех, какое свободно <span class="src">База · Shaz M</span></li>
+          <li>Таблица конкурентов с колонками оффер, УТП, формы захвата, цены, мессенджеры <span class="src">Paradigma</span></li>
+          <li>Быстрая разведка без полного исследования – company-researcher <span class="src">Codex</span></li>
+        </ul></article>
+
+      <article class="agent"><header><h3>SEO, ответы ИИ, проверки</h3><span class="pill p-up">дорабатываем</span></header>
+        <ul>
+          <li>Что реально влияет на цитирование ИИ (замер на 15 тыс. запросов): позиция в выдаче, ответ в верхних 10%, узкие страницы лучше лонгридов <span class="src">База · Мясо</span></li>
+          <li>Что не влияет на топ-10: плотность ключей, объём, число подзаголовков <span class="src">База · Мясо</span></li>
+          <li>Рубрика проверки прототипа: связь блока со смыслом, этапы решения, паспорт страницы, линтер текста, слепое сравнение версий <span class="src">GitHub · Pageree</span></li>
+          <li>Проверка «публиковать / доработать / отклонить» из 6 блоков <span class="src">База</span></li>
+        </ul></article>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="learn-h">
+    <p class="eyebrow">Обучаемость</p>
+    <h2 id="learn-h">Как агент будет учиться</h2>
+    <div class="loop">
+      <div><span class="k">после задачи</span><b>Спросить вас</b><p class="muted">Агент сам спрашивает, что зашло и что мимо, и пишет ответ в файл отзывов своего скилла.</p></div>
+      <div><span class="k">урок</span><b>Строка с доказательством</b><p class="muted">Дата, урок, на чём основан, к какому агенту, статус.</p></div>
+      <div><span class="k">ваше «да»</span><b>В правила</b><p class="muted">site-mentor раз в неделю сводит 3–7 повторяющихся паттернов. Повтор 3 раза за месяц – кандидат в правило.</p></div>
+      <div><span class="k">проверка</span><b>Эталонный кейс</b><p class="muted">Каждый принятый урок становится проверкой на эталонных брифах, чтобы правило не потерялось при следующей правке.</p></div>
+      <div><span class="k">память</span><b>Библиотека блоков</b><p class="muted">Утверждённые вами блоки по нишам становятся образцами для следующих сайтов.</p></div>
+    </div>
+    <div class="two">
+      <div class="note"><b>Откуда</b><p>«Живые скиллы» и самообучение Зуевича, журнал уроков с доказательством из marketingskills, эталонные проверки из skill-creator Anthropic, библиотека оценённых секций web-anatomy. Петлю «правка → урок → правило → проверка» целиком не замыкает никто из найденных.</p></div>
+      <div class="note"><b>Чистка</b><p>Хранить всегда: решения, правила стиля, паттерны. Удалять через 30 дней: факты завершённых проектов, временное. Скилл без трёх реальных примеров считается слабым.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="mkt-h">
+    <p class="eyebrow">Рынок</p>
+    <h2 id="mkt-h">Что уже есть у других</h2>
+    <div class="sheet scroll">
+      <table>
+        <thead><tr><th>Кто</th><th>Что умеет</th><th>Чего нет</th><th>Берём идею</th></tr></thead>
+        <tbody>
+          <tr><td>Relume</td><td>бриф → карта страниц → wireframe из 1 000+ блоков с текстом → экспорт</td><td>смыслов и доказательств, вопросов не задаёт, шаблонность</td><td>главная сначала; задача у каждой секции</td></tr>
+          <tr><td>Тильда AI</td><td>YandexGPT, тексты под длину блока, страница с нуля, 600+ блоков</td><td>методики структуры</td><td>лимит длины по формату блока</td></tr>
+          <tr><td>Flexbe AI</td><td>«как маркетолог»: тон, ЦА, цели → секции за минуту</td><td>глубины, выбор секций не раскрыт</td><td>шаг «вводные до блоков»</td></tr>
+          <tr><td><span class="mono">marketingskills</span> · 55 тыс. ★</td><td>49 скиллов, у каждого набор проверок, журнал уроков</td><td>смыслов, блоков, прототипа; под SaaS США</td><td>формат проверок и журнала</td></tr>
+          <tr><td><span class="mono">wondelai create-website</span></td><td>10 фаз с гейтами и трекером</td><td>классификатора блоков</td><td>статус «ждём доказательство»</td></tr>
+          <tr><td><span class="mono">web-anatomy</span></td><td>блоки сверяются с библиотекой реальных страниц, итог – wireframe</td><td>открытых данных (закрытый сервис)</td><td>три уровня блока; своя библиотека</td></tr>
+          <tr><td><span class="mono">Pageree</span></td><td>нет данных – нет обещаний конверсии; слепое сравнение</td><td>обкатки (1 ★)</td><td>рубрика проверки</td></tr>
+          <tr><td>Uizard, Framer, Figma Make</td><td>экраны из промпта</td><td>маркетинга</td><td>–</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted">Западные решения переносятся конвейером, а не содержанием. Не переносятся SaaS-воронки, email-захват, логотипы клиентов как доверие и Google вместо Яндекса.</p>
+  </section>
+
+  <section aria-labelledby="no-h">
+    <p class="eyebrow">Границы</p>
+    <h2 id="no-h">Что не берём и чего нет</h2>
+    <div class="two">
+      <div class="bad"><b>Не берём</b>
+        <ul>
+          <li>Генерацию отзывов, накрутку поведенческих факторов, сети сайтов</li>
+          <li>Фейковый дефицит («осталось 20 мест»)</li>
+          <li>Цифры курсов без данных: «8 блоков дают конверсию от 5%», «первый экран – 80% успеха»</li>
+          <li>Фиксированные «10 экранов» и обязательный квиз на каждом сайте</li>
+          <li>Title на 150–180 символов, GAR-нормы как цель</li>
+          <li>Фиксированный порядок блоков из шаблонных генераторов</li>
+        </ul></div>
+      <div class="note"><b>Пробелы – закроем сами или по ходу</b>
+        <ul>
+          <li>Готовой анкеты брифа для сайта нет нигде – соберём из B01–B12 и 22 полей</li>
+          <li>Правил текста для блоков, кроме первого экрана, в курсах нет</li>
+          <li>Мобильного прототипа как отдельного артефакта нет ни у кого</li>
+          <li>Измерения конверсии и A/B на наших данных пока нет</li>
+          <li>Смыслоген, Paradigma и Парников в открытом поиске не находятся – они только у нас</li>
+        </ul></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="plan-h">
+    <p class="eyebrow">Дальше</p>
+    <h2 id="plan-h">План работ по шагам</h2>
+    <div class="sheet scroll">
+      <table>
+        <thead><tr><th>Шаг</th><th>Что делаем</th><th>Проверка</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Справочник блоков из MASTER: нормализовать около 200 базовых, доказательных и конверсионных блоков (вопрос клиента, когда ставить, доказательство, формат)</td><td>скрипт считает поля; пустых нет</td></tr>
+          <tr><td>2</td><td>Агент site-prototype: план блоков и чёрно-белый прототип; метод из Codex + Paradigma + база</td><td>прототип на одном брифе, проверка на телефоне</td></tr>
+          <tr><td>3</td><td>Агенты site-brief и site-smysly; вопрос «с исследованием?» в site-lead</td><td>прогон на Evolution, где уже есть исследование и вопросы</td></tr>
+          <tr><td>4</td><td>Правила текста по-русски, голос бренда, лимиты длины</td><td>линтер на тексте прототипа</td></tr>
+          <tr><td>5</td><td>Рубрика проверки и 3 эталонных брифа</td><td>прогон с правилами и без</td></tr>
+          <tr><td>6</td><td>site-mentor: отзыв после задачи, журнал уроков, урок → эталонная проверка</td><td>одна ваша правка доходит до правила</td></tr>
+          <tr><td>7</td><td>Пилот на живом проекте</td><td>ваше «да» на прототип</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted">Каждый шаг – отдельная задача с проверкой и коммитом. Перед началом план прогоняется через verify-plan, правка скиллов идёт по регламенту создания скиллов.</p>
+  </section>
+
+  <section aria-labelledby="ask-h">
+    <p class="eyebrow">Нужно ваше решение</p>
+    <h2 id="ask-h">Три вопроса</h2>
+    <ol class="q">
+      <li><b>В чём прототип?</b><span class="muted">Рекомендую чёрно-белую HTML-страницу ссылкой: тот же стек Astro, телефон сразу, проверяется кодом, дизайнер и вёрстка идут от неё. Альтернатива – Figma (MCP подключён), но мобилку и проверки там делать дольше.</span></li>
+      <li><b>На каком проекте обкатываем?</b><span class="muted">Рекомендую Evolution: там уже есть исследование и 12 вопросов брифа. Альтернатива – газ-маг, он уже на коде.</span></li>
+      <li><b>Проект Codex переносим?</b><span class="muted">Рекомендую перенести метод и исследователя в скиллы Claude рядом с site-lead, а репозиторий Codex оставить архивом, чтобы не было двух источников правды.</span></li>
+    </ol>
+  </section>
+
+</div>
+</body>
+</html>

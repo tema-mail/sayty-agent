@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Прототип – Газ-маг – Контакты</title>
+<!-- kit.css вставляется целиком внутрь <style> (прототип – один файл, открывается без интернета) -->
+<style>/* Комплект чёрно-белого прототипа (маркетолог → site-prototype).
+   Прототип показывает смысл, текст, порядок и действие – не дизайн. Цвета только серые; дизайнер делает визуал после «да» владельца.
+   Блок: <section class="w-block" data-n="1" data-name="Первый экран" data-question="вопрос клиента" data-proof="опора"> */
+:root {
+  --ink: #141414; --muted: #5f5f5f; --line: #b9b9b9; --fill: #ececec; --fill2: #f6f6f6; --paper: #ffffff;
+  --note: #fff6c8; --note-line: #c9b44a; --ask: #7a1f1f;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, Menlo, Consolas, monospace;
+  --wrap: 1180px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 var(--font); }
+img { max-width: 100%; }
+a { color: var(--ink); }
+h1, h2, h3 { margin: 0; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(28px, 4.2vw, 46px); }
+h2 { font-size: clamp(22px, 3vw, 32px); }
+h3 { font-size: 18px; }
+p { margin: 0; }
+.w-wrap { max-width: var(--wrap); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.w-stack { display: grid; gap: 14px; }
+.w-muted { color: var(--muted); }
+
+/* Панель прототипа: переключатели «Логика» и «Комментарии» */
+.w-bar { position: sticky; top: 0; z-index: 50; background: var(--ink); color: #fff; font: 13px/1.3 var(--mono); }
+.w-bar .w-wrap { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding-block: 8px; }
+.w-bar b { font-weight: 600; }
+.w-bar label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+
+/* Блок и его подпись логики */
+.w-block { border-top: 1px dashed var(--line); padding-block: 40px; position: relative; }
+.w-logic { display: none; font: 12.5px/1.45 var(--mono); background: var(--fill2); border: 1px solid var(--line); padding: 8px 10px; margin-bottom: 18px; }
+body.show-logic .w-logic { display: block; }
+.w-logic b { font-weight: 700; }
+.w-note { display: none; background: var(--note); border: 1px dashed var(--note-line); padding: 8px 10px; font-size: 13.5px; margin-top: 12px; }
+body.show-notes .w-note { display: block; }
+.w-note::before { content: "Дизайнеру: "; font-weight: 700; }
+.w-seo { display: none; font: 13px/1.5 var(--mono); background: #eef3ff; border: 1px solid #8aa0d6; padding: 12px 14px; margin: 12px auto; max-width: var(--wrap); }
+body.show-seo .w-seo { display: block; }
+.w-seo table { border-collapse: collapse; width: 100%; }
+.w-seo td { border-top: 1px solid #c9d4ee; padding: 4px 6px; vertical-align: top; }
+.w-seo td:first-child { white-space: nowrap; font-weight: 700; width: 1%; }
+.w-seo .bad { color: var(--ask); font-weight: 700; }
+.w-seo ul { margin: 0; padding-left: 18px; }
+.w-ask { color: var(--ask); font-weight: 600; background: #f7e9e9; padding: 0 4px; }
+
+/* Место под фото/видео/схему: роль, а не «картинка» */
+.w-media { background: repeating-linear-gradient(45deg, var(--fill), var(--fill) 10px, var(--fill2) 10px, var(--fill2) 20px);
+  border: 1px solid var(--line); min-height: 220px; display: grid; place-items: center; text-align: center; padding: 16px;
+  color: var(--muted); font-size: 14px; }
+.w-media::before { content: "▣ "; }
+.w-media.small { min-height: 120px; }
+
+/* Кнопки */
+.w-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border: 2px solid var(--ink);
+  background: var(--ink); color: #fff; font-weight: 600; text-decoration: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+.w-btn.ghost { background: transparent; color: var(--ink); }
+.w-btn[disabled] { opacity: .45; cursor: not-allowed; }
+.w-hint { font-size: 13px; color: var(--muted); }
+
+/* Шапка */
+.w-header .w-wrap { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between; padding-block: 12px; }
+.w-logo { border: 2px solid var(--ink); padding: 6px 10px; font-weight: 700; }
+.w-descr { font-size: 13.5px; color: var(--muted); max-width: 34ch; }
+.w-contacts-top { display: grid; gap: 2px; font-size: 14px; text-align: right; }
+.w-nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14.5px; border-top: 1px solid var(--line); padding-block: 8px; }
+
+/* Первый экран */
+.w-hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; }
+.w-hero ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.w-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* Сетки и карточки */
+.w-grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 14px; }
+.w-card { border: 1px solid var(--line); padding: 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.w-card .w-media { min-height: 140px; }
+.w-price { font-weight: 700; }
+
+/* Этапы */
+.w-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 14px; counter-reset: st; }
+.w-steps li { border: 1px solid var(--line); padding: 14px; counter-increment: st; display: grid; gap: 6px; }
+.w-steps li::before { content: counter(st); font-weight: 700; font-size: 22px; }
+
+/* Таблица */
+.w-table-wrap { overflow-x: auto; }
+.w-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.w-table th, .w-table td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+.w-table th { background: var(--fill2); }
+
+/* FAQ */
+.w-faq details { border: 1px solid var(--line); padding: 12px 14px; }
+.w-faq details + details { border-top: 0; }
+.w-faq summary { font-weight: 600; cursor: pointer; }
+
+/* Форма */
+.w-form { border: 2px solid var(--ink); padding: 18px; display: grid; gap: 12px; max-width: 520px; }
+.w-field { display: grid; gap: 4px; font-size: 14px; }
+.w-field input, .w-field select { min-height: 44px; border: 1px solid var(--ink); padding: 0 10px; font: inherit; background: #fff; }
+.w-check { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; }
+
+/* Полоса призыва */
+.w-cta { background: var(--fill); padding: 24px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+
+/* Подвал */
+.w-footer { background: var(--fill2); border-top: 1px solid var(--line); padding-block: 28px; font-size: 14px; }
+
+/* Липкая панель действий на телефоне */
+.w-sticky { display: none; }
+header.w-block { padding-block: 0; border-top: 0; }
+header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
+
+@media (max-width: 760px) {
+  .w-hide-m { display: none !important; }
+  .w-hero { grid-template-columns: 1fr; }
+  .w-grid { grid-template-columns: repeat(var(--cols-m, 2), minmax(0, 1fr)); }
+  .w-steps { grid-template-columns: 1fr; }
+  .w-contacts-top { text-align: left; }
+  .w-block { padding-block: 28px; }
+  .w-sticky { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+    background: #fff; border-top: 1px solid var(--line); }
+  body { padding-bottom: 72px; }
+}
+@media (max-width: 420px) { .w-grid.one-m { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<!-- Прототип страницы /kontakty gaz-mag.ru. Каркас «Покупателю» – тот же для /dostavka-i-oplata и /o-kompanii. Источник текста: docs/marketing/2026-10-19-kontakty.md и seo-kontakty.md (H1, H2, title, description). -->
+<div class="w-bar"><div class="w-wrap">
+  <b>Прототип · Газ-маг · Контакты /kontakty · версия 19.10.2026</b>
+  <label><input type="checkbox" id="t-logic"> Логика блоков</label>
+  <label><input type="checkbox" id="t-notes"> Комментарии дизайнеру</label>
+  <label><input type="checkbox" id="t-seo"> SEO страницы</label>
+  <span>Меток «запросить»: <b id="ask-count">0</b></span>
+</div></div>
+
+<script type="application/json" id="w-seo">{"title": "Контакты: магазин в Болотном и пункт выдачи в Новосибирске", "description": "Магазин газового оборудования: Болотное, ул. Забабонова, 55А, 8 (913) 458-45-67. Пункт выдачи HUBERT: Новосибирск, Писарева, 60, Пн–Пт 9–18. Маршрут.", "zapros": "магазин газового оборудования болотное адрес (не замерено); уточняющие: газовое оборудование болотное телефон; забабонова 55а болотное; пункт выдачи hubert новосибирск; писарева 60 новосибирск котлы. НЕ брать: «газовое оборудование болотное» без адреса/телефона (главная), «котёл hubert» (/kotly-hubert)", "schema": "ContactPage; Store @id https://gaz-mag.ru/#store (тот же узел, что на главной): name, address, telephone ×2, email, sameAs VK, hasMap; openingHoursSpecification – только когда часы Болотного появятся на странице; department Store «пункт выдачи в Новосибирске» Mo–Fr 09:00–18:00; BreadcrumbList. FAQ нет", "links": ["/katalog – блок «Покупателю»", "/kotly-hubert – блок пункта выдачи", "/rekvizity – блок продавца", "/o-kompanii – блок «Покупателю»", "/dostavka-i-oplata – когда появится"]}</script>
+<div class="w-seo" id="w-seo-box"></div>
+
+<header class="w-header w-block" data-n="0" data-name="Шапка" data-question="Где вы и как связаться?" data-proof="есть: адрес в Болотном, 2 телефона, Telegram, WhatsApp (site.ts); запросить: часы работы магазина">
+  <div class="w-wrap">
+    <span class="w-logo">ЛОГО</span>
+    <span class="w-descr">Газовое оборудование и монтаж – магазин в Болотном, пункт выдачи в Новосибирске</span>
+    <span class="w-contacts-top">
+      <a href="tel:+79134584567">8 (913) 458-45-67</a>
+      <a class="w-hide-m" href="tel:+79529416639">8 (952) 941-66-39</a>
+      <span class="w-muted w-hide-m">г. Болотное, ул. Забабонова, 55А</span>
+    </span>
+    <span class="w-actions w-hide-m"><a class="w-btn ghost" href="https://t.me/+79134584567">Telegram</a><a class="w-btn ghost" href="https://wa.me/79134584567">WhatsApp</a><a class="w-btn" href="tel:+79134584567">Позвонить</a></span>
+  </div>
+  <nav class="w-wrap w-nav"><a href="hab.html">Каталог</a><a href="#">Hubert</a><a href="#">Акции</a><a href="#">Услуги</a><a href="#">Контакты</a><a href="#">О компании</a></nav>
+  <div class="w-wrap"><p class="w-note">Шапка – как на главной; пункт «Контакты» активен. Часы в шапке появятся, когда владелец их даст.</p></div>
+</header>
+
+<main>
+  <section class="w-block" data-n="1" data-name="Крошки, H1 и ответ" data-question="Куда ехать и куда звонить – коротко?" data-proof="есть: оба адреса, телефоны, часы и контакт пункта выдачи (site.ts SITE, NSK_POINT)">
+    <div class="w-wrap w-stack">
+      <nav class="w-muted" aria-label="Крошки"><a href="#">Главная</a> → Контакты</nav>
+      <h1>Контакты магазина газового оборудования в Болотном</h1>
+      <p>Магазин – Болотное, ул. Забабонова, 55А, тел. 8 (913) 458-45-67 и 8 (952) 941-66-39. Котлы HUBERT можно забрать в Новосибирске: ул. Писарева, 60, офис 1.10, Пн–Пт 09:00–18:00, Дмитрий, +7 (953) 780-07-20.</p>
+      <div class="w-actions"><a class="w-btn" href="tel:+79134584567">Позвонить в магазин</a><a class="w-btn ghost" href="#bolotnoe">Маршрут до магазина</a><a class="w-btn ghost" href="#novosibirsk">Пункт в Новосибирске</a></div>
+      <p class="w-note">Без фото на первом экране: человек пришёл за адресом и телефоном. На телефоне три кнопки – столбиком на всю ширину.</p>
+    </div>
+  </section>
+
+  <section class="w-block" id="bolotnoe" data-n="2" data-name="Магазин в Болотном" data-question="Как доехать до магазина и когда он открыт?" data-proof="есть: адрес, 2 телефона, email, самовывоз, ссылка на Яндекс Карты (site.ts, Contacts.astro); запросить: часы, ориентиры и парковка, фото входа, точка на картах">
+    <div class="w-wrap w-stack">
+      <h2>Магазин в Болотном – ул. Забабонова, 55А</h2>
+      <div class="w-hero">
+        <div class="w-stack">
+          <div class="w-table-wrap"><table class="w-table">
+            <tr><th>Адрес</th><td>улица Забабонова, 55А, Болотное, Новосибирская область</td></tr>
+            <tr><th>Телефоны</th><td><a href="tel:+79134584567">8 (913) 458-45-67</a>, <a href="tel:+79529416639">8 (952) 941-66-39</a></td></tr>
+            <tr><th>Почта</th><td><a href="mailto:Gazmag.bolotnoe@yandex.ru">Gazmag.bolotnoe@yandex.ru</a></td></tr>
+            <tr><th>Часы работы</th><td><span class="w-ask">[запросить: часы работы магазина в Болотном, выходные дни]</span></td></tr>
+            <tr><th>Получение</th><td>Самовывоз из магазина. Условия доставки уточняйте по телефону.</td></tr>
+            <tr><th>Как доехать</th><td><span class="w-ask">[запросить: ориентир рядом, где парковаться, вход с улицы или со двора]</span></td></tr>
+          </table></div>
+          <div class="w-actions"><a class="w-btn" href="https://yandex.ru/maps/?text=%D0%91%D0%BE%D0%BB%D0%BE%D1%82%D0%BD%D0%BE%D0%B5%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%97%D0%B0%D0%B1%D0%B0%D0%B1%D0%BE%D0%BD%D0%BE%D0%B2%D0%B0%2C%2055%D0%90">Построить маршрут</a><a class="w-btn ghost" href="tel:+79134584567">Позвонить</a></div>
+        </div>
+        <div class="w-stack">
+          <div class="w-media" data-alt="Магазин газового оборудования в Болотном, ул. Забабонова, 55А – вход с вывеской">Вход в магазин с вывеской – чтобы узнать место на месте; номера машин размыть. <span class="w-ask">[запросить: фото фасада]</span></div>
+          <div class="w-media small" data-alt="Магазин газового оборудования на карте: Болотное, ул. Забабонова, 55А">Карта Яндекса – после согласия на cookie. Заглушка: «Карту показывает Яндекс: он сохранит свои cookie и соберёт статистику. Показываем её только с вашего согласия.» Кнопка «Показать карту», ссылка «Открыть на Яндекс Картах»</div>
+          <p><span class="w-ask">[запросить: ссылку на карточку магазина в Яндекс Картах или координаты]</span></p>
+        </div>
+      </div>
+      <p class="w-note">Карта – как в Contacts.astro: iframe грузится только после согласия, «Показать карту» и есть согласие. На телефоне порядок: таблица → кнопка маршрута → фото → карта. Часы в разметку Store (openingHoursSpecification) – только когда появятся на странице.</p>
+    </div>
+  </section>
+
+  <section class="w-block" id="novosibirsk" data-n="3" data-name="Пункт выдачи в Новосибирске" data-question="Можно забрать котёл в Новосибирске?" data-proof="есть: адрес, офис, этаж, контакт Дмитрий, телефон, Пн–Пт 09:00–18:00 (site.ts NSK_POINT, kotly-hubert.astro); запросить: что кроме HUBERT, вход и парковка">
+    <div class="w-wrap w-stack">
+      <h2>Пункт выдачи котлов HUBERT в Новосибирске – ул. Писарева, 60</h2>
+      <div class="w-hero">
+        <div class="w-stack">
+          <div class="w-table-wrap"><table class="w-table">
+            <tr><th>Адрес</th><td>Новосибирск, ул. Писарева, 60, офис 1.10, 1 этаж</td></tr>
+            <tr><th>Контакт</th><td>Дмитрий, <a href="tel:+79537800720">+7 (953) 780-07-20</a></td></tr>
+            <tr><th>Режим работы</th><td>Пн–Пт 09:00–18:00, Сб–Вс выходной</td></tr>
+            <tr><th>Получение</th><td>Самовывоз. Условия доставки и получения уточняйте по телефону.</td></tr>
+            <tr><th>Что можно забрать</th><td>Котлы HUBERT. <span class="w-ask">[запросить: можно ли забрать здесь любой заказ из каталога]</span></td></tr>
+            <tr><th>Как доехать</th><td><span class="w-ask">[запросить: вход в здание, парковка]</span></td></tr>
+          </table></div>
+          <div class="w-actions"><a class="w-btn" href="https://yandex.ru/maps/?text=%D0%9D%D0%BE%D0%B2%D0%BE%D1%81%D0%B8%D0%B1%D0%B8%D1%80%D1%81%D0%BA%2C%20%D1%83%D0%BB.%20%D0%9F%D0%B8%D1%81%D0%B0%D1%80%D0%B5%D0%B2%D0%B0%2C%2060">Построить маршрут</a><a class="w-btn ghost" href="tel:+79537800720">Позвонить Дмитрию</a></div>
+          <p><a href="#">Котлы HUBERT и подбор мощности</a></p>
+        </div>
+        <div class="w-media small" data-alt="Пункт выдачи котлов HUBERT в Новосибирске на карте: ул. Писарева, 60">Карта Яндекса с точкой ул. Писарева, 60 – после согласия на cookie, та же заглушка, что у магазина</div>
+      </div>
+      <p class="w-note">Отдельный блок со своими часами и телефоном: человеку из Новосибирска не нужно читать про Болотное. В разметке – department Store с часами Mo–Fr 09:00–18:00.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="4" data-name="Мессенджеры" data-question="Можно не звонить, а написать?" data-proof="есть: Telegram и WhatsApp на 8 (913) 458-45-67, группа ВКонтакте (site.ts SOCIALS); запросить: в какие часы отвечают">
+    <div class="w-wrap w-stack">
+      <h2>Написать в Telegram, WhatsApp или ВКонтакте</h2>
+      <p>Напишите, что нужно, – ответим по наличию и цене. Отвечаем: <span class="w-ask">[запросить: в какие часы отвечают в мессенджерах и кто]</span></p>
+      <div class="w-actions"><a class="w-btn" href="https://t.me/+79134584567">Telegram</a><a class="w-btn" href="https://wa.me/79134584567">WhatsApp</a><a class="w-btn ghost" href="https://vk.com/public221944882">ВКонтакте</a></div>
+      <p class="w-hint">Telegram и WhatsApp – на номер 8 (913) 458-45-67</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="5" data-name="Продавец" data-question="С кем я имею дело, можно ли по счёту?" data-proof="есть: ИП Меньшиков А. Ю., ИНН, ОГРНИП (site.ts, rekvizity.astro); скидка 7% юрлицам и монтажникам (promos.ts)">
+    <div class="w-wrap w-stack">
+      <h2>Продавец: ИП Меньшиков А. Ю.</h2>
+      <p>Индивидуальный предприниматель Меньшиков Антон Юрьевич · ИНН 5435 5029 8025 · ОГРНИП 32354 76000 64716</p>
+      <p>Юрлицам и монтажникам – оплата по счёту, скидка 7%.</p>
+      <p><a href="#">Все реквизиты для оплаты по счёту</a></p>
+      <p class="w-note">Банковские реквизиты здесь не дублируем – только ссылка на /rekvizity.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="6" data-name="Покупателю" data-question="Где условия, каталог, кто вы?" data-proof="есть: /katalog, /o-kompanii, /rekvizity, /oferta; /dostavka-i-oplata – когда появится">
+    <div class="w-wrap w-stack">
+      <p><b>Покупателю</b></p>
+      <nav class="w-nav" aria-label="Покупателю"><a href="hab.html">Каталог</a><a href="#">О компании</a><a href="#">Реквизиты</a><a href="#">Договор оферты</a></nav>
+      <p class="w-note">Ссылки на соседей по каркасу «Покупателю», без H2. «Доставка и оплата» добавить, когда появится страница. Тот же ряд – на /dostavka-i-oplata и /o-kompanii.</p>
+    </div>
+  </section>
+
+  <section class="w-block" id="zvonok" data-n="7" data-name="Заказать звонок" data-question="Не дозвонился – как получить ответ?" data-proof="есть: формы сайта (имя, телефон, галочка согласия); запросить: через сколько перезваниваете">
+    <div class="w-wrap">
+      <form class="w-form" onsubmit="event.preventDefault()">
+        <h2>Заказать звонок</h2>
+        <label class="w-field">Имя<input autocomplete="name" placeholder="Как к вам обращаться"></label>
+        <label class="w-field">Телефон<input inputmode="tel" placeholder="+7 (___) ___-__-__"></label>
+        <label class="w-check"><input type="checkbox" data-agree> <span>Согласен на обработку <a href="#">персональных данных</a></span></label>
+        <button class="w-btn" type="submit" disabled>Перезвоните мне</button>
+        <p class="w-hint">Перезвоним и ответим про наличие, цену и получение заказа. Перезваниваем <span class="w-ask">[запросить: через сколько и в какие часы]</span></p>
+      </form>
+      <p class="w-note">Телефон с маской +7. Галочка пустая, кнопка неактивна до отметки. После отправки – «Спасибо» с тем же текстом про перезвон. Тема заявки – «Звонок со страницы Контакты».</p>
+    </div>
+  </section>
+</main>
+
+<footer class="w-footer"><div class="w-wrap w-stack">
+  <nav class="w-nav" aria-label="Разделы"><a href="hab.html">Каталог</a><a href="#">Газовые котлы</a><a href="#">Газовые колонки</a><a href="#">Водонагреватели</a><a href="#">Установка котла</a><a href="#">Подключение газа</a><a href="#">Котлы HUBERT</a><a href="#">Акции</a><a href="#">Контакты</a><a href="#">О компании</a><a href="#">Карта сайта</a></nav>
+  <span>Магазин газового оборудования · ИП Меньшиков Антон Юрьевич · ИНН 5435 5029 8025 · ОГРНИП 32354 76000 64716</span>
+  <span>Gazmag.bolotnoe@yandex.ru · <a href="#">Реквизиты</a> · <a href="#">Политика обработки персональных данных</a> · <a href="#">Согласие на обработку персональных данных</a> · <a href="#">Политика cookie</a> · <a href="#">Договор оферты</a></span>
+</div></footer>
+
+<div class="w-sticky"><a class="w-btn" href="tel:+79134584567">Позвонить</a><a class="w-btn ghost" href="https://wa.me/79134584567">Написать</a></div>
+
+<script>
+// Переключатели прототипа и подпись логики над каждым блоком (по умолчанию скрыто).
+document.querySelectorAll('.w-block').forEach(function (b) {
+  var d = b.dataset, el = document.createElement('div');
+  el.className = 'w-logic';
+  el.innerHTML = '<b>Блок ' + (d.n || '?') + ' · ' + (d.name || '') + '</b><br>Вопрос клиента: ' + (d.question || '–') + '<br>Опора: ' + (d.proof || '–');
+  if (b.tagName === 'HEADER') b.prepend(el); else (b.querySelector('.w-wrap') || b).prepend(el);
+});
+document.getElementById('t-logic').addEventListener('change', function (e) { document.body.classList.toggle('show-logic', e.target.checked); });
+document.getElementById('t-notes').addEventListener('change', function (e) { document.body.classList.toggle('show-notes', e.target.checked); });
+document.getElementById('t-seo').addEventListener('change', function (e) { document.body.classList.toggle('show-seo', e.target.checked); });
+(function () {
+  var src = document.getElementById('w-seo'), box = document.getElementById('w-seo-box');
+  if (!src || !box) return;
+  var d = JSON.parse(src.textContent), esc = function (t) { return String(t).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); };
+  var len = function (t, max) { return ' <span class="' + (t.length > max ? 'bad' : '') + '">(' + t.length + ' / ' + max + ')</span>'; };
+  var heads = [].map.call(document.querySelectorAll('main h1, main h2, header h1'), function (h) { return '<li>' + h.tagName + ' – ' + esc(h.textContent.trim()) + '</li>'; }).join('');
+  var alts = [].map.call(document.querySelectorAll('.w-media[data-alt]'), function (m) { return '<li>' + esc(m.dataset.alt) + '</li>'; }).join('');
+  box.innerHTML = '<table><tr><td>title</td><td>' + esc(d.title) + len(d.title, 65) + '</td></tr><tr><td>description</td><td>' + esc(d.description) + len(d.description, 160) +
+    '</td></tr><tr><td>запрос</td><td>' + esc(d.zapros || '–') + '</td></tr><tr><td>заголовки</td><td><ul>' + heads + '</ul></td></tr><tr><td>alt</td><td><ul>' + (alts || '<li>–</li>') +
+    '</ul></td></tr><tr><td>разметка</td><td>' + esc(d.schema || '–') + '</td></tr><tr><td>ссылки</td><td><ul>' + (d.links || []).map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul></td></tr></table>';
+})();
+document.getElementById('ask-count').textContent = document.querySelectorAll('.w-ask').length;
+// Любая форма: галочка data-agree включает кнопку отправки своей формы.
+document.querySelectorAll('form').forEach(function (f) {
+  var a = f.querySelector('[data-agree]'), btn = f.querySelector('button[type="submit"], button:not([type])');
+  if (a && btn) a.addEventListener('change', function () { btn.disabled = !a.checked; });
+});
+</script>
+</body>
+</html>

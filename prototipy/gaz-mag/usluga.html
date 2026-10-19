@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Прототип – Установка газового котла</title>
+<!-- kit.css вставляется целиком внутрь <style> (прототип – один файл, открывается без интернета) -->
+<style>/* Комплект чёрно-белого прототипа (маркетолог → site-prototype).
+   Прототип показывает смысл, текст, порядок и действие – не дизайн. Цвета только серые; дизайнер делает визуал после «да» владельца.
+   Блок: <section class="w-block" data-n="1" data-name="Первый экран" data-question="вопрос клиента" data-proof="опора"> */
+:root {
+  --ink: #141414; --muted: #5f5f5f; --line: #b9b9b9; --fill: #ececec; --fill2: #f6f6f6; --paper: #ffffff;
+  --note: #fff6c8; --note-line: #c9b44a; --ask: #7a1f1f;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, Menlo, Consolas, monospace;
+  --wrap: 1180px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 var(--font); }
+img { max-width: 100%; }
+a { color: var(--ink); }
+h1, h2, h3 { margin: 0; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(28px, 4.2vw, 46px); }
+h2 { font-size: clamp(22px, 3vw, 32px); }
+h3 { font-size: 18px; }
+p { margin: 0; }
+.w-wrap { max-width: var(--wrap); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.w-stack { display: grid; gap: 14px; }
+.w-muted { color: var(--muted); }
+
+/* Панель прототипа: переключатели «Логика» и «Комментарии» */
+.w-bar { position: sticky; top: 0; z-index: 50; background: var(--ink); color: #fff; font: 13px/1.3 var(--mono); }
+.w-bar .w-wrap { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding-block: 8px; }
+.w-bar b { font-weight: 600; }
+.w-bar label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+
+/* Блок и его подпись логики */
+.w-block { border-top: 1px dashed var(--line); padding-block: 40px; position: relative; }
+.w-logic { display: none; font: 12.5px/1.45 var(--mono); background: var(--fill2); border: 1px solid var(--line); padding: 8px 10px; margin-bottom: 18px; }
+body.show-logic .w-logic { display: block; }
+.w-logic b { font-weight: 700; }
+.w-note { display: none; background: var(--note); border: 1px dashed var(--note-line); padding: 8px 10px; font-size: 13.5px; margin-top: 12px; }
+body.show-notes .w-note { display: block; }
+.w-note::before { content: "Дизайнеру: "; font-weight: 700; }
+.w-seo { display: none; font: 13px/1.5 var(--mono); background: #eef3ff; border: 1px solid #8aa0d6; padding: 12px 14px; margin: 12px auto; max-width: var(--wrap); }
+body.show-seo .w-seo { display: block; }
+.w-seo table { border-collapse: collapse; width: 100%; }
+.w-seo td { border-top: 1px solid #c9d4ee; padding: 4px 6px; vertical-align: top; }
+.w-seo td:first-child { white-space: nowrap; font-weight: 700; width: 1%; }
+.w-seo .bad { color: var(--ask); font-weight: 700; }
+.w-seo ul { margin: 0; padding-left: 18px; }
+.w-ask { color: var(--ask); font-weight: 600; background: #f7e9e9; padding: 0 4px; }
+
+/* Место под фото/видео/схему: роль, а не «картинка» */
+.w-media { background: repeating-linear-gradient(45deg, var(--fill), var(--fill) 10px, var(--fill2) 10px, var(--fill2) 20px);
+  border: 1px solid var(--line); min-height: 220px; display: grid; place-items: center; text-align: center; padding: 16px;
+  color: var(--muted); font-size: 14px; }
+.w-media::before { content: "▣ "; }
+.w-media.small { min-height: 120px; }
+
+/* Кнопки */
+.w-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border: 2px solid var(--ink);
+  background: var(--ink); color: #fff; font-weight: 600; text-decoration: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+.w-btn.ghost { background: transparent; color: var(--ink); }
+.w-btn[disabled] { opacity: .45; cursor: not-allowed; }
+.w-hint { font-size: 13px; color: var(--muted); }
+
+/* Шапка */
+.w-header .w-wrap { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between; padding-block: 12px; }
+.w-logo { border: 2px solid var(--ink); padding: 6px 10px; font-weight: 700; }
+.w-descr { font-size: 13.5px; color: var(--muted); max-width: 34ch; }
+.w-contacts-top { display: grid; gap: 2px; font-size: 14px; text-align: right; }
+.w-nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14.5px; border-top: 1px solid var(--line); padding-block: 8px; }
+
+/* Первый экран */
+.w-hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; }
+.w-hero ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.w-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* Сетки и карточки */
+.w-grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 14px; }
+.w-card { border: 1px solid var(--line); padding: 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.w-card .w-media { min-height: 140px; }
+.w-price { font-weight: 700; }
+
+/* Этапы */
+.w-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 14px; counter-reset: st; }
+.w-steps li { border: 1px solid var(--line); padding: 14px; counter-increment: st; display: grid; gap: 6px; }
+.w-steps li::before { content: counter(st); font-weight: 700; font-size: 22px; }
+
+/* Таблица */
+.w-table-wrap { overflow-x: auto; }
+.w-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.w-table th, .w-table td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+.w-table th { background: var(--fill2); }
+
+/* FAQ */
+.w-faq details { border: 1px solid var(--line); padding: 12px 14px; }
+.w-faq details + details { border-top: 0; }
+.w-faq summary { font-weight: 600; cursor: pointer; }
+
+/* Форма */
+.w-form { border: 2px solid var(--ink); padding: 18px; display: grid; gap: 12px; max-width: 520px; }
+.w-field { display: grid; gap: 4px; font-size: 14px; }
+.w-field input, .w-field select { min-height: 44px; border: 1px solid var(--ink); padding: 0 10px; font: inherit; background: #fff; }
+.w-check { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; }
+
+/* Полоса призыва */
+.w-cta { background: var(--fill); padding: 24px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+
+/* Подвал */
+.w-footer { background: var(--fill2); border-top: 1px solid var(--line); padding-block: 28px; font-size: 14px; }
+
+/* Липкая панель действий на телефоне */
+.w-sticky { display: none; }
+header.w-block { padding-block: 0; border-top: 0; }
+header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
+
+@media (max-width: 760px) {
+  .w-hide-m { display: none !important; }
+  .w-hero { grid-template-columns: 1fr; }
+  .w-grid { grid-template-columns: repeat(var(--cols-m, 2), minmax(0, 1fr)); }
+  .w-steps { grid-template-columns: 1fr; }
+  .w-contacts-top { text-align: left; }
+  .w-block { padding-block: 28px; }
+  .w-sticky { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+    background: #fff; border-top: 1px solid var(--line); }
+  body { padding-bottom: 72px; }
+}
+@media (max-width: 420px) { .w-grid.one-m { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<!-- Прототип услуги /uslugi/ustanovka-gazovogo-kotla (шаблон для 2–5 услуг). Источник текста: docs/marketing/2026-10-19-usluga.md («Тексты блоков») и seo-usluga.md (H1, H2, title, description, FAQ). -->
+<div class="w-bar"><div class="w-wrap">
+  <b>Прототип · Газ-маг · Услуга «Установка газового котла» · версия 19.10.2026</b>
+  <label><input type="checkbox" id="t-logic"> Логика блоков</label>
+  <label><input type="checkbox" id="t-notes"> Комментарии дизайнеру</label>
+  <label><input type="checkbox" id="t-seo"> SEO страницы</label>
+  <span>Меток «запросить»: <b id="ask-count">0</b></span>
+</div></div>
+
+<!-- SEO-задание страницы от site-seo (seo-usluga.md). -->
+<script type="application/json" id="w-seo">{"title": "Установка газового котла в Новосибирске и Болотном – от 8 тыс. ₽", "description": "Установим настенный или напольный газовый котёл: монтаж, подключение к отоплению и газопроводу, настройка и проверка. Новосибирск и Болотное, от 8 тыс. ₽.", "zapros": "установка газового котла (не замерено – проверить Вордстатом); уточняющие: установка газового котла в новосибирске, установка газового котла цена, монтаж газового котла, подключение газового котла, замена газового котла (блок 5), установка настенного газового котла. Не брать: подключение газа к частному дому, газовый котёл купить, акцию montazh-ot-8000", "schema": "Service: name и serviceType «Установка газового котла», provider → @id магазина, areaServed Новосибирск и Болотное, offers.priceSpecification minPrice 8000 RUB (видно «от 8 тыс. ₽»); BreadcrumbList Главная / Услуги / Установка газового котла; FAQPage = видимый блок 10", "links": ["/katalog/gazovye-kotly и подкатегории – блоки 3 и 6", "/akcii/montazh-ot-8000 – блок 4", "/uslugi/podklyuchenie-gaza-i-montazh-otopleniya (после деления – /uslugi/podklyuchenie-gaza-k-chastnomu-domu) – блок 8", "/kontakty – шапка и подвал", "входящие: главная (блок монтажа), /uslugi, меню, карточки котлов, раздел котлов, /akcii/montazh-ot-8000, /kotly-hubert"]}</script>
+<div class="w-seo" id="w-seo-box"></div>
+
+<header class="w-header w-block" data-n="0" data-name="Шапка" data-question="Где вы и как связаться?" data-proof="есть: адрес в Болотном, 2 телефона, Telegram, WhatsApp; запросить: часы работы магазина в Болотном">
+  <div class="w-wrap">
+    <span class="w-logo">ЛОГО</span>
+    <span class="w-descr">Магазин газового оборудования и монтаж – Болотное и Новосибирск</span>
+    <span class="w-contacts-top">
+      <a href="tel:+79134584567">8 (913) 458-45-67</a>
+      <a class="w-hide-m" href="tel:+79529416639">8 (952) 941-66-39</a>
+      <span class="w-muted w-hide-m">г. Болотное, ул. Забабонова, 55А</span>
+      <span class="w-muted w-hide-m"><span class="w-ask">[запросить: часы работы магазина в Болотном]</span></span>
+    </span>
+    <span class="w-actions"><a class="w-btn ghost w-hide-m" href="https://t.me/+79134584567">Telegram</a><a class="w-btn ghost w-hide-m" href="https://wa.me/79134584567">WhatsApp</a><a class="w-btn" href="tel:+79134584567">Позвонить</a></span>
+  </div>
+  <nav class="w-wrap w-nav"><a href="#">Каталог</a><a href="#">Hubert</a><a href="#">Акции</a><a href="#">Услуги</a><a href="#">Контакты</a><a href="#">О компании</a></nav>
+  <div class="w-wrap"><p class="w-note">На телефоне шапка – логотип, дескриптор в одну строку, иконка телефона и бургер; второй телефон, адрес, Telegram и WhatsApp – в меню и в липкой панели снизу.</p></div>
+</header>
+
+<main>
+  <section class="w-block" data-n="1" data-name="Первый экран" data-question="Поставите мой котёл и сколько это стоит?" data-proof="есть: состав монтажа, виды котлов, «от 8 тыс. ₽», котлы в магазине, гарантия на работы; запросить: фото монтажа, срок гарантии">
+    <div class="w-wrap">
+      <p class="w-muted">Главная / Услуги / Установка газового котла</p>
+      <div class="w-hero">
+        <div class="w-stack">
+          <h1>Установка газового котла в Новосибирске и Болотном</h1>
+          <p>Ставим настенные и напольные газовые котлы: монтаж, подключение к отоплению и газопроводу, настройка и проверка работы. Цена – от 8 тыс. ₽, точную назовём после вопросов о котле и доме. Котёл можно купить у нас же, гарантия на работы.</p>
+          <ul>
+            <li><b>От 8 тыс. ₽</b> – монтаж отопления и подключение котла, точная цена после вопросов о доме</li>
+            <li><b>Котёл и монтаж в одном месте</b> – HUBERT, Navien, Очаг и другие в каталоге</li>
+            <li><b>Гарантия на работы</b> – срок <span class="w-ask">[запросить: срок гарантии на монтаж]</span></li>
+          </ul>
+          <div class="w-actions"><a class="w-btn" href="#zayavka">Рассчитать установку</a><a class="w-btn ghost" href="tel:+79134584567">Позвонить</a></div>
+          <p class="w-hint">Оставьте телефон – специалист уточнит модель котла и дом и назовёт стоимость установки</p>
+        </div>
+        <div class="w-media" data-alt="Установка газового котла в доме клиента – котёл на стене, подключены отопление и газ">Фото своего монтажа: котёл на стене у клиента, видны подключённые трубы отопления и газа – доказывает, что ставим сами. <span class="w-ask">[запросить: фото своих монтажей]</span></div>
+      </div>
+      <p class="w-note">Первый экран без слайдера. Цена «от 8 тыс. ₽» – крупно рядом с H1, не мелким шрифтом. На телефоне фото под кнопками, высотой не больше половины экрана.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="2" data-name="Что входит" data-question="Что именно сделаете, не придётся ли звать кого-то ещё?" data-proof="есть: 4 пункта монтажа с оригинала; запросить: первый пуск газа, дымоход и обвязка">
+    <div class="w-wrap w-stack">
+      <h2>Что входит в установку котла</h2>
+      <ol class="w-steps" style="--cols:4">
+        <li><b>Установка котла</b><span>Котёл на месте – настенный или напольный</span></li>
+        <li><b>Подключение к системе отопления</b><span>Котёл соединён с трубами отопления дома</span></li>
+        <li><b>Подключение к газопроводу</b><span>Котёл подключён к газовой трубе в доме</span></li>
+        <li><b>Настройка и тестирование</b><span>Проверяем работу всей системы</span></li>
+      </ol>
+      <p>Первый пуск газа и обвязка – <span class="w-ask">[запросить: делаете ли сами первый пуск газа, монтаж дымохода и обвязку котла]</span></p>
+      <p class="w-note">Это состав работ, а не «этапы сотрудничества»: нумерация показывает объём, стрелки между пунктами не нужны.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="3" data-name="Какие котлы" data-question="Мой котёл подходит?" data-proof="есть: виды котлов с оригинала">
+    <div class="w-wrap w-stack">
+      <h2>Ставим настенные и напольные, одно- и двухконтурные котлы</h2>
+      <div class="w-grid" style="--cols:3;--cols-m:1">
+        <article class="w-card"><h3>Настенные и напольные</h3></article>
+        <article class="w-card"><h3>Одноконтурные и двухконтурные</h3></article>
+        <article class="w-card"><h3>С открытой и закрытой камерой сгорания</h3></article>
+      </div>
+      <p><span class="w-ask">[запросить: ставите ли котёл, купленный в другом магазине – если да, сказать об этом здесь]</span></p>
+      <div class="w-actions"><a class="w-btn ghost" href="#">Выбрать котёл</a></div>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="4" data-name="Цена" data-question="Сколько выйдет и не будет ли доплат?" data-proof="есть: «от 8 тыс. ₽», «точную стоимость назовёт менеджер», акция montazh-ot-8000; запросить: состав минимальной цены, доплаты, факторы, пример расчёта">
+    <div class="w-wrap w-stack">
+      <h2>Сколько стоит установка газового котла</h2>
+      <p><span class="w-price">от 8 тыс. ₽</span> – монтаж отопления и подключение котла. Точную стоимость для вашего дома назовёт менеджер.</p>
+      <div class="w-table-wrap"><table class="w-table">
+        <tr><th>Что входит в «от 8 тыс. ₽»</th><td><span class="w-ask">[запросить: какие работы входят в минимальную цену – только подключение или вместе с навеской, обвязкой и дымоходом]</span></td></tr>
+        <tr><th>Что оплачивается отдельно</th><td><span class="w-ask">[запросить: материалы, дымоход, выезд в Новосибирск и область]</span></td></tr>
+        <tr><th>От чего зависит цена</th><td><span class="w-ask">[запросить: 2–4 фактора – тип котла, расстояние до газовой трубы, есть ли разводка отопления]</span></td></tr>
+        <tr><th>Пример расчёта</th><td><span class="w-ask">[запросить: один реальный пример – котёл, дом, итоговая цена работ]</span></td></tr>
+      </table></div>
+      <p>Условия акции – <a href="#">Монтаж отопления и подключение котла от 8 тыс.</a></p>
+      <div class="w-actions"><a class="w-btn" href="#zayavka">Узнать цену для своего дома</a></div>
+      <p class="w-note">Подтвердить у владельца: на оригинале «от 8 тыс.» сказано про «монтаж отопления и подключение котла» – это цена именно установки котла? Пока нет ответов – блок сжимается до двух предложений и ссылки на акцию (по SEO-заданию).</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="5" data-name="Замена котла" data-question="Снимете старый котёл?" data-proof="нет фактов о демонтаже; запросить – блок только при «да» владельца">
+    <div class="w-wrap w-stack">
+      <h2>Замена старого котла на новый</h2>
+      <p>Меняете старый котёл – подберём новый под ваш дом и поставим на место старого. <span class="w-ask">[запросить: делаете ли демонтаж и вывоз старого котла, меняется ли цена]</span></p>
+      <div class="w-actions"><a class="w-btn ghost" href="#zayavka">Заявка на замену</a></div>
+      <p class="w-note">Блок условный: показываем, только если владелец подтвердит демонтаж. Иначе удаляем целиком, запрос «замена газового котла» остаётся в FAQ.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="6" data-name="Котёл и установка" data-question="Где взять котёл, чтобы не возить из другого магазина?" data-proof="есть: 4 котла из «специальных предложений» с ценами 19.10, 21 котёл в разделе, факт с оригинала «можно купить и сразу заказать установку», 2 адреса">
+    <div class="w-wrap w-stack">
+      <h2>Котёл и установка в одном месте</h2>
+      <p>Котёл, дымоход, счётчик газа, датчики загазованности и комплектующие можно купить у нас и сразу заказать установку.</p>
+      <div class="w-grid" style="--cols:4;--cols-m:2">
+        <article class="w-card"><div class="w-media small" data-alt="Настенный газовый котёл HUBERT Smart AGB 10-24DY">Фото товара из каталога</div><h3>HUBERT Smart AGB 10-24DY</h3><span class="w-price">44 910 ₽</span></article>
+        <article class="w-card"><div class="w-media small" data-alt="Двухконтурный газовый котёл NAVIEN DELUXE EXPERT 13-24кв">Фото товара из каталога</div><h3>NAVIEN DELUXE EXPERT 13-24кв</h3><span class="w-price">42 000 ₽</span></article>
+        <article class="w-card"><div class="w-media small" data-alt="Настенный газовый котёл HUBERT Smart AGB 10-24DP">Фото товара из каталога</div><h3>HUBERT Smart AGB 10-24DP</h3><span class="w-price">52 470 ₽</span></article>
+        <article class="w-card"><div class="w-media small" data-alt="Напольный газовый котёл Очаг КСГ-7-16 кВт Стандарт">Фото товара из каталога</div><h3>Напольный КСГ-7-16 кВт «Очаг» Стандарт</h3><span class="w-price">28 500 ₽</span></article>
+      </div>
+      <p>Забрать – в магазине в Болотном (ул. Забабонова, 55А) или в пункте выдачи котлов HUBERT в Новосибирске (ул. Писарева, 60).</p>
+      <div class="w-actions"><a class="w-btn ghost" href="#">Все 21 котёл</a></div>
+      <p class="w-note">Карточки – тот же компонент, что в каталоге (кнопка «В корзину» и «Установка» на карточке). На телефоне – 2 в ряд.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="7" data-name="Доверие" data-question="Почему вам можно доверить газ?" data-proof="есть со слов оригинала: без очереди, гарантия на работы, сертифицированные специалисты, обслуживание и ремонт по заявке; запросить: срок гарантии, документ, дни до монтажа, фото работ">
+    <div class="w-wrap w-stack">
+      <h2>Без очереди и с гарантией на работы</h2>
+      <div class="w-grid" style="--cols:2;--cols-m:1">
+        <article class="w-card"><h3>Без ожидания очереди на монтаж</h3><p><span class="w-ask">[запросить: через сколько дней после заявки обычно ставите котёл]</span></p></article>
+        <article class="w-card"><h3>Гарантия на все выполненные работы</h3><p><span class="w-ask">[запросить: срок гарантии и как оформляется – договор, акт]</span></p></article>
+        <article class="w-card"><h3>Сертифицированные специалисты</h3><p><span class="w-ask">[запросить: какой документ подтверждает – фото или номер]</span></p></article>
+        <article class="w-card"><h3>Обслуживание и ремонт</h3><p>Газовых котлов и водонагревателей – по отдельной заявке.</p></article>
+      </div>
+      <div class="w-media" data-alt="Монтажник газ-мага подключает газовый котёл">Фото монтажника за работой у котла – доказывает, что монтаж делают свои люди. <span class="w-ask">[запросить: фото работ, госномера авто на фото размыть]</span></div>
+      <p class="w-note">Каждое обещание – с доказательством рядом (срок, документ, фото). Если владелец не даст доказательство – обещание ослабить или убрать, а не оставлять голым.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="8" data-name="Соседняя услуга" data-question="А если газа в доме ещё нет?" data-proof="есть: страница подключения газа (проект, подключение к сети, ввод трубы)">
+    <div class="w-wrap w-stack">
+      <h2>Нужен газ в дом с нуля</h2>
+      <p>Если газа в доме ещё нет – проект, подключение к сети и ввод трубы в дом на странице <a href="#">«Подключение газа и монтаж отопления»</a>.</p>
+    </div>
+  </section>
+
+  <section class="w-block" id="zayavka" data-n="9" data-name="Заявка" data-question="Как начать?" data-proof="есть: форма имя + телефон + согласие, текст с оригинала; запросить: через сколько перезваниваете">
+    <div class="w-wrap">
+      <form class="w-form" onsubmit="event.preventDefault()">
+        <h2>Заявка на установку котла</h2>
+        <p>Оставьте телефон – специалист уточнит модель котла и дом и рассчитает стоимость установки.</p>
+        <label class="w-field">Ваше имя<input id="f-name" autocomplete="name" placeholder="Как к вам обращаться"></label>
+        <label class="w-field">Ваш телефон<input id="f-phone" type="tel" inputmode="tel" placeholder="+7 (___) ___-__-__"></label>
+        <label class="w-check"><input type="checkbox" id="f-agree" data-agree> <span>Даю <a href="#">согласие на обработку персональных данных</a> и ознакомлен(а) с <a href="#">политикой обработки персональных данных</a></span></label>
+        <button class="w-btn" id="f-send" type="submit" disabled>Рассчитать установку</button>
+        <p class="w-hint">Перезвоним <span class="w-ask">[запросить: в течение какого времени]</span></p>
+      </form>
+      <p class="w-note">Форма – та же, что на сайте (LeadForm): два поля, маска телефона, галочка пустая, кнопка неактивна до галочки. Тема заявки: «Заявка на установку газового котла».</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="10" data-name="Вопросы" data-question="Что ещё мешает решиться?" data-proof="есть: 4 вопроса с оригинала; запросить: 3–5 вопросов из звонков">
+    <div class="w-wrap w-stack w-faq"><h2>Вопросы об установке котла</h2>
+      <details><summary>Какие работы входят в монтаж газового котла?</summary><p>Установка котла, подключение к системе отопления и газопроводу, настройка и тестирование работы системы.</p></details>
+      <details><summary>Какие виды газовых котлов вы устанавливаете?</summary><p>Одноконтурные и двухконтурные, с открытой и закрытой камерой сгорания, настенные и напольные.</p></details>
+      <details><summary>Сколько стоит установка котла?</summary><p>Монтаж отопления и подключение котла – от 8 тыс. рублей. Точную стоимость для вашего объекта назовёт менеджер.</p></details>
+      <details><summary>Можно купить котёл и заказать установку в одном месте?</summary><p>Да. Котёл, дымоход, счётчик газа, датчики загазованности и комплектующие можно купить в магазине и сразу заказать установку.</p></details>
+      <p><span class="w-ask">[запросить: 3–5 вопросов из звонков – сроки, кто делает первый пуск газа, сохраняется ли гарантия на котёл при вашем монтаже]</span></p>
+    </div>
+  </section>
+</main>
+
+<footer class="w-footer"><div class="w-wrap w-stack">
+  <span>Магазин: г. Болотное, ул. Забабонова, 55А · Пункт выдачи котлов HUBERT: Новосибирск, ул. Писарева, 60, офис 1.10, Пн–Пт 09:00–18:00</span>
+  <span>8 (913) 458-45-67 · 8 (952) 941-66-39 · Gazmag.bolotnoe@yandex.ru</span>
+  <span>ИП Меньшиков Антон Юрьевич, ИНН 5435 5029 8025 · Реквизиты · Политика обработки персональных данных · Согласие на обработку · Политика cookie · Договор оферты</span>
+</div></footer>
+
+<div class="w-sticky"><a class="w-btn" href="tel:+79134584567">Позвонить</a><a class="w-btn ghost" href="https://wa.me/79134584567">Написать</a></div>
+
+<script>
+// Переключатели прототипа и подпись логики над каждым блоком (по умолчанию скрыто).
+document.querySelectorAll('.w-block').forEach(function (b) {
+  var d = b.dataset, el = document.createElement('div');
+  el.className = 'w-logic';
+  el.innerHTML = '<b>Блок ' + (d.n || '?') + ' · ' + (d.name || '') + '</b><br>Вопрос клиента: ' + (d.question || '–') + '<br>Опора: ' + (d.proof || '–');
+  if (b.tagName === 'HEADER') b.prepend(el); else (b.querySelector('.w-wrap') || b).prepend(el);
+});
+document.getElementById('t-logic').addEventListener('change', function (e) { document.body.classList.toggle('show-logic', e.target.checked); });
+document.getElementById('t-notes').addEventListener('change', function (e) { document.body.classList.toggle('show-notes', e.target.checked); });
+document.getElementById('t-seo').addEventListener('change', function (e) { document.body.classList.toggle('show-seo', e.target.checked); });
+(function () {
+  var src = document.getElementById('w-seo'), box = document.getElementById('w-seo-box');
+  if (!src || !box) return;
+  var d = JSON.parse(src.textContent), esc = function (t) { return String(t).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); };
+  var len = function (t, max) { return ' <span class="' + (t.length > max ? 'bad' : '') + '">(' + t.length + ' / ' + max + ')</span>'; };
+  var heads = [].map.call(document.querySelectorAll('main h1, main h2, header h1'), function (h) { return '<li>' + h.tagName + ' – ' + esc(h.textContent.trim()) + '</li>'; }).join('');
+  var alts = [].map.call(document.querySelectorAll('.w-media[data-alt]'), function (m) { return '<li>' + esc(m.dataset.alt) + '</li>'; }).join('');
+  box.innerHTML = '<table><tr><td>title</td><td>' + esc(d.title) + len(d.title, 65) + '</td></tr><tr><td>description</td><td>' + esc(d.description) + len(d.description, 160) +
+    '</td></tr><tr><td>запрос</td><td>' + esc(d.zapros || '–') + '</td></tr><tr><td>заголовки</td><td><ul>' + heads + '</ul></td></tr><tr><td>alt</td><td><ul>' + (alts || '<li>–</li>') +
+    '</ul></td></tr><tr><td>разметка</td><td>' + esc(d.schema || '–') + '</td></tr><tr><td>ссылки</td><td><ul>' + (d.links || []).map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul></td></tr></table>';
+})();
+document.getElementById('ask-count').textContent = document.querySelectorAll('.w-ask').length;
+// Любая форма: галочка data-agree включает кнопку отправки своей формы.
+document.querySelectorAll('form').forEach(function (f) {
+  var a = f.querySelector('[data-agree]'), btn = f.querySelector('button[type="submit"], button:not([type])');
+  if (a && btn) a.addEventListener('change', function () { btn.disabled = !a.checked; });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Прототип – Газ-маг – Хаб каталога</title>
+<!-- kit.css вставляется целиком внутрь <style> (прототип – один файл, открывается без интернета) -->
+<style>/* Комплект чёрно-белого прототипа (маркетолог → site-prototype).
+   Прототип показывает смысл, текст, порядок и действие – не дизайн. Цвета только серые; дизайнер делает визуал после «да» владельца.
+   Блок: <section class="w-block" data-n="1" data-name="Первый экран" data-question="вопрос клиента" data-proof="опора"> */
+:root {
+  --ink: #141414; --muted: #5f5f5f; --line: #b9b9b9; --fill: #ececec; --fill2: #f6f6f6; --paper: #ffffff;
+  --note: #fff6c8; --note-line: #c9b44a; --ask: #7a1f1f;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, Menlo, Consolas, monospace;
+  --wrap: 1180px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 var(--font); }
+img { max-width: 100%; }
+a { color: var(--ink); }
+h1, h2, h3 { margin: 0; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(28px, 4.2vw, 46px); }
+h2 { font-size: clamp(22px, 3vw, 32px); }
+h3 { font-size: 18px; }
+p { margin: 0; }
+.w-wrap { max-width: var(--wrap); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.w-stack { display: grid; gap: 14px; }
+.w-muted { color: var(--muted); }
+
+/* Панель прототипа: переключатели «Логика» и «Комментарии» */
+.w-bar { position: sticky; top: 0; z-index: 50; background: var(--ink); color: #fff; font: 13px/1.3 var(--mono); }
+.w-bar .w-wrap { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding-block: 8px; }
+.w-bar b { font-weight: 600; }
+.w-bar label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+
+/* Блок и его подпись логики */
+.w-block { border-top: 1px dashed var(--line); padding-block: 40px; position: relative; }
+.w-logic { display: none; font: 12.5px/1.45 var(--mono); background: var(--fill2); border: 1px solid var(--line); padding: 8px 10px; margin-bottom: 18px; }
+body.show-logic .w-logic { display: block; }
+.w-logic b { font-weight: 700; }
+.w-note { display: none; background: var(--note); border: 1px dashed var(--note-line); padding: 8px 10px; font-size: 13.5px; margin-top: 12px; }
+body.show-notes .w-note { display: block; }
+.w-note::before { content: "Дизайнеру: "; font-weight: 700; }
+.w-seo { display: none; font: 13px/1.5 var(--mono); background: #eef3ff; border: 1px solid #8aa0d6; padding: 12px 14px; margin: 12px auto; max-width: var(--wrap); }
+body.show-seo .w-seo { display: block; }
+.w-seo table { border-collapse: collapse; width: 100%; }
+.w-seo td { border-top: 1px solid #c9d4ee; padding: 4px 6px; vertical-align: top; }
+.w-seo td:first-child { white-space: nowrap; font-weight: 700; width: 1%; }
+.w-seo .bad { color: var(--ask); font-weight: 700; }
+.w-seo ul { margin: 0; padding-left: 18px; }
+.w-ask { color: var(--ask); font-weight: 600; background: #f7e9e9; padding: 0 4px; }
+
+/* Место под фото/видео/схему: роль, а не «картинка» */
+.w-media { background: repeating-linear-gradient(45deg, var(--fill), var(--fill) 10px, var(--fill2) 10px, var(--fill2) 20px);
+  border: 1px solid var(--line); min-height: 220px; display: grid; place-items: center; text-align: center; padding: 16px;
+  color: var(--muted); font-size: 14px; }
+.w-media::before { content: "▣ "; }
+.w-media.small { min-height: 120px; }
+
+/* Кнопки */
+.w-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border: 2px solid var(--ink);
+  background: var(--ink); color: #fff; font-weight: 600; text-decoration: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+.w-btn.ghost { background: transparent; color: var(--ink); }
+.w-btn[disabled] { opacity: .45; cursor: not-allowed; }
+.w-hint { font-size: 13px; color: var(--muted); }
+
+/* Шапка */
+.w-header .w-wrap { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between; padding-block: 12px; }
+.w-logo { border: 2px solid var(--ink); padding: 6px 10px; font-weight: 700; }
+.w-descr { font-size: 13.5px; color: var(--muted); max-width: 34ch; }
+.w-contacts-top { display: grid; gap: 2px; font-size: 14px; text-align: right; }
+.w-nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14.5px; border-top: 1px solid var(--line); padding-block: 8px; }
+
+/* Первый экран */
+.w-hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; }
+.w-hero ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.w-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* Сетки и карточки */
+.w-grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 14px; }
+.w-card { border: 1px solid var(--line); padding: 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.w-card .w-media { min-height: 140px; }
+.w-price { font-weight: 700; }
+
+/* Этапы */
+.w-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 14px; counter-reset: st; }
+.w-steps li { border: 1px solid var(--line); padding: 14px; counter-increment: st; display: grid; gap: 6px; }
+.w-steps li::before { content: counter(st); font-weight: 700; font-size: 22px; }
+
+/* Таблица */
+.w-table-wrap { overflow-x: auto; }
+.w-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.w-table th, .w-table td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+.w-table th { background: var(--fill2); }
+
+/* FAQ */
+.w-faq details { border: 1px solid var(--line); padding: 12px 14px; }
+.w-faq details + details { border-top: 0; }
+.w-faq summary { font-weight: 600; cursor: pointer; }
+
+/* Форма */
+.w-form { border: 2px solid var(--ink); padding: 18px; display: grid; gap: 12px; max-width: 520px; }
+.w-field { display: grid; gap: 4px; font-size: 14px; }
+.w-field input, .w-field select { min-height: 44px; border: 1px solid var(--ink); padding: 0 10px; font: inherit; background: #fff; }
+.w-check { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; }
+
+/* Полоса призыва */
+.w-cta { background: var(--fill); padding: 24px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+
+/* Подвал */
+.w-footer { background: var(--fill2); border-top: 1px solid var(--line); padding-block: 28px; font-size: 14px; }
+
+/* Липкая панель действий на телефоне */
+.w-sticky { display: none; }
+header.w-block { padding-block: 0; border-top: 0; }
+header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
+
+@media (max-width: 760px) {
+  .w-hide-m { display: none !important; }
+  .w-hero { grid-template-columns: 1fr; }
+  .w-grid { grid-template-columns: repeat(var(--cols-m, 2), minmax(0, 1fr)); }
+  .w-steps { grid-template-columns: 1fr; }
+  .w-contacts-top { text-align: left; }
+  .w-block { padding-block: 28px; }
+  .w-sticky { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+    background: #fff; border-top: 1px solid var(--line); }
+  body { padding-bottom: 72px; }
+}
+@media (max-width: 420px) { .w-grid.one-m { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<!-- Прототип хаба каталога gaz-mag.ru /katalog. Источник текста: docs/marketing/2026-10-19-hab.md («Тексты блоков») и seo-hab.md (H1, H2, title, description). Шаблон для /uslugi и /akcii. -->
+<div class="w-bar"><div class="w-wrap">
+  <b>Прототип · Газ-маг · Хаб каталога /katalog · версия 19.10.2026</b>
+  <label><input type="checkbox" id="t-logic"> Логика блоков</label>
+  <label><input type="checkbox" id="t-notes"> Комментарии дизайнеру</label>
+  <label><input type="checkbox" id="t-seo"> SEO страницы</label>
+  <span>Меток «запросить»: <b id="ask-count">0</b></span>
+</div></div>
+
+<script type="application/json" id="w-seo">{"title": "Каталог газового оборудования с ценами – Новосибирск, Болотное", "description": "53 товара в 6 разделах: газовые котлы, колонки, бойлеры косвенного нагрева, водонагреватели, счётчики и датчики газа, стабилизаторы. Магазин в Болотном.", "zapros": "каталог газового оборудования (не замерено); уточняющие: газовое оборудование цены; купить газовое оборудование в новосибирске; газовое оборудование для частного дома – не замерено. НЕ брать: «газовое оборудование болотное», «магазин газового оборудования» (главная), «газовый котёл …» (раздел котлов)", "schema": "BreadcrumbList (есть); CollectionPage + ItemList из 6 разделов (url, name) – только видимые плитки. FAQ нет", "links": ["6 разделов /katalog/<раздел> – плитки (основное)", "/kotly-hubert#hubert-quiz – блок подбора", "/uslugi/ustanovka-gazovogo-kotla – блок установки", "/kontakty – где забрать заказ", "/akcii – спецпредложения", "/akcii/stabilizator-v-podarok – что взять вместе"]}</script>
+<div class="w-seo" id="w-seo-box"></div>
+
+<header class="w-header w-block" data-n="0" data-name="Шапка" data-question="Где вы и как связаться?" data-proof="есть: адрес в Болотном, 2 телефона, Telegram, WhatsApp (site.ts); запросить: часы работы магазина">
+  <div class="w-wrap">
+    <span class="w-logo">ЛОГО</span>
+    <span class="w-descr">Газовое оборудование и монтаж – магазин в Болотном, пункт выдачи в Новосибирске</span>
+    <span class="w-contacts-top">
+      <a href="tel:+79134584567">8 (913) 458-45-67</a>
+      <a class="w-hide-m" href="tel:+79529416639">8 (952) 941-66-39</a>
+      <span class="w-muted w-hide-m">г. Болотное, ул. Забабонова, 55А</span>
+      <span class="w-muted w-hide-m"><span class="w-ask">[запросить: часы работы магазина в Болотном]</span></span>
+    </span>
+    <span class="w-actions w-hide-m"><a class="w-btn ghost" href="https://t.me/+79134584567">Telegram</a><a class="w-btn ghost" href="https://wa.me/79134584567">WhatsApp</a><a class="w-btn" href="tel:+79134584567">Позвонить</a></span>
+  </div>
+  <nav class="w-wrap w-nav"><a href="#">Каталог</a><a href="#">Hubert</a><a href="#">Акции</a><a href="#">Услуги</a><a href="kontakty.html">Контакты</a><a href="#">О компании</a></nav>
+  <div class="w-wrap"><p class="w-note">Шапка – как на главной. Пункт «Контакты» ведёт на /kontakty (сейчас якорь #contacts в site.ts NAV). На телефоне: логотип, дескриптор в одну строку, телефон и бургер; мессенджеры – в липкой панели.</p></div>
+</header>
+
+<main>
+  <section class="w-block" data-n="1" data-name="Крошки, H1 и ответ" data-question="Что у вас вообще есть и где это забрать?" data-proof="есть: 53 товара в 6 разделах (products.json), два адреса (site.ts), установка от 8 тыс. ₽ (promos.ts)">
+    <div class="w-wrap w-stack">
+      <nav class="w-muted" aria-label="Крошки"><a href="#">Главная</a> → Каталог</nav>
+      <h1>Каталог газового оборудования</h1>
+      <p>Котлы, колонки, бойлеры, водонагреватели, счётчики и датчики газа – 53 товара с ценами. Забрать – в магазине в Болотном, котлы HUBERT – в Новосибирске; котёл установим от 8 тыс. ₽.</p>
+      <div class="w-actions"><a class="w-btn" href="#razdely">Смотреть разделы</a><a class="w-btn ghost" href="tel:+79134584567">Позвонить</a></div>
+      <p class="w-note">Первый экран хаба без большого фото: сразу под абзацем видны первые плитки разделов. Числа 53 и 6 – подставляются из данных при сборке.</p>
+    </div>
+  </section>
+
+  <section class="w-block" id="razdely" data-n="2" data-name="6 разделов" data-question="В каком разделе мой товар и сколько он стоит?" data-proof="есть: число товаров и минимальная цена по разделам (products.json на 19.10)">
+    <div class="w-wrap w-stack">
+      <h2>6 разделов – 53 товара для газового отопления и горячей воды</h2>
+      <div class="w-grid" style="--cols:3;--cols-m:2">
+        <a class="w-card" href="#"><div class="w-media small" data-alt="Газовые котлы">Котёл из раздела на светлом фоне – узнать раздел за секунду</div><h3>Газовые котлы</h3><p>21 товар · HUBERT, Navien, Haier, Очаг, Kiturami, Federica Bugatti, ЖАР, Daesung, МИМАКС</p><span class="w-price">от 17 800 ₽</span><p class="w-muted">Настенные (14) · Напольные (7)</p></a>
+        <a class="w-card" href="#"><div class="w-media small" data-alt="Газовые колонки">Колонка Теплокс – что это за раздел</div><h3>Газовые колонки</h3><p>2 товара · Теплокс ГПВ-10-Б и ГПВ-12-Б</p><span class="w-price">от 12 000 ₽</span></a>
+        <a class="w-card" href="#"><div class="w-media small" data-alt="Бойлеры косвенного нагрева">Бойлер косвенного нагрева – горячая вода от котла</div><h3>Бойлеры косвенного нагрева</h3><p>6 товаров · Royal Thermo, Thermex, KRATS, Federica Bugatti – горячая вода от газового котла</p><span class="w-price">от 38 000 ₽</span></a>
+        <a class="w-card" href="#"><div class="w-media small" data-alt="Электрические водонагреватели">Накопительный водонагреватель на 100 л</div><h3>Электрические водонагреватели</h3><p>4 товара · Ballu, Electrolux, Thermex на 100 л</p><span class="w-price">от 12 900 ₽</span></a>
+        <a class="w-card" href="#"><div class="w-media small" data-alt="Датчики, счётчики газа и дымоходы">Счётчик газа и датчик загазованности рядом</div><h3>Датчики, счётчики газа и дымоходы</h3><p>4 товара · счётчики СГМБ-4 и СГК G4, контроль загазованности СГК-2-Б, коаксиальный дымоход D60/100</p><span class="w-price">от 3 000 ₽</span></a>
+        <a class="w-card" href="#"><div class="w-media small" data-alt="Товары для отопления">Стабилизатор напряжения и тюбик герметика – мелочь к котлу</div><h3>Товары для отопления</h3><p>16 товаров · стабилизаторы напряжения для котла, герметики и фиксаторы резьбы, холодная сварка</p><span class="w-price">от 110 ₽</span></a>
+      </div>
+      <p><span class="w-ask">[запросить: электрокотёл Thermex Quantum E906 лежит в «Электрических водонагревателях» – перенести?]</span> <span class="w-ask">[запросить: «Бочонок 15» за 75 000 ₽ и «Бочонок 25» за 22 ₽ – что это и верны ли цены]</span></p>
+      <p class="w-note">Плитка «Радиаторы и иные товары для отопления» переименована в «Товары для отопления» – радиаторов в ассортименте нет (site.ts CATALOGS, catalog_other). Порядок плиток – по спросу: котлы, колонки, бойлеры, водонагреватели, датчики, отопление. Чипы «Настенные / Напольные» – только когда появятся страницы подкатегорий. На телефоне – 2 плитки в ряд.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="3" data-name="Спецпредложения" data-question="Что выгодно взять прямо сейчас?" data-proof="есть: 9 товаров из списка specials (products.json); запросить: в чём спецпредложение – старой цены нет">
+    <div class="w-wrap w-stack">
+      <h2>Спецпредложения: котлы HUBERT, Navien, Очаг и комплектующие</h2>
+      <p><span class="w-ask">[запросить: в чём спецпредложение – старой цены и срока в данных нет]</span></p>
+      <div class="w-grid" style="--cols:3;--cols-m:2">
+        <article class="w-card"><div class="w-media small" data-alt="Настенный газовый котёл HUBERT Smart AGB 10-24DY">Фото котла с карточки товара</div><h3>HUBERT Smart AGB 10-24DY</h3><span class="w-price">44 910 ₽</span><a class="w-btn" href="#">В корзину</a></article>
+        <article class="w-card"><div class="w-media small" data-alt="Настенный двухконтурный котёл NAVIEN DELUXE EXPERT 13-24кв">Фото котла с карточки товара</div><h3>NAVIEN DELUXE EXPERT 13-24кв</h3><span class="w-price">42 000 ₽</span><a class="w-btn" href="#">В корзину</a></article>
+        <article class="w-card"><div class="w-media small" data-alt="Настенный газовый котёл HUBERT Smart AGB 10-24DP">Фото котла с карточки товара</div><h3>HUBERT Smart AGB 10-24DP</h3><span class="w-price">52 470 ₽</span><a class="w-btn" href="#">В корзину</a></article>
+        <article class="w-card"><div class="w-media small" data-alt="Напольный котёл Очаг КСГ-7-16 кВт E Стандарт">Фото котла с карточки товара</div><h3>Очаг КСГ-7-16 кВт E Стандарт</h3><span class="w-price">28 500 ₽</span><a class="w-btn" href="#">В корзину</a></article>
+        <article class="w-card"><div class="w-media small" data-alt="Напольный котёл МИМАКС КС-Г 7-40 кВт с горелкой АГУ">Фото котла с карточки товара</div><h3>МИМАКС КС-Г 7-40 кВт с горелкой АГУ</h3><span class="w-price">19 900 ₽</span><a class="w-btn" href="#">В корзину</a></article>
+        <article class="w-card"><div class="w-media small" data-alt="Бойлер косвенного нагрева KRATS бак-в-баке">Фото бойлера с карточки товара</div><h3>Бойлер косвенного нагрева KRATS «бак-в-баке»</h3><span class="w-price">49 900 ₽</span><a class="w-btn" href="#">В корзину</a></article>
+        <article class="w-card"><div class="w-media small" data-alt="Система контроля загазованности СГК-2-Б">Фото датчика с карточки товара</div><h3>Система контроля загазованности СГК-2-Б</h3><span class="w-price">7 500 ₽</span><a class="w-btn" href="#">В корзину</a></article>
+        <article class="w-card"><div class="w-media small" data-alt="Счётчик газа СГМБ-4">Фото счётчика с карточки товара</div><h3>Счётчик газа СГМБ-4</h3><span class="w-price">3 500 ₽</span><a class="w-btn" href="#">В корзину</a></article>
+        <article class="w-card"><div class="w-media small" data-alt="Коаксиальный дымоход D60/100 KRATS">Фото дымохода с карточки товара</div><h3>Коаксиальный дымоход D60/100 KRATS</h3><span class="w-price">3 000 ₽</span><a class="w-btn" href="#">В корзину</a></article>
+      </div>
+      <div class="w-actions"><a class="w-btn ghost" href="#">Все акции</a></div>
+      <p class="w-note">На 1440 – лента с прокруткой или 3 в ряд, первые 6 видны; на телефоне – 2 в ряд, показать 4 и кнопку «Ещё 5». Без старой цены значок «скидка» не ставить.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="4" data-name="Подбор котла HUBERT" data-question="Какая мощность нужна моему дому?" data-proof="есть: квиз на /kotly-hubert, 8 вопросов (HubertQuiz.tsx); только HUBERT">
+    <div class="w-wrap w-stack">
+      <h2>Подобрать котёл HUBERT по площади дома</h2>
+      <p>8 вопросов: площадь, утепление, отопительные приборы, горячая вода, бюджет. По ответам специалист предварительно определит серию и мощность котла HUBERT и свяжется с вами.</p>
+      <div class="w-actions"><a class="w-btn" href="#">Пройти подбор</a></div>
+      <p class="w-hint">Первый вопрос: «Какова общая отапливаемая площадь помещения?» – от «до 100 м²» до «более 350 м²»</p>
+      <p><span class="w-ask">[запросить: подбирать ли и другие марки, не только HUBERT]</span></p>
+      <p class="w-note">Кнопка ведёт на /kotly-hubert#hubert-quiz, квиз на хабе не дублируем. Можно показать первый вопрос с вариантами-кнопками: нажатие открывает квиз сразу со вторым шагом.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="5" data-name="Что купить вместе" data-question="Что ещё нужно к котлу, чтобы не ехать второй раз?" data-proof="есть: стабилизаторы, дымоход, бойлеры, датчик и счётчики в каталоге; скидка 7% от 100 тыс. ₽ и стабилизатор в подарок к HUBERT (promos.ts); запросить: кто проверяет совместимость">
+    <div class="w-wrap w-stack">
+      <h2>Что взять вместе с котлом</h2>
+      <p>Чтобы не ехать второй раз, соберите комплект сразу – совместимость с вашим котлом уточнит менеджер <span class="w-ask">[запросить: подтвердить, что менеджер проверяет совместимость]</span>.</p>
+      <div class="w-table-wrap"><table class="w-table">
+        <tr><th>Что</th><th>Зачем</th><th>Цена</th></tr>
+        <tr><td>Стабилизатор напряжения<br><a href="#">Товары для отопления</a></td><td>Защита электроники котла от скачков. К HUBERT – в подарок по промокоду GAZMAG</td><td>от 4 160 ₽</td></tr>
+        <tr><td>Коаксиальный дымоход D60/100<br><a href="#">Датчики, счётчики газа и дымоходы</a></td><td>Для настенных котлов с закрытой камерой сгорания</td><td>3 000 ₽</td></tr>
+        <tr><td>Бойлер косвенного нагрева<br><a href="#">Бойлеры косвенного нагрева</a></td><td>Горячая вода от одноконтурного котла</td><td>от 38 000 ₽</td></tr>
+        <tr><td>Датчик загазованности, счётчик газа<br><a href="#">Датчики, счётчики газа и дымоходы</a></td><td>Контроль утечки и учёт газа</td><td>от 3 200 ₽</td></tr>
+        <tr><td>Герметики и фиксаторы резьбы<br><a href="#">Товары для отопления</a></td><td>Для соединений при монтаже</td><td>от 180 ₽</td></tr>
+      </table></div>
+      <p><b>При покупке на сумму более 100 тыс. ₽ – скидка 7%.</b> Условия уточняйте у менеджера.</p>
+      <p class="w-note">H2 этого блока нет в SEO-задании – добавлен по задаче владельца, согласовать с site-seo. «Зачем» – одна строка, без технических подробностей. Раздел – ссылкой под названием, чтобы таблица влезла в 390 без прокрутки.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="6" data-name="Установка" data-question="Кто поставит купленный котёл?" data-proof="есть: услуга /uslugi/ustanovka-gazovogo-kotla, от 8 тыс. ₽ (promos.ts); запросить: срок от заявки до монтажа">
+    <div class="w-wrap w-stack">
+      <h2>Установка купленного котла – от 8 тыс. ₽</h2>
+      <p>Установка котла, подключение к отоплению и газопроводу, настройка и проверка работы. Ставим одно- и двухконтурные, настенные и напольные котлы.</p>
+      <p>Срок: <span class="w-ask">[запросить: сколько дней от заявки до монтажа]</span></p>
+      <div class="w-actions"><a class="w-btn" href="#">Рассчитать установку</a></div>
+      <p class="w-hint">Откроется страница установки: там форма – специалист уточнит модель котла и объект и рассчитает стоимость</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="7" data-name="Где забрать заказ" data-question="Куда ехать за заказом?" data-proof="есть: Болотное – самовывоз, Новосибирск, Писарева, 60 – HUBERT, Пн–Пт 09:00–18:00 (site.ts, kotly-hubert.astro); запросить: часы магазина, что ещё можно забрать в Новосибирске, доставка">
+    <div class="w-wrap w-stack">
+      <h2>Где забрать заказ</h2>
+      <div class="w-grid" style="--cols:2;--cols-m:1">
+        <div class="w-card"><h3>Болотное, ул. Забабонова, 55А</h3><p>Самовывоз из магазина</p><p class="w-muted"><span class="w-ask">[запросить: часы работы магазина]</span></p></div>
+        <div class="w-card"><h3>Новосибирск, ул. Писарева, 60, офис 1.10</h3><p>Пункт выдачи котлов HUBERT · Пн–Пт 09:00–18:00</p><p class="w-muted"><span class="w-ask">[запросить: можно ли забрать здесь любой заказ или только HUBERT]</span></p></div>
+      </div>
+      <p>Доставка – условия уточняйте по телефону. <span class="w-ask">[запросить: есть ли доставка, куда и сколько стоит]</span></p>
+      <div class="w-actions"><a class="w-btn ghost" href="kontakty.html">Адреса и маршрут</a></div>
+      <p class="w-note">Позже – ссылка на /dostavka-i-oplata, когда появится страница.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="w-footer"><div class="w-wrap w-stack">
+  <nav class="w-nav" aria-label="Разделы"><a href="#">Каталог</a><a href="#">Газовые котлы</a><a href="#">Газовые колонки</a><a href="#">Водонагреватели</a><a href="#">Установка котла</a><a href="#">Подключение газа</a><a href="#">Котлы HUBERT</a><a href="#">Акции</a><a href="kontakty.html">Контакты</a><a href="#">О компании</a><a href="#">Карта сайта</a></nav>
+  <span>Магазин газового оборудования · ИП Меньшиков Антон Юрьевич · ИНН 5435 5029 8025 · ОГРНИП 32354 76000 64716</span>
+  <span>Gazmag.bolotnoe@yandex.ru · <a href="#">Реквизиты</a> · <a href="#">Политика обработки персональных данных</a> · <a href="#">Согласие на обработку персональных данных</a> · <a href="#">Политика cookie</a> · <a href="#">Договор оферты</a></span>
+</div></footer>
+
+<div class="w-sticky"><a class="w-btn" href="tel:+79134584567">Позвонить</a><a class="w-btn ghost" href="https://wa.me/79134584567">Написать</a></div>
+
+<script>
+// Переключатели прототипа и подпись логики над каждым блоком (по умолчанию скрыто).
+document.querySelectorAll('.w-block').forEach(function (b) {
+  var d = b.dataset, el = document.createElement('div');
+  el.className = 'w-logic';
+  el.innerHTML = '<b>Блок ' + (d.n || '?') + ' · ' + (d.name || '') + '</b><br>Вопрос клиента: ' + (d.question || '–') + '<br>Опора: ' + (d.proof || '–');
+  if (b.tagName === 'HEADER') b.prepend(el); else (b.querySelector('.w-wrap') || b).prepend(el);
+});
+document.getElementById('t-logic').addEventListener('change', function (e) { document.body.classList.toggle('show-logic', e.target.checked); });
+document.getElementById('t-notes').addEventListener('change', function (e) { document.body.classList.toggle('show-notes', e.target.checked); });
+document.getElementById('t-seo').addEventListener('change', function (e) { document.body.classList.toggle('show-seo', e.target.checked); });
+(function () {
+  var src = document.getElementById('w-seo'), box = document.getElementById('w-seo-box');
+  if (!src || !box) return;
+  var d = JSON.parse(src.textContent), esc = function (t) { return String(t).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); };
+  var len = function (t, max) { return ' <span class="' + (t.length > max ? 'bad' : '') + '">(' + t.length + ' / ' + max + ')</span>'; };
+  var heads = [].map.call(document.querySelectorAll('main h1, main h2, header h1'), function (h) { return '<li>' + h.tagName + ' – ' + esc(h.textContent.trim()) + '</li>'; }).join('');
+  var alts = [].map.call(document.querySelectorAll('.w-media[data-alt]'), function (m) { return '<li>' + esc(m.dataset.alt) + '</li>'; }).join('');
+  box.innerHTML = '<table><tr><td>title</td><td>' + esc(d.title) + len(d.title, 65) + '</td></tr><tr><td>description</td><td>' + esc(d.description) + len(d.description, 160) +
+    '</td></tr><tr><td>запрос</td><td>' + esc(d.zapros || '–') + '</td></tr><tr><td>заголовки</td><td><ul>' + heads + '</ul></td></tr><tr><td>alt</td><td><ul>' + (alts || '<li>–</li>') +
+    '</ul></td></tr><tr><td>разметка</td><td>' + esc(d.schema || '–') + '</td></tr><tr><td>ссылки</td><td><ul>' + (d.links || []).map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul></td></tr></table>';
+})();
+document.getElementById('ask-count').textContent = document.querySelectorAll('.w-ask').length;
+// Любая форма: галочка data-agree включает кнопку отправки своей формы.
+document.querySelectorAll('form').forEach(function (f) {
+  var a = f.querySelector('[data-agree]'), btn = f.querySelector('button[type="submit"], button:not([type])');
+  if (a && btn) a.addEventListener('change', function () { btn.disabled = !a.checked; });
+});
+</script>
+</body>
+</html>

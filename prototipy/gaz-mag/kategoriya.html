@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Прототип – каталог газовых котлов</title>
+<!-- kit.css вставляется целиком внутрь <style> (прототип – один файл, открывается без интернета) -->
+<style>/* Комплект чёрно-белого прототипа (маркетолог → site-prototype).
+   Прототип показывает смысл, текст, порядок и действие – не дизайн. Цвета только серые; дизайнер делает визуал после «да» владельца.
+   Блок: <section class="w-block" data-n="1" data-name="Первый экран" data-question="вопрос клиента" data-proof="опора"> */
+:root {
+  --ink: #141414; --muted: #5f5f5f; --line: #b9b9b9; --fill: #ececec; --fill2: #f6f6f6; --paper: #ffffff;
+  --note: #fff6c8; --note-line: #c9b44a; --ask: #7a1f1f;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, Menlo, Consolas, monospace;
+  --wrap: 1180px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 var(--font); }
+img { max-width: 100%; }
+a { color: var(--ink); }
+h1, h2, h3 { margin: 0; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(28px, 4.2vw, 46px); }
+h2 { font-size: clamp(22px, 3vw, 32px); }
+h3 { font-size: 18px; }
+p { margin: 0; }
+.w-wrap { max-width: var(--wrap); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.w-stack { display: grid; gap: 14px; }
+.w-muted { color: var(--muted); }
+
+/* Панель прототипа: переключатели «Логика» и «Комментарии» */
+.w-bar { position: sticky; top: 0; z-index: 50; background: var(--ink); color: #fff; font: 13px/1.3 var(--mono); }
+.w-bar .w-wrap { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding-block: 8px; }
+.w-bar b { font-weight: 600; }
+.w-bar label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+
+/* Блок и его подпись логики */
+.w-block { border-top: 1px dashed var(--line); padding-block: 40px; position: relative; }
+.w-logic { display: none; font: 12.5px/1.45 var(--mono); background: var(--fill2); border: 1px solid var(--line); padding: 8px 10px; margin-bottom: 18px; }
+body.show-logic .w-logic { display: block; }
+.w-logic b { font-weight: 700; }
+.w-note { display: none; background: var(--note); border: 1px dashed var(--note-line); padding: 8px 10px; font-size: 13.5px; margin-top: 12px; }
+body.show-notes .w-note { display: block; }
+.w-note::before { content: "Дизайнеру: "; font-weight: 700; }
+.w-seo { display: none; font: 13px/1.5 var(--mono); background: #eef3ff; border: 1px solid #8aa0d6; padding: 12px 14px; margin: 12px auto; max-width: var(--wrap); }
+body.show-seo .w-seo { display: block; }
+.w-seo table { border-collapse: collapse; width: 100%; }
+.w-seo td { border-top: 1px solid #c9d4ee; padding: 4px 6px; vertical-align: top; }
+.w-seo td:first-child { white-space: nowrap; font-weight: 700; width: 1%; }
+.w-seo .bad { color: var(--ask); font-weight: 700; }
+.w-seo ul { margin: 0; padding-left: 18px; }
+.w-ask { color: var(--ask); font-weight: 600; background: #f7e9e9; padding: 0 4px; }
+
+/* Место под фото/видео/схему: роль, а не «картинка» */
+.w-media { background: repeating-linear-gradient(45deg, var(--fill), var(--fill) 10px, var(--fill2) 10px, var(--fill2) 20px);
+  border: 1px solid var(--line); min-height: 220px; display: grid; place-items: center; text-align: center; padding: 16px;
+  color: var(--muted); font-size: 14px; }
+.w-media::before { content: "▣ "; }
+.w-media.small { min-height: 120px; }
+
+/* Кнопки */
+.w-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border: 2px solid var(--ink);
+  background: var(--ink); color: #fff; font-weight: 600; text-decoration: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+.w-btn.ghost { background: transparent; color: var(--ink); }
+.w-btn[disabled] { opacity: .45; cursor: not-allowed; }
+.w-hint { font-size: 13px; color: var(--muted); }
+
+/* Шапка */
+.w-header .w-wrap { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between; padding-block: 12px; }
+.w-logo { border: 2px solid var(--ink); padding: 6px 10px; font-weight: 700; }
+.w-descr { font-size: 13.5px; color: var(--muted); max-width: 34ch; }
+.w-contacts-top { display: grid; gap: 2px; font-size: 14px; text-align: right; }
+.w-nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14.5px; border-top: 1px solid var(--line); padding-block: 8px; }
+
+/* Первый экран */
+.w-hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; }
+.w-hero ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.w-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* Сетки и карточки */
+.w-grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 14px; }
+.w-card { border: 1px solid var(--line); padding: 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.w-card .w-media { min-height: 140px; }
+.w-price { font-weight: 700; }
+
+/* Этапы */
+.w-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 14px; counter-reset: st; }
+.w-steps li { border: 1px solid var(--line); padding: 14px; counter-increment: st; display: grid; gap: 6px; }
+.w-steps li::before { content: counter(st); font-weight: 700; font-size: 22px; }
+
+/* Таблица */
+.w-table-wrap { overflow-x: auto; }
+.w-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.w-table th, .w-table td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+.w-table th { background: var(--fill2); }
+
+/* FAQ */
+.w-faq details { border: 1px solid var(--line); padding: 12px 14px; }
+.w-faq details + details { border-top: 0; }
+.w-faq summary { font-weight: 600; cursor: pointer; }
+
+/* Форма */
+.w-form { border: 2px solid var(--ink); padding: 18px; display: grid; gap: 12px; max-width: 520px; }
+.w-field { display: grid; gap: 4px; font-size: 14px; }
+.w-field input, .w-field select { min-height: 44px; border: 1px solid var(--ink); padding: 0 10px; font: inherit; background: #fff; }
+.w-check { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; }
+
+/* Полоса призыва */
+.w-cta { background: var(--fill); padding: 24px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+
+/* Подвал */
+.w-footer { background: var(--fill2); border-top: 1px solid var(--line); padding-block: 28px; font-size: 14px; }
+
+/* Липкая панель действий на телефоне */
+.w-sticky { display: none; }
+header.w-block { padding-block: 0; border-top: 0; }
+header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
+
+@media (max-width: 760px) {
+  .w-hide-m { display: none !important; }
+  .w-hero { grid-template-columns: 1fr; }
+  .w-grid { grid-template-columns: repeat(var(--cols-m, 2), minmax(0, 1fr)); }
+  .w-steps { grid-template-columns: 1fr; }
+  .w-contacts-top { text-align: left; }
+  .w-block { padding-block: 28px; }
+  .w-sticky { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+    background: #fff; border-top: 1px solid var(--line); }
+  body { padding-bottom: 72px; }
+}
+@media (max-width: 420px) { .w-grid.one-m { grid-template-columns: 1fr; } }
+</style>
+<style>
+/* Прототип каталога: чипы фильтра (серые, без цвета бренда) */
+[hidden] { display: none !important; }
+.w-flt { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.w-chip { font: inherit; font-size: 14px; padding: 6px 12px; border: 1px solid #999; border-radius: 999px; background: #fff; color: #222; cursor: pointer; }
+.w-chip.is-on { background: #222; color: #fff; border-color: #222; }
+.w-help { grid-column: 1 / -1; background: #eee; }
+.w-card h3 { font-size: 16px; }
+</style>
+</head>
+<body>
+<div class="w-bar"><div class="w-wrap">
+  <b>Прототип · gaz-mag.ru · Каталог раздела /katalog/gazovye-kotly (шаблон для /nastennye, /napolnye) · версия 19.10.2026</b>
+  <label><input type="checkbox" id="t-logic"> Логика блоков</label>
+  <label><input type="checkbox" id="t-notes"> Комментарии дизайнеру</label>
+  <label><input type="checkbox" id="t-seo"> SEO страницы</label>
+  <span>Меток «запросить»: <b id="ask-count">0</b></span>
+</div></div>
+
+<script type="application/json" id="w-seo">{"title": "Газовые котлы купить в Новосибирске – цены, установка", "description": "Газовые котлы в Новосибирске: 21 модель, настенные и напольные, одно- и двухконтурные – HUBERT, Navien, Haier, Очаг. Цены от 17 800 ₽, магазин в Болотном.", "zapros": "газовый котёл купить – 2 537 (уточняющие: газовый котёл новосибирск – 2 620; купить газовый котёл в новосибирске – 1 323)", "schema": "BreadcrumbList; ItemList из видимых карточек (position, url, name); Product в листинге не размечать; FAQPage нет. Canonical на себя, адреса с параметрами фильтра – noindex или canonical на раздел", "links": ["/katalog/gazovye-kotly/nastennye – плитка блока 2", "/katalog/gazovye-kotly/napolnye – плитка блока 2", "/kotly-hubert – фильтр «Марка: HUBERT» и блок 7", "/katalog/boylery-kosvennogo-nagreva – блок 5", "/uslugi/ustanovka-gazovogo-kotla – блок 6", "/kontakty – блок 7"]}</script>
+<div class="w-seo" id="w-seo-box"></div>
+
+<header class="w-header w-block" data-n="0" data-name="Шапка" data-question="Где вы и как связаться?" data-proof="есть: адрес в Болотном, 2 телефона, Telegram, WhatsApp; запросить: часы работы магазина">
+  <div class="w-wrap">
+    <span class="w-logo">ЛОГО</span>
+    <span class="w-descr">Газовое оборудование и монтаж – магазин в Болотном, пункт выдачи в Новосибирске</span>
+    <span class="w-contacts-top">
+      <a href="tel:+79134584567">8 (913) 458-45-67</a>
+      <a href="tel:+79529416639">8 (952) 941-66-39</a>
+      <span class="w-muted">г. Болотное, ул. Забабонова, 55А</span>
+      <span class="w-muted"><span class="w-ask">[запросить: часы работы магазина в Болотном]</span></span>
+    </span>
+    <span class="w-actions"><a class="w-btn ghost w-hide-m" href="https://t.me/+79134584567">Telegram</a><a class="w-btn ghost w-hide-m" href="https://wa.me/79134584567">WhatsApp</a><a class="w-btn" href="tel:+79134584567">Позвонить</a></span>
+  </div>
+  <nav class="w-wrap w-nav"><a href="#">Каталог</a><a href="#">Hubert</a><a href="#">Акции</a><a href="#">Услуги</a><a href="#kontakty">Контакты</a><a href="#">О компании</a></nav>
+  <div class="w-wrap"><p class="w-note">Шапка – как на главной. На телефоне: логотип, дескриптор в одну строку, иконка телефона, корзина и бургер; Telegram и WhatsApp – в липкой панели снизу.</p></div>
+</header>
+
+<main>
+  <section class="w-block" data-n="1" data-name="Первый экран: крошки, H1, ответ" data-question="Есть ли у вас котлы и почём?" data-proof="есть: 21 модель, 17 800–68 000 ₽ (products.json), два адреса, монтаж от 8 тыс. ₽ (promos.ts)">
+    <div class="w-wrap w-stack">
+      <nav class="w-muted" aria-label="Хлебные крошки"><a href="#">Главная</a> › <a href="#">Каталог</a> › Газовые котлы</nav>
+      <h1>Газовые котлы в Новосибирске и Болотном</h1>
+      <p>21 газовый котёл от 17 800 до 68 000 ₽: настенные для кухни и напольные для котельной, с горячей водой и без. Забрать – в магазине в Болотном, котлы HUBERT – в пункте выдачи на Писарева, 60 в Новосибирске. Установка – от 8 тыс. ₽.</p>
+      <ul>
+        <li><b>9 марок</b> – HUBERT, Navien, Haier, Очаг, Federica Bugatti, ЖАР, Kiturami, Daesung, МИМАКС</li>
+        <li><b>Установка от 8 тыс. ₽</b> – подключим к отоплению и газопроводу</li>
+        <li><b>Два адреса</b> – магазин в Болотном, пункт выдачи HUBERT в Новосибирске</li>
+      </ul>
+      <div class="w-actions"><a class="w-btn" href="#listing">Смотреть котлы</a><a class="w-btn ghost" href="#zayavka">Подобрать котёл</a></div>
+      <p class="w-hint">Не знаете мощность – оставьте телефон, специалист подберёт котёл под площадь дома</p>
+      <p class="w-note">Первый экран каталога без большой картинки: на телефоне до листинга должно быть не больше одного экрана. Числа в тексте – из данных при сборке, не руками.</p>
+      <p class="w-note">Шаблон подкатегорий. /nastennye: H1 «Настенные газовые котлы»; ответ «13 настенных газовых котлов от 42 000 до 68 000 ₽: 11 двухконтурных – отопление и горячая вода, 2 одноконтурных – под бойлер. У всех закрытая камера сгорания и коаксиальный дымоход через стену – котёл вешают на кухне или в санузле. Установка – от 8 тыс. ₽.» /napolnye: H1 «Напольные газовые котлы»; ответ «8 напольных газовых котлов от 17 800 до 30 600 ₽: 7 одноконтурных и 1 двухконтурный. Дымоход у всех – однотрубный, в дымовую трубу; ставят в котельной или отдельном помещении. Установка – от 8 тыс. ₽.» Крошки – Каталог › Газовые котлы › Настенные. В подкатегории фильтр «Тип и контуры» предустановлен, блок 2 – ссылка на соседнюю подкатегорию и на весь раздел.</p>
+      <p class="w-muted">Для /napolnye: работа без электричества – <span class="w-ask">[запросить: какие напольные модели энергонезависимые]</span></p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="2" data-name="Настенные и напольные" data-question="Какой тип мне нужен – где смотреть?" data-proof="есть: 13 настенных и 8 напольных по полю «Количество контуров» (поле «Тип котла» с ошибками не брать)">
+    <div class="w-wrap w-stack">
+      <h2>Настенные и напольные газовые котлы</h2>
+      <div class="w-grid" style="--cols:2;--cols-m:2">
+        <a class="w-card" href="#"><div class="w-media small" data-alt="Настенный газовый котёл на стене кухни">Роль фото: настенный котёл на стене у клиента – видно, что он занимает место шкафчика</div><h3>Настенные газовые котлы</h3><p>13 моделей, от 42 000 ₽. Для кухни или санузла, дымоход через стену. 11 из 13 – двухконтурные.</p></a>
+        <a class="w-card" href="#"><div class="w-media small" data-alt="Напольный газовый котёл в котельной частного дома">Роль фото: напольный котёл в котельной с дымовой трубой – видно, где он стоит</div><h3>Напольные газовые котлы</h3><p>8 моделей, от 17 800 ₽. Для котельной, дымоход в трубу. Самые доступные модели раздела.</p></a>
+      </div>
+      <p class="w-note">Плитки – ссылки на подкатегории, число моделей и цена «от» считаются из данных. Фото – только реальные установки, если есть; нет – фото товара.</p>
+    </div>
+  </section>
+
+  <section class="w-block" id="listing" data-n="3" data-name="Листинг с фильтром" data-question="Какие модели подходят по цене и типу?" data-proof="есть: фильтры источника (filters.json), поиск и сортировка (Catalog.tsx), цены и варианты мощности (products.json)">
+    <div class="w-wrap w-stack">
+      <h2>Все газовые котлы: 21 модель от 17 800 ₽</h2>
+      <div class="w-flt" data-group="type"><span class="w-muted">Тип и контуры:</span>
+        <button type="button" class="w-chip is-on" data-v="">Все</button><button type="button" class="w-chip" data-v="nast2">Настенный двухконтурный · 11</button><button type="button" class="w-chip" data-v="nast1">Настенный одноконтурный · 2</button><button type="button" class="w-chip" data-v="nap1">Напольный одноконтурный · 7</button><button type="button" class="w-chip" data-v="nap2">Напольный двухконтурный · 1</button>
+      </div>
+      <div class="w-flt" data-group="brand"><span class="w-muted">Марка:</span>
+        <button type="button" class="w-chip is-on" data-v="">Все</button><button type="button" class="w-chip" data-v="hubert">HUBERT · 4</button><button type="button" class="w-chip" data-v="fb">Federica Bugatti · 5</button><button type="button" class="w-chip" data-v="ochag">Очаг · 4</button><button type="button" class="w-chip" data-v="zhar">ЖАР · 2</button><button type="button" class="w-chip" data-v="haier">Haier · 2</button><button type="button" class="w-chip" data-v="navien">Navien · 1</button><button type="button" class="w-chip" data-v="kiturami">Kiturami · 1</button><button type="button" class="w-chip" data-v="daesung">Daesung · 1</button><button type="button" class="w-chip" data-v="mimaks">МИМАКС · 1</button>
+      </div>
+      <div class="w-actions"><span class="w-chip">Все фильтры: цена, мощность, площадь, камера, дымоход</span><span class="w-chip">Поиск в каталоге</span><span class="w-chip">Сортировка: по умолчанию</span></div>
+      <p class="w-muted">Найдено: <b id="found">6</b> из 6 в примере (на сайте – из 21)</p>
+      <div class="w-grid" style="--cols:3;--cols-m:2" id="cards">
+        <article class="w-card" data-type="nap1" data-brand="zhar"><div class="w-media small" data-alt="Напольный газовый котёл ЖАР Compact TGV 7–14 кВт">Роль фото: котёл на белом фоне, как в каталоге поставщика</div><h3>Котёл напольный одноконтурный ЖАР Compact TGV 7–14 кВт</h3><p class="w-muted">Напольный одноконтурный · до 80 м²</p><span class="w-price">от 17 800 ₽</span><a class="w-btn ghost" href="#">Выбрать мощность</a></article>
+        <article class="w-card" data-type="nap2" data-brand="ochag"><div class="w-media small" data-alt="Напольный двухконтурный газовый котёл Очаг КСГВ-12,5–20 кВт">Роль фото: котёл на белом фоне</div><h3>Котёл напольный двухконтурный КСГВ-12,5–20 кВт «Очаг» Стандарт</h3><p class="w-muted">Напольный двухконтурный · до 120 м²</p><span class="w-price">от 30 600 ₽</span><a class="w-btn ghost" href="#">Выбрать мощность</a></article>
+        <article class="w-card" data-type="nast2" data-brand="navien"><div class="w-media small" data-alt="Настенный двухконтурный газовый котёл Navien Deluxe Expert 13–24 кВт">Роль фото: котёл на белом фоне</div><h3>Котёл газовый настенный двухконтурный NAVIEN DELUXE EXPERT 13–24 кВт</h3><p class="w-muted">Настенный двухконтурный · до 100 м²</p><span class="w-price">от 42 000 ₽</span><a class="w-btn ghost" href="#">Выбрать мощность</a></article>
+        <article class="w-card" data-type="nast2" data-brand="hubert"><div class="w-media small" data-alt="Настенный газовый котёл HUBERT Smart AGB 10-24DY">Роль фото: котёл на белом фоне</div><h3>Настенный газовый котёл HUBERT Smart AGB 10-24DY</h3><p class="w-muted">Настенный двухконтурный · 110–260 м²</p><span class="w-price">от 44 910 ₽</span><a class="w-btn ghost" href="#">Выбрать мощность</a></article>
+        <aside class="w-card w-help" data-help><h3>Не знаете, какой мощности нужен котёл?</h3><p>Назовите площадь дома – специалист подберёт 2–3 модели под ваш бюджет и посчитает установку.</p><a class="w-btn" href="#zayavka">Подобрать котёл</a></aside>
+        <article class="w-card" data-type="nast2" data-brand="ochag"><div class="w-media small" data-alt="Настенный двухконтурный газовый котёл Очаг 10-24E">Роль фото: котёл на белом фоне; метка «Новинка» – из поля товара</div><h3>Газовый настенный двухконтурный котёл Очаг 10-24E</h3><p class="w-muted">Новинка · Настенный двухконтурный · 100–240 м²</p><span class="w-price">от 47 000 ₽</span><a class="w-btn ghost" href="#">Выбрать мощность</a></article>
+        <article class="w-card" data-type="nast1" data-brand="hubert"><div class="w-media small" data-alt="Настенный одноконтурный газовый котёл HUBERT AGB 18-35 WLB с датчиком бойлера">Роль фото: котёл и датчик бойлера в комплекте</div><h3>Настенный одноконтурный газовый котёл HUBERT AGB 18-35 WLB + датчик бойлера</h3><p class="w-muted">Настенный одноконтурный · до 180 м²</p><span class="w-price">от 53 280 ₽</span><a class="w-btn ghost" href="#">Выбрать мощность</a></article>
+      </div>
+      <p class="w-muted w-empty" id="empty" hidden>По выбранным фильтрам в примере котлов нет. <a href="#zayavka">Оставьте заявку</a> – подберём под ваш дом.</p>
+      <div class="w-actions"><a class="w-btn ghost" href="#">Показать ещё 15</a></div>
+      <p class="w-note">Стандарт каталога: на телефоне 2 карточки в ряд, с 1024 px – 3; в каждой группе фильтра чип «Все» первым, выбор прячет лишние карточки ([hidden]{display:none!important}), число у чипа – сколько останется. Остальные фильтры источника – в выезжающей панели. Все 21 карточка в HTML (ссылки видят поисковики), лишние скрыты до «Показать ещё». Подсказка «Не знаете, какой мощности» – после 4-й карточки, на телефоне на всю ширину ряда; при фильтре не прячется.</p>
+      <p class="w-note">Кнопка «Выбрать мощность» – у товара с вариантами (ведёт в карточку), «В корзину» – у товара без вариантов. Цена «от» – минимальная из вариантов.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="4" data-name="Мощность по площади" data-question="Какой мощности котёл на мой дом?" data-proof="есть: поле «Отапливаемая площадь» и мощность моделей (products.json); запросить: как специалист пересчитывает под утепление">
+    <div class="w-wrap w-stack">
+      <h2>Какая мощность нужна для вашей площади</h2>
+      <p>Ориентир – площадь, которую производитель указывает в характеристиках модели. Чем хуже утеплён дом и выше потолки, тем больше нужен запас мощности – точный расчёт под ваш дом сделает специалист. <span class="w-ask">[запросить: как специалист пересчитывает мощность под утепление и высоту потолков]</span></p>
+      <div class="w-table-wrap"><table class="w-table">
+        <tr><th>Модель</th><th>Мощность</th><th>Площадь по характеристикам</th><th>Цена от</th></tr>
+        <tr><td>ЖАР Compact TGV (напольный)</td><td>7–14 кВт</td><td>80 м²</td><td>17 800 ₽</td></tr>
+        <tr><td>Очаг 10-24E (настенный, двухконтурный)</td><td>10–24 кВт</td><td>100–240 м²</td><td>47 000 ₽</td></tr>
+        <tr><td>HUBERT Smart AGB 10-24DY (настенный, двухконтурный)</td><td>10–24 кВт</td><td>110–260 м²</td><td>44 910 ₽</td></tr>
+        <tr><td>Daesung A MAX 16-41 (настенный, двухконтурный)</td><td>15,1 кВт</td><td>150 м²</td><td>63 500 ₽</td></tr>
+        <tr><td>Federica Bugatti 24-32В VARME (настенный, одноконтурный)</td><td>24–32 кВт</td><td>240 м²</td><td>68 000 ₽</td></tr>
+      </table></div>
+      <p class="w-muted">Фильтр «Отапливаемая площадь» в листинге покажет все подходящие модели.</p>
+      <p class="w-note">На телефоне таблица – карточками по строке или прокрутка внутри блока, не вся страница вбок. Строки – из данных; у моделей с несколькими мощностями поле площади одно – сверить с владельцем.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="5" data-name="Одно- или двухконтурный" data-question="Нужна ли горячая вода от котла?" data-proof="есть: 12 двухконтурных и 9 одноконтурных (поле «Количество контуров»), раздел бойлеров – 6 моделей; поле «ГВС» не брать – ошибка">
+    <div class="w-wrap w-stack">
+      <h2>Одноконтурный или двухконтурный: нужна ли горячая вода от котла</h2>
+      <div class="w-grid" style="--cols:2;--cols-m:1">
+        <div class="w-card"><h3>Двухконтурный – 12 моделей</h3><p>Греет дом и готовит горячую воду для крана и душа – отдельный водонагреватель не нужен.</p></div>
+        <div class="w-card"><h3>Одноконтурный – 9 моделей</h3><p>Только отопление. Горячую воду к нему даёт бойлер косвенного нагрева – он греется от того же котла.</p><a href="#">Бойлеры косвенного нагрева – 6 моделей</a></div>
+      </div>
+      <p class="w-note">Сравнение двумя колонками вместо абзаца: клиент выбирает развилкой. Иконки «кран» и «радиатор» – схемой, без фото.</p>
+    </div>
+  </section>
+
+  <section class="w-block" id="zayavka" data-n="6" data-name="Установка и заявка на подбор" data-question="Кто поставит и сколько это стоит?" data-proof="есть: монтаж и подключение от 8 тыс. ₽, состав работ (страница услуги); запросить: срок до монтажа, гарантия на работы, время перезвона">
+    <div class="w-wrap w-stack">
+      <h2>Установка газового котла – от 8 тыс. ₽</h2>
+      <p>Установим котёл, подключим к системе отопления и газопроводу, настроим и проверим работу системы. Монтаж отопления и подключение котла – от 8 тыс. ₽; точную стоимость для вашего дома назовёт специалист.</p>
+      <ul>
+        <li><b>Срок</b> – <span class="w-ask">[запросить: через сколько дней после заявки выезжаете на монтаж]</span></li>
+        <li><b>Гарантия на работы</b> – <span class="w-ask">[запросить: срок гарантии на монтаж]</span></li>
+      </ul>
+      <a href="#">Что входит в установку</a>
+      <form class="w-form" onsubmit="event.preventDefault()">
+        <h3>Подберём котёл и рассчитаем установку</h3>
+        <label class="w-field">Телефон<input id="f-phone" inputmode="tel" placeholder="+7 (___) ___-__-__"></label>
+        <label class="w-field">Площадь дома, м² (необязательно)<input id="f-area" inputmode="numeric" placeholder="Например, 120"></label>
+        <label class="w-check"><input type="checkbox" id="f-agree" data-agree> <span>Согласен на обработку <a href="#">персональных данных</a></span></label>
+        <button class="w-btn" id="f-send" type="submit" disabled>Подобрать котёл</button>
+        <p class="w-hint">Перезвоним <span class="w-ask">[запросить: через сколько перезваниваете]</span>, назовём 2–3 подходящие модели и цену с установкой.</p>
+      </form>
+      <p class="w-note">Телефон с маской +7. Галочка пустая, кнопка неактивна до отметки. Заявка уходит с темой «Подбор котла» и адресом страницы (раздел или подкатегория). После отправки – «Спасибо» с тем же текстом про перезвон.</p>
+    </div>
+  </section>
+
+  <section class="w-block" id="kontakty" data-n="7" data-name="Где забрать" data-question="Куда ехать и можно ли забрать в Новосибирске?" data-proof="есть: оба адреса, часы и контакт пункта выдачи (site.ts NSK_POINT); запросить: часы в Болотном, что выдают на Писарева, доставка">
+    <div class="w-wrap w-stack">
+      <h2>Где забрать котёл: Болотное и Новосибирск</h2>
+      <div class="w-grid" style="--cols:2;--cols-m:1">
+        <div class="w-card"><h3>Магазин в Болотном</h3><p>ул. Забабонова, 55А · <a href="tel:+79134584567">8 (913) 458-45-67</a></p><p>Часы: <span class="w-ask">[запросить: часы работы магазина в Болотном]</span></p><p>Весь ассортимент.</p></div>
+        <div class="w-card"><h3>Пункт выдачи в Новосибирске</h3><p>ул. Писарева, 60, офис 1.10, 1 этаж · Дмитрий, <a href="tel:+79537800720">+7 (953) 780-07-20</a></p><p>Пн–Пт: 09:00–18:00, Сб–Вс: выходной</p><p>Котлы HUBERT. <span class="w-ask">[запросить: можно ли забрать здесь котлы других марок]</span></p></div>
+      </div>
+      <p>Доставка: <span class="w-ask">[запросить: возите ли котлы, куда, сколько стоит и сколько ждать]</span></p>
+      <a href="#">Контакты и схема проезда</a>
+      <p class="w-note">Карта здесь не нужна – она на /kontakty и грузится после согласия на cookie. Достаточно кнопок «Маршрут» к каждому адресу.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="w-footer"><div class="w-wrap w-stack">
+  <nav class="w-nav" aria-label="Разделы"><a href="#">Каталог</a><a href="#">Газовые котлы</a><a href="#">Газовые колонки</a><a href="#">Водонагреватели</a><a href="#">Установка котла</a><a href="#">Подключение газа</a><a href="#">Котлы HUBERT</a><a href="#">Акции</a><a href="#">О компании</a><a href="#">Карта сайта</a></nav>
+  <span>Магазин газового оборудования · ИП Меньшиков Антон Юрьевич · ИНН 5435 5029 8025 · ОГРНИП 32354 76000 64716</span>
+  <span>Gazmag.bolotnoe@yandex.ru · <a href="#">Реквизиты</a> · <a href="#">Политика обработки персональных данных</a> · <a href="#">Согласие на обработку персональных данных</a> · <a href="#">Политика cookie</a> · <a href="#">Договор оферты</a></span>
+</div></footer>
+
+<div class="w-sticky"><a class="w-btn" href="tel:+79134584567">Позвонить</a><a class="w-btn ghost" href="https://wa.me/79134584567">Написать</a></div>
+<script>
+// Переключатели прототипа и подпись логики над каждым блоком (по умолчанию скрыто).
+document.querySelectorAll('.w-block').forEach(function (b) {
+  var d = b.dataset, el = document.createElement('div');
+  el.className = 'w-logic';
+  el.innerHTML = '<b>Блок ' + (d.n || '?') + ' · ' + (d.name || '') + '</b><br>Вопрос клиента: ' + (d.question || '–') + '<br>Опора: ' + (d.proof || '–');
+  if (b.tagName === 'HEADER') b.prepend(el); else (b.querySelector('.w-wrap') || b).prepend(el);
+});
+document.getElementById('t-logic').addEventListener('change', function (e) { document.body.classList.toggle('show-logic', e.target.checked); });
+document.getElementById('t-notes').addEventListener('change', function (e) { document.body.classList.toggle('show-notes', e.target.checked); });
+document.getElementById('t-seo').addEventListener('change', function (e) { document.body.classList.toggle('show-seo', e.target.checked); });
+(function () {
+  var src = document.getElementById('w-seo'), box = document.getElementById('w-seo-box');
+  if (!src || !box) return;
+  var d = JSON.parse(src.textContent), esc = function (t) { return String(t).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); };
+  var len = function (t, max) { return ' <span class="' + (t.length > max ? 'bad' : '') + '">(' + t.length + ' / ' + max + ')</span>'; };
+  var heads = [].map.call(document.querySelectorAll('main h1, main h2, header h1'), function (h) { return '<li>' + h.tagName + ' – ' + esc(h.textContent.trim()) + '</li>'; }).join('');
+  var alts = [].map.call(document.querySelectorAll('.w-media[data-alt]'), function (m) { return '<li>' + esc(m.dataset.alt) + '</li>'; }).join('');
+  box.innerHTML = '<table><tr><td>title</td><td>' + esc(d.title) + len(d.title, 65) + '</td></tr><tr><td>description</td><td>' + esc(d.description) + len(d.description, 160) +
+    '</td></tr><tr><td>запрос</td><td>' + esc(d.zapros || '–') + '</td></tr><tr><td>заголовки</td><td><ul>' + heads + '</ul></td></tr><tr><td>alt</td><td><ul>' + (alts || '<li>–</li>') +
+    '</ul></td></tr><tr><td>разметка</td><td>' + esc(d.schema || '–') + '</td></tr><tr><td>ссылки</td><td><ul>' + (d.links || []).map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul></td></tr></table>';
+})();
+document.getElementById('ask-count').textContent = document.querySelectorAll('.w-ask').length;
+// Любая форма: галочка data-agree включает кнопку отправки своей формы.
+document.querySelectorAll('form').forEach(function (f) {
+  var a = f.querySelector('[data-agree]'), btn = f.querySelector('button[type="submit"], button:not([type])');
+  if (a && btn) a.addEventListener('change', function () { btn.disabled = !a.checked; });
+});
+// Фильтр-пример: чип «Все» первым в группе, выбор прячет лишние карточки (стандарт каталога владельца).
+(function () {
+  var sel = { type: '', brand: '' }, cards = document.querySelectorAll('#cards [data-type]');
+  document.querySelectorAll('.w-flt').forEach(function (g) {
+    g.addEventListener('click', function (e) {
+      var c = e.target.closest('.w-chip'); if (!c) return;
+      g.querySelectorAll('.w-chip').forEach(function (x) { x.classList.toggle('is-on', x === c); });
+      sel[g.dataset.group] = c.dataset.v;
+      var n = 0;
+      cards.forEach(function (k) {
+        var ok = (!sel.type || k.dataset.type === sel.type) && (!sel.brand || k.dataset.brand === sel.brand);
+        k.hidden = !ok; if (ok) n++;
+      });
+      document.getElementById('found').textContent = n;
+      document.getElementById('empty').hidden = n > 0;
+    });
+  });
+})();
+</script>
+</body>
+</html>

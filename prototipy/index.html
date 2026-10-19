@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}</style>
+<title>Прототипы сайтов</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Макет: продолжение листа «Команда сайтов» – чертёж студии; цепочка как маршрутный лист, знания – карточки по агентам. */
+:root {
+  --paper: #f5f6f8;
+  --sheet: #ffffff;
+  --ink: #16203a;
+  --muted: #5d667b;
+  --line: #d9dde6;
+  --teal: #0b7a83;
+  --teal-soft: #e2f2f3;
+  --amber: #b5660a;
+  --amber-soft: #fbefdf;
+  --red: #b3261e;
+  --red-soft: #fbe9e8;
+  --violet: #5b4bb7;
+  --violet-soft: #ece9fa;
+  --display: 'Unbounded', 'Arial Black', system-ui, sans-serif;
+  --body: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0f1424; --sheet: #161d31; --ink: #e8ecf5; --muted: #9aa3b8; --line: #2a3350;
+  --teal: #4cc3cc; --teal-soft: #12343a; --amber: #f0a34a; --amber-soft: #3a2a14; --red: #f08a82; --red-soft: #3c1d1b;
+  --violet: #a99cf5; --violet-soft: #26214a; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #0f1424; --sheet: #161d31; --ink: #e8ecf5; --muted: #9aa3b8; --line: #2a3350;
+  --teal: #4cc3cc; --teal-soft: #12343a; --amber: #f0a34a; --amber-soft: #3a2a14; --red: #f08a82; --red-soft: #3c1d1b;
+  --violet: #a99cf5; --violet-soft: #26214a; color-scheme: dark; }
+
+body { background: var(--paper); color: var(--ink); font: 400 16px/1.6 var(--body); }
+.wrap { max-width: 1060px; margin: 0 auto; padding-block: 40px 72px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 64px; }
+h1, h2, h3 { margin: 0; line-height: 1.15; text-wrap: balance; }
+h1 { font: 700 clamp(28px, 5vw, 48px)/1.1 var(--display); letter-spacing: -0.01em; }
+h2 { font: 700 clamp(21px, 3vw, 28px)/1.2 var(--display); }
+h3 { font: 700 17px/1.3 var(--body); }
+p { margin: 0; }
+ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.eyebrow { font: 600 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--teal); }
+.muted { color: var(--muted); }
+code, .mono { font-family: var(--mono); font-size: .86em; }
+section { display: grid; gap: 22px; }
+.prose { max-width: 68ch; display: grid; gap: 12px; }
+.lead { font-size: 18px; max-width: 64ch; }
+.hero { display: grid; gap: 18px; }
+.quote { border-left: 3px solid var(--amber); padding: 4px 0 4px 18px; color: var(--muted); font-style: italic; max-width: 72ch; }
+
+.verdict { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.verdict > div { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
+.verdict b { font: 700 13px/1.3 var(--mono); color: var(--teal); text-transform: uppercase; letter-spacing: .06em; }
+
+/* маршрутный лист цепочки */
+.route { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: r; }
+.route > li { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 14px; position: relative; padding-bottom: 14px; }
+.route > li::before { counter-increment: r; content: counter(r); width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font: 700 17px/1 var(--display); background: var(--sheet); border: 2px solid var(--teal); color: var(--teal); position: relative; z-index: 1; }
+.route > li:not(:last-child)::after { content: ""; position: absolute; left: 22px; top: 46px; bottom: 0; width: 2px; background: var(--line); }
+.route .box { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 6px; min-width: 0; }
+.route .top { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+.route .who { font: 600 12.5px/1.4 var(--mono); color: var(--muted); }
+.route .out { font: 400 13px/1.5 var(--mono); color: var(--muted); }
+.route li.opt::before { border-style: dashed; }
+.route li.gate .box { border-color: var(--amber); background: var(--amber-soft); }
+.pill { font: 700 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; white-space: nowrap; }
+.p-new { background: var(--violet-soft); color: var(--violet); }
+.p-has { background: var(--teal-soft); color: var(--teal); }
+.p-up { background: var(--amber-soft); color: var(--amber); }
+.p-gate { background: var(--amber); color: var(--sheet); }
+.fork { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fork > div { border: 1px dashed var(--line); border-radius: 10px; padding: 10px 12px; font-size: 14.5px; min-width: 0; }
+
+/* блоки MASTER */
+.levels { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.levels > div { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.levels .code { font: 700 20px/1 var(--display); color: var(--teal); }
+.levels .n { font: 600 12px/1.3 var(--mono); color: var(--muted); }
+.stages { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.stages span { font: 600 12.5px/1 var(--mono); padding: 8px 10px; border-radius: 8px; background: var(--teal-soft); color: var(--teal); }
+.stages i { color: var(--muted); font-style: normal; }
+.formula { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; font: 400 14px/1.7 var(--mono); overflow-x: auto; white-space: pre; }
+
+/* карточки по агентам */
+.agents { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.agent { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.agent header { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.agent li { font-size: 14.5px; }
+.src { font: 600 10.5px/1 var(--mono); padding: 3px 6px; border-radius: 5px; background: var(--paper); color: var(--muted); border: 1px solid var(--line); margin-left: 4px; white-space: nowrap; }
+
+table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 600 11.5px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.sheet { background: var(--sheet); border: 1px solid var(--line); border-radius: 14px; padding: 6px 8px; }
+.scroll { overflow-x: auto; }
+td .mono { white-space: nowrap; }
+
+.loop { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.loop > div { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 4px; align-content: start; min-width: 0; font-size: 14px; }
+.loop b { font-size: 14.5px; }
+.loop .k { font: 600 11px/1.3 var(--mono); color: var(--muted); }
+
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.note { padding: 14px 16px; border-radius: 12px; background: var(--amber-soft); display: grid; gap: 6px; }
+.note b { color: var(--amber); }
+.bad { padding: 14px 16px; border-radius: 12px; background: var(--red-soft); display: grid; gap: 8px; min-width: 0; }
+.bad b { color: var(--red); }
+.q { list-style: none; padding: 0; display: grid; gap: 10px; counter-reset: q; }
+.q li { background: var(--sheet); border: 1px solid var(--amber); border-radius: 12px; padding: 14px 16px; display: grid; gap: 4px; }
+
+@media (max-width: 820px) {
+  .verdict, .agents, .two, .fork { grid-template-columns: 1fr; }
+  .levels, .loop { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wrap { gap: 48px; padding-block: 24px 56px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <p class="eyebrow"><a href="../">← САЙТЫ АГЕНТ</a> · обновлено 19.10.2026</p>
+    <h1>Прототипы сайтов</h1>
+    <p class="lead">Чёрно-белый прототип показывает, что сайт говорит, в каком порядке и что человек делает дальше, – до дизайна и вёрстки. Каждый собирается цепочкой агентов и проверяется кодом.</p>
+  </header>
+
+  <section aria-labelledby="ready-h">
+    <p class="eyebrow">Готовые</p>
+    <h2 id="ready-h">Прототипы</h2>
+    <div class="sheet scroll"><table>
+      <thead><tr><th>Проект</th><th>Страница</th><th>Что внутри</th><th>Проверка</th></tr></thead>
+      <tbody>
+        <tr><td>газ-маг</td><td><a href="gaz-mag/glavnaya.html">Главная</a></td><td>11 блоков, SEO-слой, 22 метки «запросить» – вопросы владельцу</td><td>PASS 19.10</td></tr>
+      </tbody>
+    </table></div>
+    <p class="muted">Вверху каждого прототипа три переключателя: «Логика блоков» – зачем блок и на чём держится, «Комментарии дизайнеру», «SEO страницы» – title, description, заголовки, alt, разметка, ссылки. Красные метки «[запросить: …]» – данных нет, это вопросы владельцу, а не выдумка.</p>
+  </section>
+
+  <section aria-labelledby="types-h">
+    <p class="eyebrow">Что делаем</p>
+    <h2 id="types-h">Типы прототипов</h2>
+    <div class="sheet scroll"><table>
+      <thead><tr><th>Тип</th><th>Задача страницы</th><th>Главное внутри</th></tr></thead>
+      <tbody>
+        <tr><td>Главная</td><td>распределить посетителей по разделам</td><td>кто вы и где, разделы, услуги, доверие, контакты</td></tr>
+        <tr><td>Хаб каталога</td><td>помочь найти раздел</td><td>разделы с фото, подбор, что купить вместе</td></tr>
+        <tr><td>Категория</td><td>выбрать товар в разделе</td><td>фильтр, 2 карточки в ряд на телефоне, текст под спрос, вопросы раздела</td></tr>
+        <tr><td>Карточка товара</td><td>купить этот товар</td><td>варианты с ценой, характеристики таблицей, доставка, монтаж к товару</td></tr>
+        <tr><td>Услуга</td><td>заказать работу</td><td>что входит, цена «от», этапы, примеры работ, гарантия, заявка</td></tr>
+        <tr><td>Лендинг / акция</td><td>одно действие</td><td>оффер, условия, срок, доказательство, форма</td></tr>
+        <tr><td>Бренд</td><td>выбрать модель бренда</td><td>линейка, подбор мощности, наличие, сервис</td></tr>
+        <tr><td>О компании, контакты</td><td>поверить и доехать</td><td>факты, команда, документы, адреса, часы, карта</td></tr>
+        <tr><td>Статья</td><td>ответить на вопрос и привести к покупке</td><td>ответ в начале, содержание, таблицы, вопросы, ссылки на товары и услуги</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section aria-labelledby="how-h">
+    <p class="eyebrow">Как заказать</p>
+    <h2 id="how-h">Как подключиться</h2>
+    <ol class="route">
+      <li><div class="box"><h3>Сказать в чате</h3><p>«Маркетолог, сделай прототип <i>страницы</i> для <i>проекта</i>» – или «нужен SEO-сайт для <i>проекта</i>»: тогда сначала карта страниц.</p></div></li>
+      <li><div class="box"><h3>Карта страниц – ваше «да»</h3><p class="muted">site-map и сеошник: какие страницы нужны и зачем, что не делать.</p></div></li>
+      <li><div class="box"><h3>План блоков и SEO-задание</h3><p class="muted">Маркетолог: блоки с вопросом клиента и опорой; site-seo: title, description, H1, H2, разметка.</p></div></li>
+      <li><div class="box"><h3>Тексты и прототип</h3><p class="muted">Тексты из фактов; site-prototype собирает страницу и проверяет на телефоне и компьютере.</p></div></li>
+      <li><div class="box"><h3>Ссылка вам – ваше «да»</h3><p class="muted">Ответы на метки «запросить» – и в дизайн и вёрстку.</p></div></li>
+    </ol>
+  </section>
+
+</div>
+</body>
+</html>

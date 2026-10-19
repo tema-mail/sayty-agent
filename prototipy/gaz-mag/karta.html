@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}</style>
+<title>Карта газ-мага</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Макет: продолжение листа «Команда сайтов» – чертёж студии; цепочка как маршрутный лист, знания – карточки по агентам. */
+:root {
+  --paper: #f5f6f8;
+  --sheet: #ffffff;
+  --ink: #16203a;
+  --muted: #5d667b;
+  --line: #d9dde6;
+  --teal: #0b7a83;
+  --teal-soft: #e2f2f3;
+  --amber: #b5660a;
+  --amber-soft: #fbefdf;
+  --red: #b3261e;
+  --red-soft: #fbe9e8;
+  --violet: #5b4bb7;
+  --violet-soft: #ece9fa;
+  --display: 'Unbounded', 'Arial Black', system-ui, sans-serif;
+  --body: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0f1424; --sheet: #161d31; --ink: #e8ecf5; --muted: #9aa3b8; --line: #2a3350;
+  --teal: #4cc3cc; --teal-soft: #12343a; --amber: #f0a34a; --amber-soft: #3a2a14; --red: #f08a82; --red-soft: #3c1d1b;
+  --violet: #a99cf5; --violet-soft: #26214a; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #0f1424; --sheet: #161d31; --ink: #e8ecf5; --muted: #9aa3b8; --line: #2a3350;
+  --teal: #4cc3cc; --teal-soft: #12343a; --amber: #f0a34a; --amber-soft: #3a2a14; --red: #f08a82; --red-soft: #3c1d1b;
+  --violet: #a99cf5; --violet-soft: #26214a; color-scheme: dark; }
+
+body { background: var(--paper); color: var(--ink); font: 400 16px/1.6 var(--body); }
+.wrap { max-width: 1060px; margin: 0 auto; padding-block: 40px 72px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 64px; }
+h1, h2, h3 { margin: 0; line-height: 1.15; text-wrap: balance; }
+h1 { font: 700 clamp(28px, 5vw, 48px)/1.1 var(--display); letter-spacing: -0.01em; }
+h2 { font: 700 clamp(21px, 3vw, 28px)/1.2 var(--display); }
+h3 { font: 700 17px/1.3 var(--body); }
+p { margin: 0; }
+ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.eyebrow { font: 600 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--teal); }
+.muted { color: var(--muted); }
+code, .mono { font-family: var(--mono); font-size: .86em; }
+section { display: grid; gap: 22px; }
+.prose { max-width: 68ch; display: grid; gap: 12px; }
+.lead { font-size: 18px; max-width: 64ch; }
+.hero { display: grid; gap: 18px; }
+.quote { border-left: 3px solid var(--amber); padding: 4px 0 4px 18px; color: var(--muted); font-style: italic; max-width: 72ch; }
+
+.verdict { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.verdict > div { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
+.verdict b { font: 700 13px/1.3 var(--mono); color: var(--teal); text-transform: uppercase; letter-spacing: .06em; }
+
+/* маршрутный лист цепочки */
+.route { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: r; }
+.route > li { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 14px; position: relative; padding-bottom: 14px; }
+.route > li::before { counter-increment: r; content: counter(r); width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font: 700 17px/1 var(--display); background: var(--sheet); border: 2px solid var(--teal); color: var(--teal); position: relative; z-index: 1; }
+.route > li:not(:last-child)::after { content: ""; position: absolute; left: 22px; top: 46px; bottom: 0; width: 2px; background: var(--line); }
+.route .box { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 6px; min-width: 0; }
+.route .top { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+.route .who { font: 600 12.5px/1.4 var(--mono); color: var(--muted); }
+.route .out { font: 400 13px/1.5 var(--mono); color: var(--muted); }
+.route li.opt::before { border-style: dashed; }
+.route li.gate .box { border-color: var(--amber); background: var(--amber-soft); }
+.pill { font: 700 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; white-space: nowrap; }
+.p-new { background: var(--violet-soft); color: var(--violet); }
+.p-has { background: var(--teal-soft); color: var(--teal); }
+.p-up { background: var(--amber-soft); color: var(--amber); }
+.p-gate { background: var(--amber); color: var(--sheet); }
+.fork { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fork > div { border: 1px dashed var(--line); border-radius: 10px; padding: 10px 12px; font-size: 14.5px; min-width: 0; }
+
+/* блоки MASTER */
+.levels { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.levels > div { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.levels .code { font: 700 20px/1 var(--display); color: var(--teal); }
+.levels .n { font: 600 12px/1.3 var(--mono); color: var(--muted); }
+.stages { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.stages span { font: 600 12.5px/1 var(--mono); padding: 8px 10px; border-radius: 8px; background: var(--teal-soft); color: var(--teal); }
+.stages i { color: var(--muted); font-style: normal; }
+.formula { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; font: 400 14px/1.7 var(--mono); overflow-x: auto; white-space: pre; }
+
+/* карточки по агентам */
+.agents { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.agent { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.agent header { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.agent li { font-size: 14.5px; }
+.src { font: 600 10.5px/1 var(--mono); padding: 3px 6px; border-radius: 5px; background: var(--paper); color: var(--muted); border: 1px solid var(--line); margin-left: 4px; white-space: nowrap; }
+
+table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 600 11.5px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.sheet { background: var(--sheet); border: 1px solid var(--line); border-radius: 14px; padding: 6px 8px; }
+.scroll { overflow-x: auto; }
+td .mono { white-space: nowrap; }
+
+.loop { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.loop > div { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 4px; align-content: start; min-width: 0; font-size: 14px; }
+.loop b { font-size: 14.5px; }
+.loop .k { font: 600 11px/1.3 var(--mono); color: var(--muted); }
+
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.note { padding: 14px 16px; border-radius: 12px; background: var(--amber-soft); display: grid; gap: 6px; }
+.note b { color: var(--amber); }
+.bad { padding: 14px 16px; border-radius: 12px; background: var(--red-soft); display: grid; gap: 8px; min-width: 0; }
+.bad b { color: var(--red); }
+.q { list-style: none; padding: 0; display: grid; gap: 10px; counter-reset: q; }
+.q li { background: var(--sheet); border: 1px solid var(--amber); border-radius: 12px; padding: 14px 16px; display: grid; gap: 4px; }
+
+@media (max-width: 820px) {
+  .verdict, .agents, .two, .fork { grid-template-columns: 1fr; }
+  .levels, .loop { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wrap { gap: 48px; padding-block: 24px 56px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap"><div class="prose" style="max-width:none;display:grid;gap:14px">
+<p class="eyebrow"><a href="../">← Прототипы</a></p>
+<h1>Газ-маг: SEO-карта сайта для прототипов</h1>
+<p>Дата: 19.10.2026. Источники (только чтение): живой https://gaz-mag.ru (sitemap.xml – 79 адресов, robots.txt), ~/Sites/gaz-mag (src/lib/routes.ts, src/pages, src/data/products.json и filters.json, src/lib/promos.ts и site.ts, docs/), стандарты site-lead, карточки маркетолога: page-purpose, odin-intent-odna-stranica, katalog-stranicy-po-sprosu, lending-v-hab, vetki-vokrug-sdelki, intent-i-tip-stranicy.</p>
+<p>Бизнес: магазин газового оборудования и монтаж, ИП Меньшиков. Магазин – Болотное, ул. Забабонова, 55А. Пункт выдачи в Новосибирске – ул. Писарева, 60 (в коде подписан как «пункт выдачи котлов HUBERT»). Ассортимент: 53 товара в 6 разделах (котлы 21, товары для отопления 16, бойлеры косвенного нагрева 6, электрические водонагреватели 4, датчики и счётчики газа 4, газовые колонки 2).</p>
+<h2>Спрос – что известно</h2>
+<ul><li>Есть частичный Вордстат: docs/seo/wordstat-2026-10-18.json (Новосибирская обл., 01.07–30.09.2026, 13 фраз, за квартал): газовый котёл 21 528; газовый котёл новосибирск 2 620; газовый котёл купить 2 537; настенный газовый котёл 1 948; купить газовый котёл в новосибирске 1 323; двухконтурный газовый котёл 1 266; напольный газовый котёл 1 024; котёл навьен 2 748; котёл очаг 450; газовая колонка 622; котёл hubert 100; газовый котёл hubert 49; газовый котёл болотное 0.</li><li>Не замерено: услуги (подключение газа, монтаж отопления, установка котла, ремонт), бойлеры, водонагреватели, счётчики, датчики, стабилизаторы, доставка. По ним в таблице – «спрос – гипотеза, проверить Вордстатом» (27 фраз, сорвавшихся 18.10, см. ТЕХДОЛГ).</li><li>Вывод про города: спрос в Новосибирске, по Болотному ноль. Город – в заголовках каталогов и услуг, в SEO товара – Болотное (правило владельца 18.10). Отдельных страниц под города не делаем.</li></ul>
+<h2>1. Дерево страниц</h2>
+<p>Обозначения: [есть] – живёт на сайте; [изм] – есть, нужно изменить; [+] – добавить; [+?] – добавить, если владелец подтвердит услугу или факт; [позже] – вторая очередь; [нет] – не делать.</p>
+<div class="sheet scroll"><pre class="tree">/                                                   Главная [есть]
+├── /katalog                                        Хаб «Каталог» [есть]
+│   ├── /katalog/gazovye-kotly                      Каталог раздела [есть] (21 товар)
+│   │   ├── /katalog/gazovye-kotly/nastennye        Подкатегория [+] (14 товаров, спрос 1 948)
+│   │   ├── /katalog/gazovye-kotly/napolnye         Подкатегория [+] (7 товаров, спрос 1 024)
+│   │   ├── /katalog/gazovye-kotly/dvukhkonturnye   Подкатегория [+?] (12 товаров, спрос 1 266; 11 из 12 – те же, что настенные)
+│   │   └── /katalog/gazovye-kotly/&lt;товар&gt;          Карточка товара (шаблон, пример – один котёл)
+│   ├── /katalog/gazovye-kolonki                    Каталог раздела [есть] (2)
+│   ├── /katalog/elektricheskie-vodonagrevateli     Каталог раздела [есть] (4)
+│   ├── /katalog/boylery-kosvennogo-nagreva         Каталог раздела [есть] (6)
+│   ├── /katalog/tovary-dlya-otopleniya             Каталог раздела [есть] (16)
+│   └── /katalog/datchiki-i-schetchiki-gaza         Каталог раздела [есть] (4)
+├── /kotly-hubert                                   Каталог бренда HUBERT, посадочная с подбором [есть]
+├── /uslugi                                         Хаб «Услуги» [есть]
+│   ├── /uslugi/ustanovka-gazovogo-kotla            Услуга [есть]
+│   ├── /uslugi/podklyuchenie-gaza-i-montazh-otopleniya   Услуга [изм] – два намерения в одной странице, см. ниже
+│   │   ├── → /uslugi/podklyuchenie-gaza-k-chastnomu-domu [+?] (основное содержимое, сюда 301 со старого адреса)
+│   │   └── → /uslugi/montazh-otopleniya                  [+?] (только если монтаж отопления – отдельная услуга)
+│   └── /uslugi/obsluzhivanie-i-remont-gazovykh-kotlov    Услуга [+?] (на сайте: «принимаем заявки на обслуживание и ремонт»)
+├── /akcii                                          Хаб «Акции» [есть]
+│   ├── /akcii/pensioneram, /akcii/yur-licam-i-montazhnikam, /akcii/montazh-ot-8000,
+│   │   /akcii/pokupka-ot-100000, /akcii/stabilizator-v-podarok   Акции [есть]
+│   └── /akcii/kotel-hubert-s-montazhom             Акция [изм] – «до 31 января», похоже, закончилась
+├── /o-kompanii                                     Страница [есть]
+├── /kontakty                                       Страница [+] (оба адреса, часы, карта, как доехать; сейчас – блок на главной)
+├── /dostavka-i-oplata                              Страница [+] (доставка, оплата, получение, гарантия, возврат)
+├── /stati                                          Хаб статей [позже]
+│   └── /stati/&lt;статья&gt;                             Статья (шаблон) [позже]
+├── Юридические: /rekvizity, /politika-konfidencialnosti, /soglasie-na-obrabotku-dannyh, /politika-cookie, /oferta [есть]
+└── Технические: /karta-sayta [есть], /spasibo, 404, /admin, /api/* [есть, закрыты]; /souz – черновик [вопрос]</pre></div>
+<p>Не делать – и почему:</p>
+<ul><li>Города (/novosibirsk, /bolotnoe, «газовый котёл в Бердске/Искитиме/Черепаново») – дорвей: тот же ассортимент, другой город; «… болотное» = 0. Новосибирск – в заголовках, пункт выдачи – на /kontakty.</li><li>Бренды кроме HUBERT (Navien, Очаг, Federica Bugatti, Haier и др.) – тонкие страницы: Navien – 1 модель при спросе 2 748, Очаг – 4 модели. Остаются фильтром «Марка». Вернуться, если вырастет ассортимент (вопрос 6).</li><li>Одноконтурные, энергонезависимые, с открытой/закрытой камерой, «котёл 24 кВт», «на 150 м²» – фильтры без индексации: спрос не замерен, мало товаров; энергонезависимые – те же 7 котлов, что напольные (каннибализация).</li><li>«Замена газового котла», «установка котла цена» – тот же интент, что /uslugi/ustanovka-gazovogo-kotla: блоки на ней.</li><li>Отдельная страница «Оптовикам/монтажникам» – уже закрыта акцией /akcii/yur-licam-i-montazhnikam; вторая – каннибализация.</li><li>/katalog/radiatory – на Тильде раздел звался «Радиаторы и иные товары», но радиаторов в ассортименте нет.</li><li>Страницы под варианты (мощность, объём) и сочетания фильтров в индексе – одна карточка с вариантами; адреса с параметрами фильтра – noindex/canonical на раздел.</li><li>Подбор котла отдельной страницей – подбор уже есть на /kotly-hubert и фильтр «площадь» в каталоге; вернуться при спросе.</li></ul>
+<h2>2. Таблица страниц</h2>
+<p>Зачем = пять вопросов Page Purpose: кому / какую задачу решает / почему отдельно / что сверх конкурентов / как ведёт к заявке. «Спрос – гипотеза» = проверить Вордстатом до вёрстки.</p>
+<div class="sheet scroll"><table><thead><tr><th>Адрес</th><th>Сущность</th><th>Интент и запрос-гипотеза</th><th>Зачем (5 вопросов коротко)</th><th>Откуда (старый адрес, 301)</th><th>Индекс</th><th>Статус</th><th>Прототип</th></tr></thead><tbody><tr><td>/</td><td>Главная</td><td>навигационный + коммерческий: «газовое оборудование новосибирск», «газ маг болотное» (гипотеза)</td><td>всем, кто пришёл по бренду или рекламе / понять, что продают и что ставят / распределяет по каталогу, услугам, акциям / магазин + монтаж в одном месте / разделы, акции, заявка</td><td>/ (Тильда)</td><td>да</td><td>есть</td><td>Главная</td></tr><tr><td>/katalog</td><td>Хаб</td><td>коммерческий широкий: «газовое оборудование купить» (гипотеза)</td><td>покупатель без точной цели / выбрать раздел / ведёт в 6 разделов, спецпредложения / всё для газового отопления под одной крышей / в раздел и корзину</td><td>/catalogcentr</td><td>да</td><td>есть</td><td>Хаб</td></tr><tr><td>/katalog/gazovye-kotly</td><td>Каталог</td><td>коммерческий: «газовый котёл купить новосибирск» 2 537 / 1 323</td><td>ищет котёл / сравнить по цене, мощности, площади / главный денежный запрос сайта / фильтры как в магазине, цена «от», установка рядом / корзина, заявка на подбор и установку</td><td>/catalog_boilers</td><td>да</td><td>есть</td><td>Каталог</td></tr><tr><td>/katalog/gazovye-kotly/nastennye</td><td>Каталог (подкатегория)</td><td>коммерческий: «настенный газовый котёл» 1 948</td><td>кто уже решил тип / выбрать среди 14 настенных / свой запрос и свой тип установки (коаксиальный дымоход, кухня) / текст о выборе настенного, а не общий / корзина, установка</td><td>– (новый)</td><td>да</td><td>добавить</td><td>Каталог</td></tr><tr><td>/katalog/gazovye-kotly/napolnye</td><td>Каталог (подкатегория)</td><td>коммерческий: «напольный газовый котёл» 1 024</td><td>частный дом, котельная, частые отключения света / выбрать среди 7 напольных, часть энергонезависимые / отдельный тип и монтаж / энергонезависимость блоком / корзина, установка</td><td>– (новый)</td><td>да</td><td>добавить</td><td>Каталог</td></tr><tr><td>/katalog/gazovye-kotly/dvukhkonturnye</td><td>Каталог (подкатегория)</td><td>коммерческий: «двухконтурный газовый котёл» 1 266</td><td>нужна и горячая вода / выбрать среди 12 / свой запрос, но товары совпадают с настенными на 11 из 12 / – / корзина</td><td>– (новый)</td><td>да</td><td>добавить, если выдача по запросу отличается от «настенный»</td><td>Каталог</td></tr><tr><td>/katalog/gazovye-kolonki</td><td>Каталог</td><td>коммерческий: «газовая колонка купить» (622 – общий запрос)</td><td>замена колонки в квартире/доме / выбрать из 2 Теплокс / свой товар и запрос / наличие и установка рядом / корзина</td><td>/catalog_gaz_waterheaters</td><td>да</td><td>есть</td><td>Каталог</td></tr><tr><td>/katalog/elektricheskie-vodonagrevateli</td><td>Каталог</td><td>коммерческий: «электрический водонагреватель купить» – гипотеза</td><td>дом без газа или дача / выбрать бойлер на 100 л / свой товар / – / корзина</td><td>/catalog_el_waterheaters</td><td>да</td><td>есть (в разделе лежит электрокотёл – вопрос 9)</td><td>Каталог</td></tr><tr><td>/katalog/boylery-kosvennogo-nagreva</td><td>Каталог</td><td>коммерческий: «бойлер косвенного нагрева» – гипотеза</td><td>владелец одноконтурного котла / горячая вода от котла / свой товар и запрос / подсказка, к какому котлу подходит / корзина, установка</td><td>/catalog_indirect_boilers</td><td>да</td><td>есть</td><td>Каталог</td></tr><tr><td>/katalog/tovary-dlya-otopleniya</td><td>Каталог</td><td>коммерческий: «стабилизатор для газового котла», «герметик резьбы» – гипотеза</td><td>кто монтирует сам или докупает к котлу / расходники и стабилизаторы / разнородная мелочь, отдельно от котлов / наличие в Болотном / корзина</td><td>/catalog_other</td><td>да</td><td>есть</td><td>Каталог</td></tr><tr><td>/katalog/datchiki-i-schetchiki-gaza</td><td>Каталог</td><td>коммерческий: «счётчик газа купить», «датчик загазованности» – гипотеза</td><td>кто меняет счётчик или ставит датчик / купить с установкой / свой товар / – / корзина</td><td>/gas</td><td>да</td><td>есть (в разделе лежит дымоход – вопрос 9)</td><td>Каталог</td></tr><tr><td>/katalog/gazovye-kotly/nastennyy-gazovyy-kotel-hubert-smart-agb-10-24dy</td><td>Карточка товара (шаблон для всех 53)</td><td>транзакционный: «hubert smart agb 10-24dy купить», модель + «цена»</td><td>решил модель / купить, сравнить варианты, узнать про установку / уникальная модель / характеристики таблицей, варианты мощности, установка и получение в Болотном или Новосибирске / в корзину, заявка</td><td>/catalog_boilers/tproduct/&lt;uid&gt;-…</td><td>да</td><td>есть</td><td>Карточка товара</td></tr><tr><td>/kotly-hubert</td><td>Каталог (бренд)</td><td>коммерческий брендовый: «котёл hubert» 100, «газовый котёл hubert» 49</td><td>выбрал марку HUBERT / сравнить серии DY, DP, DL / дилерская посадочная с пунктом выдачи и акцией / подбор, сравнение серий, гарантия 5 лет / подбор → заявка</td><td>/hubert</td><td>да</td><td>есть</td><td>Бренд</td></tr><tr><td>/uslugi</td><td>Хаб</td><td>коммерческий: «газовое оборудование установка» – гипотеза</td><td>кому нужен монтаж / найти свою услугу / ведёт в услуги / магазин и монтаж в одних руках / в услугу</td><td>– (новый 18.10)</td><td>да</td><td>есть</td><td>Хаб</td></tr><tr><td>/uslugi/ustanovka-gazovogo-kotla</td><td>Страница (услуга)</td><td>коммерческий: «установка газового котла новосибирск», «… цена» – гипотеза</td><td>купил или выбирает котёл / поставить и запустить / свой интент, отличный от подключения газа / «от 8 тыс. ₽», котёл и монтаж в одном месте / заявка</td><td>/ustanovka-kotla</td><td>да</td><td>есть</td><td>Услуга</td></tr><tr><td>/uslugi/podklyuchenie-gaza-i-montazh-otopleniya</td><td>Страница (услуга)</td><td>два интента: «подключение газа к частному дому» и «монтаж отопления в частном доме» – гипотеза</td><td>– / – / смешивает два намерения, ни одно не закрывает полностью / – / заявка</td><td>/montag</td><td>да</td><td>изменить: разделить на две ниже, если обе услуги есть</td><td>Услуга</td></tr><tr><td>/uslugi/podklyuchenie-gaza-k-chastnomu-domu</td><td>Страница (услуга)</td><td>коммерческий + проблемный: «подключение газа к частному дому», «газификация дома под ключ» – гипотеза</td><td>владелец дома без газа / пройти путь: проект, ТУ, ввод трубы, котёл / большой отдельный путь со своими вопросами и документами / без очереди, дешевле государственных (слова владельца) / заявка на расчёт</td><td>/montag и /uslugi/podklyuchenie-gaza-i-montazh-otopleniya (301 сразу сюда, без цепочки)</td><td>да</td><td>добавить, если подтвердит, что делает сам (вопрос 1)</td><td>Услуга</td></tr><tr><td>/uslugi/montazh-otopleniya</td><td>Страница (услуга)</td><td>коммерческий: «монтаж отопления в частном доме» – гипотеза</td><td>строит или переделывает отопление / разводка, радиаторы, обвязка / свой интент, не про газ / оборудование и монтаж от одного продавца / заявка</td><td>– (новый)</td><td>да</td><td>добавить, если это отдельная услуга (вопрос 2); иначе блок на установке котла</td><td>Услуга</td></tr><tr><td>/uslugi/obsluzhivanie-i-remont-gazovykh-kotlov</td><td>Страница (услуга)</td><td>проблемный + локальный: «ремонт газового котла», «обслуживание газового котла» – гипотеза</td><td>у кого котёл сломался или пора ТО / вызвать мастера / проблемный интент, отличный от покупки / ремонт тех же марок, что продаём / заявка</td><td>– (новый)</td><td>да</td><td>добавить, если услуга реальна (вопрос 3); иначе строка на /uslugi</td><td>Услуга</td></tr><tr><td>/akcii</td><td>Хаб</td><td>коммерческий: «скидки на газовые котлы» – гипотеза</td><td>ищет выгоду / увидеть все акции / собирает 6 акций / – / в акцию</td><td>– (новый 14.10)</td><td>да</td><td>есть</td><td>Хаб</td></tr><tr><td>/akcii/pensioneram</td><td>Страница (акция)</td><td>спрос ≈ 0 – гипотеза</td><td>пенсионеры / получить 5% / просьба владельца 14.10 / условия акции / заявка</td><td>– (якорь главной)</td><td>да</td><td>есть, новых акций под SEO не плодить</td><td>Акция</td></tr><tr><td>/akcii/yur-licam-i-montazhnikam</td><td>Страница (акция)</td><td>B2B: «газовое оборудование оптом новосибирск» – гипотеза</td><td>юрлица и монтажники / 7% и доставка / единственная B2B-страница / условия / заявка</td><td>– (якорь главной)</td><td>да</td><td>есть</td><td>Акция</td></tr><tr><td>/akcii/montazh-ot-8000</td><td>Страница (акция)</td><td>пересекается с «установка котла цена»</td><td>– / – / риск каннибализации с /uslugi/ustanovka-gazovogo-kotla / – / ведёт на услугу</td><td>– (якорь главной)</td><td>да</td><td>есть; title – про акцию, не «установка котла», ссылка на услугу</td><td>Акция</td></tr><tr><td>/akcii/pokupka-ot-100000</td><td>Страница (акция)</td><td>спрос ≈ 0 – гипотеза</td><td>крупная покупка / скидка 7% / просьба владельца / – / корзина</td><td>– (якорь главной)</td><td>да</td><td>есть</td><td>Акция</td></tr><tr><td>/akcii/stabilizator-v-podarok</td><td>Страница (акция)</td><td>брендовый: «hubert акция» – гипотеза</td><td>покупает HUBERT / стабилизатор по промокоду GAZMAG / акция производителя / – / корзина</td><td>– (блок /hubert)</td><td>да</td><td>есть</td><td>Акция</td></tr><tr><td>/akcii/kotel-hubert-s-montazhom</td><td>Страница (акция)</td><td>транзакционный, пересекается с карточкой 10-24DY и /kotly-hubert</td><td>– / – / тройное пересечение, срок «до 31 января» / – / –</td><td>/hubert-dy</td><td>да</td><td>изменить: обновить условия или 301 на карточку товара (вопрос 8)</td><td>Акция</td></tr><tr><td>/o-kompanii</td><td>Страница</td><td>навигационный, доверие</td><td>кто проверяет продавца / убедиться, что магазин настоящий / нужна для доверия и E-E-A-T / адрес, реквизиты, юрлица / контакты</td><td>/about</td><td>да</td><td>есть</td><td>Страница</td></tr><tr><td>/kontakty</td><td>Страница</td><td>локальный + навигационный: «газ маг болотное адрес», «магазин газового оборудования болотное» – гипотеза</td><td>кто едет забрать / адрес, часы, телефон, как доехать в Болотное и на Писарева, 60 / один адрес для карточек Яндекс Карт и разметки Store; сейчас – только блок / два пункта с часами / звонок, маршрут</td><td>– (блок главной)</td><td>да</td><td>добавить (нужны часы Болотного)</td><td>Страница</td></tr><tr><td>/dostavka-i-oplata</td><td>Страница</td><td>транзакционный служебный: «доставка», «оплата», «возврат»</td><td>кто готов купить / понять, как получить и оплатить / обязательна для магазина (ЗоЗПП ст. 26.1) и снимает вопросы в корзине / честные условия / в корзину</td><td>– (новый)</td><td>да</td><td>добавить (нужны факты, вопрос 4)</td><td>Страница</td></tr><tr><td>/stati</td><td>Хаб</td><td>информационный</td><td>ищет совет / – / собирает статьи / – / в каталог и услуги</td><td>–</td><td>да</td><td>позже</td><td>Хаб</td></tr><tr><td>/stati/&lt;статья&gt;</td><td>Страница (статья)</td><td>информационный: «как выбрать газовый котёл для частного дома», «как подключить газ к частному дому» – гипотеза</td><td>выбирает или собирается газифицировать дом / разобраться до покупки / отдельный информационный интент, который каталог не закрывает; источник ответов ИИ / опыт монтажа / ссылки в каталог и на услугу</td><td>–</td><td>да</td><td>позже, по одной теме после Вордстата</td><td>Статья</td></tr><tr><td>/rekvizity</td><td>Юридическая</td><td>навигационный</td><td>–</td><td>/rekvezit</td><td>да</td><td>есть</td><td>Юридическая</td></tr><tr><td>/politika-konfidencialnosti</td><td>Юридическая</td><td>– (152-ФЗ)</td><td>–</td><td>/policy</td><td>да</td><td>есть</td><td>Юридическая</td></tr><tr><td>/soglasie-na-obrabotku-dannyh</td><td>Юридическая</td><td>– (152-ФЗ ст. 9)</td><td>–</td><td>/agreement</td><td>да</td><td>есть</td><td>Юридическая</td></tr><tr><td>/politika-cookie</td><td>Юридическая</td><td>–</td><td>–</td><td>/cookie</td><td>да</td><td>есть</td><td>Юридическая</td></tr><tr><td>/oferta</td><td>Юридическая</td><td>– (ЗоЗПП, дистанционная продажа)</td><td>–</td><td>– (на Тильде – попап)</td><td>да</td><td>есть (домен и адрес ИП в оферте расходятся – ТЕХДОЛГ)</td><td>Юридическая</td></tr><tr><td>/karta-sayta</td><td>Техническая</td><td>навигационный</td><td>–</td><td>–</td><td>да</td><td>есть</td><td>Техническая</td></tr><tr><td>/spasibo</td><td>Техническая</td><td>–</td><td>–</td><td>/thanks</td><td>нет (закрыто от поиска)</td><td>есть</td><td>Техническая</td></tr><tr><td>404</td><td>Техническая</td><td>–</td><td>–</td><td>/fail → 301 на /</td><td>нет</td><td>есть</td><td>Техническая</td></tr><tr><td>/admin, /api/*, /search.json, /redirects.json</td><td>Техническая</td><td>–</td><td>–</td><td>–</td><td>нет</td><td>есть</td><td>– (кабинет по эталону)</td></tr><tr><td>/souz</td><td>Страница (черновик)</td><td>–</td><td>черновик Тильды: управление котлом с телефона, цены-заглушки</td><td>/souz</td><td>нет</td><td>вопрос 7: переносим?</td><td>–</td></tr></tbody></table></div>
+<p>Итоги по сущностям (в индексе сейчас 79 адресов):</p>
+<div class="sheet scroll"><table><thead><tr><th>Сущность</th><th>Есть</th><th>Добавить</th><th>Добавить, если подтвердит</th><th>Позже</th></tr></thead><tbody><tr><td>Главная</td><td>1</td><td>–</td><td>–</td><td>–</td></tr><tr><td>Хаб</td><td>3</td><td>–</td><td>–</td><td>1 (/stati)</td></tr><tr><td>Каталог (разделы, подкатегории, бренд)</td><td>7</td><td>2</td><td>1</td><td>–</td></tr><tr><td>Карточка товара</td><td>53 (один шаблон)</td><td>–</td><td>–</td><td>–</td></tr><tr><td>Страница (услуги, акции, о компании, контакты, доставка)</td><td>9</td><td>2</td><td>3 (+ 1 меняется: делится)</td><td>статьи</td></tr><tr><td>Юридическая</td><td>5</td><td>–</td><td>–</td><td>–</td></tr><tr><td>Техническая</td><td>1 в индексе + 4 закрытых</td><td>–</td><td>–</td><td>–</td></tr><tr><td>Черновик</td><td>1 (/souz, закрыт)</td><td>–</td><td>–</td><td>–</td></tr></tbody></table></div>
+<p>После первой очереди в индексе 83 адреса (79 + nastennye, napolnye, kontakty, dostavka-i-oplata), при подтверждении услуг и двухконтурных – до 86 (79 + 4 + 1 + 3, минус прежний адрес подключения газа, он уходит 301).</p>
+<p>301 при изменениях: /montag и /uslugi/podklyuchenie-gaza-i-montazh-otopleniya → /uslugi/podklyuchenie-gaza-k-chastnomu-domu напрямую (без цепочки). /hubert-dy и /akcii/kotel-hubert-s-montazhom → карточка 10-24DY, если акцию снимаем. /souz → карточка или /katalog. Все прежние адреса Тильды (/catalog_*, /tproduct/…, /about и т.д.) уже отдают 301 – менять не нужно.</p>
+<h2>3. Типы прототипов (один на тип), по приоритету</h2>
+<ol><li>Карточка товара – пример /katalog/gazovye-kotly/nastennyy-gazovyy-kotel-hubert-smart-agb-10-24dy. Покрывает 53 товара.</li><li>Каталог раздела – пример /katalog/gazovye-kotly. Покрывает 6 разделов и подкатегории (nastennye, napolnye, dvukhkonturnye): у подкатегории тот же шаблон, свой H1, вводный текст и предустановленный фильтр.</li><li>Услуга – пример /uslugi/ustanovka-gazovogo-kotla. Покрывает 2–5 страниц услуг.</li><li>Главная – /.</li><li>Хаб – пример /katalog. Покрывает /uslugi, /akcii, позже /stati.</li><li>Страница «Покупателю» – пример /kontakty (два пункта, часы, карта после согласия на cookie). Тот же каркас – /dostavka-i-oplata, /o-kompanii.</li><li>Акция – пример /akcii/montazh-ot-8000. Покрывает 6 акций.</li><li>Бренд – /kotly-hubert (каталог + подбор + сравнение серий + пункт выдачи). Есть, прототип – для сверки, не с нуля.</li><li>Юридическая – пример /oferta. Покрывает 5 документов и реквизиты.</li><li>Техническая – пример /spasibo. Покрывает 404 и карту сайта.</li><li>Статья – позже, по стандарту site-lead references/blog.md.</li></ol>
+<h2>4. Вопросы владельцу</h2>
+<ol><li>Подключение газа: что делаете сами (проект газоснабжения, технические условия, ввод трубы в дом, внутренний газопровод), а что – газораспределительная организация или партнёры? От ответа – одна страница или две и что на ней обещать.</li><li>Монтаж отопления (разводка, радиаторы, тёплый пол) – отдельная услуга или только обвязка котла при установке?</li><li>Обслуживание и ремонт газовых котлов и колонок – правда делаете? Какие марки, куда выезжаете, есть ли цены?</li><li>Доставка и оплата: куда возите, сколько стоит и сколько ждать; способы оплаты (наличные, карта, счёт для юрлиц); в пункте выдачи на Писарева, 60 можно забрать любой товар или только HUBERT? Часы работы магазина в Болотном.</li><li>Ставите ли газовые колонки, бойлеры, счётчики газа, датчики загазованности? (Строкой на странице установки или отдельно – по спросу.)</li><li>Можете расширить Navien (спрос 2 748 за квартал, в каталоге 1 модель) и Очаг (450, 4 модели)? Тогда – страницы брендов, как HUBERT.</li><li>/souz (управление котлом с телефона, цены 60 000 / 100 000 – заглушки): продаёте это? Переносим карточкой или удаляем?</li><li>/akcii/kotel-hubert-s-montazhom: акция «до 31 января» закончилась? Обновить условия или снять (301 на карточку котла)?</li><li>Раскладка товаров: электрокотёл Thermex E906 лежит в «Электрические водонагреватели», коаксиальный дымоход – в «Датчики и счётчики газа». Перенести? Нужны ли разделы «Дымоходы», «Стабилизаторы»? Радиаторы продаёте (на Тильде раздел звался «Радиаторы и иные товары»)?</li><li>Есть фото выполненных работ и отзывы? Тогда – блок «Наши работы» на услугах (отдельная страница – только если работ много).</li><li>Статьи – во вторую очередь, по одной теме после Вордстата. Делаем?</li></ol>
+<p>Перед вёрсткой: дозапросить Вордстат по услугам, бойлерам, водонагревателям, счётчикам и датчикам и по «двухконтурный» против «настенный» (сравнить выдачу) – это решит три пункта с пометкой «если».</p>
+</div></div>
+</body>
+</html>

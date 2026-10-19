@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}</style>
-<title>Прототипировщик сайтов</title>
+<title>САЙТЫ АГЕНТ</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -127,11 +127,25 @@ td .mono { white-space: nowrap; }
 <div class="wrap">
 
   <header class="hero">
-    <p class="eyebrow">Чат «САЙТЫ АГЕНТ» · разбор 18.10.2026</p>
-    <h1>Прототипировщик сайтов и цепочка до него</h1>
+    <p class="eyebrow">Чат «САЙТЫ АГЕНТ» · обновлено 19.10.2026</p>
+    <h1>Команда агентов по сайтам: от задачи до боя</h1>
     <p class="lead">Мы прочитали проект «Копирайтер Сайтов Агент» из Codex, классификатор MASTER на 834 блока, 54 статьи Смыслогена, всю базу знаний и готовые решения на GitHub и рынке. Здесь собрано, что из этого берём, в какого агента, как выглядит цепочка и как система будет учиться.</p>
     <p class="quote">«Прототипировщик, который понимает типы блоков и берёт информацию у того, кто делает анализ. Можно с исследованием, можно без – но цепочка чтобы была. Будем его дорабатывать, учить, и ставить обучаемость».</p>
   </header>
+
+  <section aria-labelledby="new-h">
+    <p class="eyebrow">Журнал изменений</p>
+    <h2 id="new-h">Что нового</h2>
+    <div class="sheet scroll"><table>
+      <thead><tr><th>Дата</th><th>Что сделано</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">19.10</td><td><b>Сеошник, тех-проверка, проверка форм и кнопок, вывод в бой.</b> Новые агенты <code>site-seo</code> (базовое SEO каждой страницы, и лендинга тоже), <code>site-tech</code>, <code>site-forms</code> и чек-лист <code>boy.md</code>. Встроены в site-lead и маркетолога. Убрано противоречие: старые проверки слали тестовую заявку без разрешения – теперь только с вашего «да».</td></tr>
+        <tr><td class="mono">19.10</td><td><b>Маркетолог</b> – старший над прототипировщиком: база знаний на 158 карточек, учится на вашей реакции, убирает мусор. Обкатан на газ-маге: план главной и первый экран.</td></tr>
+        <tr><td class="mono">19.10</td><td>4 русских проекта протестированы на текстах газ-мага и Milovini: redaktura, humanizer-ru, квиз, маркетинг-стратег – статус «тестим».</td></tr>
+        <tr><td class="mono">18.10</td><td>Разбор: проект Codex, классификатор 834 блоков, база знаний, курсы, бенчмарки GitHub и рынка. Решено: прототип делаем в HTML.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
 
   <section aria-labelledby="v-h">
     <p class="eyebrow">Коротко</p>
@@ -145,22 +159,63 @@ td .mono { white-space: nowrap; }
 
   <section aria-labelledby="chain-h">
     <p class="eyebrow">Как идёт работа</p>
-    <h2 id="chain-h">Цепочка от задачи до прототипа</h2>
+    <h2 id="chain-h">Цепочка от задачи до боя</h2>
     <ol class="route">
-      <li><div class="box"><div class="top"><h3>Задача и вопрос «с исследованием?»</h3><span class="pill p-has">есть · site-lead</span></div><p class="muted">Главный определяет тип сайта и источник, затем один вопрос владельцу.</p>
-        <div class="fork"><div><b>Да</b> – запускается полное <code>исследование-бренда</code>: 16 агентов, рынок, спрос, конкуренты, отзывы, позиционирование. Отчёт становится входом для брифа.</div><div><b>Нет</b> – быстрая разведка: сайт компании, 5–10 конкурентов, карты и отзывы. Это company-researcher из Codex. Выводы помечаются «не проверено владельцем».</div></div></div></li>
-      <li class="opt"><div class="box"><div class="top"><h3>Бриф владельцу</h3><span class="pill p-new">новый · site-brief</span></div><p>Вопросы строятся из пробелов исследования, а не по анкете: 12 вопросов B01–B12, как у Evolution. Каждый ответ получает отметку «подтверждено», «гипотеза» или «без ответа».</p><p class="out">выход: бриф компании + решение «данных хватает / чего не хватает»</p></div></li>
-      <li><div class="box"><div class="top"><h3>Карта смыслов</h3><span class="pill p-new">новый · site-smysly</span></div><p>Цепочка «ситуация → боль, желание или возражение → обещание → доказательство → блок». У доказательства три статуса: есть, ждём, нет. Без доказательства смысл в блок не идёт.</p><p class="out">выход: карта смыслов с приоритетами</p></div></li>
-      <li class="gate"><div class="box"><div class="top"><h3>Карта страниц и «паспорт» каждой</h3><span class="pill p-up">дорабатываем · site-map</span><span class="pill p-gate">ваше «да»</span></div><p>Дерево с ЧПУ (уже умеет) плюс паспорт страницы: кому, какая задача, почему отдельной страницей, главное действие, чем измерим. Сначала владелец утверждает главную как эталон.</p></div></li>
-      <li><div class="box"><div class="top"><h3>План блоков</h3><span class="pill p-new">новый · site-prototype</span></div><p>Для каждой страницы прототипировщик выбирает блоки из MASTER по этапам решения клиента, сверяет с матрицей конкурентов и отбрасывает лишнее с причиной.</p><p class="out">выход: список блоков, у каждого вопрос клиента, смысл, доказательство, требование к фото, действие</p></div></li>
-      <li><div class="box"><div class="top"><h3>Тексты по блокам</h3><span class="pill p-up">дорабатываем · copywriting + stop-slop</span></div><p>Текст берётся только из брифа и фактов. Если данных нет, ставится пометка «запросить», без выдумок. Голос бренда хранится в файле, длина текста задаётся форматом блока.</p></div></li>
-      <li><div class="box"><div class="top"><h3>Конверсионный слой</h3><span class="pill p-new">часть site-prototype</span></div><p>Формы, квиз, мессенджеры, кнопки, липкая панель на телефоне. Каждая механика ставится только с причиной (лестница трения), без украшательства.</p></div></li>
-      <li><div class="box"><div class="top"><h3>Чёрно-белый прототип</h3><span class="pill p-new">site-prototype</span></div><p>Адаптивная страница с настоящим текстом, кнопками, формами и подписанными местами под фото («здесь фото команды у подъёмника»). Сразу телефон и компьютер.</p></div></li>
-      <li><div class="box"><div class="top"><h3>Независимая проверка</h3><span class="pill p-up">дорабатываем · site-landing / site-shop</span></div><p>Проверяет агент, который не собирал прототип, по рубрике ниже: каждый блок связан со смыслом, нет выдуманных цифр, этапы решения закрыты, телефон без переполнения.</p></div></li>
-      <li class="gate"><div class="box"><div class="top"><h3>Презентация и решение</h3><span class="pill p-gate">ваше «да»</span></div><p>Вам приходит ссылка: почему такой порядок блоков, зачем каждый блок, каких данных ещё нет. После «да» прототип уходит в дизайн и вёрстку на Astro по обычному пути site-lead.</p></div></li>
-      <li><div class="box"><div class="top"><h3>Урок в систему</h3><span class="pill p-up">дорабатываем · site-mentor</span></div><p>Ваши правки становятся строками «внести? да/нет». Принятое попадает в правила и в эталонные проверки, чтобы следующий прототип не повторил ошибку.</p></div></li>
+      <li><div class="box"><div class="top"><h3>Задача и вопрос «с исследованием?»</h3><span class="pill p-has">site-lead</span></div><p class="muted">Тип сайта и источник. Один вопрос владельцу: да – полное исследование компании (16 агентов), нет – быстрая разведка.</p></div></li>
+      <li class="gate"><div class="box"><div class="top"><h3>Карта сайта с ЧПУ</h3><span class="pill p-has">site-map</span><span class="pill p-gate">ваше «да»</span></div><p class="muted">Дерево страниц, сущность каждой, старые адреса → 301.</p></div></li>
+      <li><div class="box"><div class="top"><h3>Бриф, смыслы, оффер, план блоков</h3><span class="pill p-new">marketolog</span></div><p class="muted">План блоков: у каждого блока вопрос клиента и опора (есть / запросить). Знания из базы – подсказки, в ответе строка «Знания: что взял».</p></div></li>
+      <li><div class="box"><div class="top"><h3>SEO-задание на каждую страницу</h3><span class="pill p-new">site-seo</span></div><p>Интент, главный запрос, title, description, H1, H2 по блокам, FAQ где нужен, разметка, перелинковка, ответ в начале страницы. <b>И на лендинг тоже.</b></p></div></li>
+      <li><div class="box"><div class="top"><h3>Тексты по плану и SEO-заданию</h3><span class="pill p-new">marketolog</span><span class="pill p-has">copywriting · stop-slop</span></div><p class="muted">Только из фактов; нет данных – «запросить у владельца».</p></div></li>
+      <li class="gate"><div class="box"><div class="top"><h3>Чёрно-белый прототип</h3><span class="pill p-up">прототипировщик – в плане</span><span class="pill p-gate">ваше «да»</span></div><p class="muted">HTML-страница ссылкой, телефон и компьютер. Пока прототипировщика нет – site-lead верстает прямо по плану блоков.</p></div></li>
+      <li><div class="box"><div class="top"><h3>Вёрстка по стандартам</h3><span class="pill p-has">site-lead</span></div><p class="muted">Astro, ЧПУ, каталог 2 в ряд, галочка согласия, cookie, SEO товара само.</p></div></li>
+      <li><div class="box"><div class="top"><h3>Проверки после сборки</h3><span class="pill p-new">site-seo</span><span class="pill p-new">site-tech</span><span class="pill p-new">site-forms</span><span class="pill p-has">site-landing / site-shop</span></div>
+        <ul>
+          <li><b>SEO:</b> мета, заголовки, разметка, alt, canonical, перелинковка – на каждой странице.</li>
+          <li><b>Техника:</b> robots по режиму, зеркала, 301 без 502, 404, sitemap, битые ссылки, скорость на телефоне, консоль, 390 px.</li>
+          <li><b>Формы и кнопки:</b> валидация, маска, галочка блокирует кнопку, «Спасибо», куда дошла заявка, цель Метрики, звонок, WhatsApp, Telegram, квиз, попапы. Живая заявка – только с вашего разрешения.</li>
+          <li><b>Магазин или лендинг:</b> путь покупателя, оффер, каталог.</li>
+        </ul></div></li>
+      <li><div class="box"><div class="top"><h3>Закон и защита</h3><span class="pill p-has">юр-проверка-сайта</span><span class="pill p-has">защита-сайта</span></div><p class="muted">Политика, согласие, cookie, реквизиты по стране; наружу не торчат ключи и админка.</p></div></li>
+      <li class="gate"><div class="box"><div class="top"><h3>Показ владельцу</h3><span class="pill p-gate">ваше «да»</span></div><p class="muted">Ссылка и отчёт проверок: что PASS, что осталось.</p></div></li>
+      <li class="gate"><div class="box"><div class="top"><h3>Вывод в бой – только по вашему слову</h3><span class="pill p-new">boy.md</span><span class="pill p-has">deploy-check</span></div>
+        <ul>
+          <li><b>До:</b> deploy-check GO, тех-проверка в режиме «бой», формы, SEO, юр-проверка, защита, домен (срок, автопродление, администратор), таблица 301.</li>
+          <li><b>Переключение:</b> данные и сборка на сервере, админка без ключа, «Боевой сайт», robots открыт, noindex снят, DNS, 301 без 502.</li>
+          <li><b>После:</b> проверка снаружи, а не своим браузером; Вебмастер и Search Console, sitemap; цели Метрики; 48 часов наблюдения; отчёт ссылкой.</li>
+        </ul></div></li>
+      <li><div class="box"><div class="top"><h3>Уроки</h3><span class="pill p-has">site-mentor</span><span class="pill p-new">marketolog</span></div><p class="muted">site-mentor – правила по итогам сайта; маркетолог – реакция на знания, уборка, лучшее в скиллы. Всё после вашего «да».</p></div></li>
     </ol>
-    <p class="muted">Ролей меньше, чем в Codex (там 12). Отдельный агент нужен только там, где своё решение и свой результат: бриф, смыслы, прототип. Конверсионный слой – часть прототипировщика, проверку делают существующие site-landing и site-shop.</p>
+  </section>
+
+  <section aria-labelledby="team-h">
+    <p class="eyebrow">Кто в команде</p>
+    <h2 id="team-h">Команда сейчас</h2>
+    <div class="sheet scroll"><table>
+      <thead><tr><th>Кто</th><th>Что делает</th><th>Статус</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">site-lead</td><td>главный: ведёт сайт от задачи до боя, стандарты</td><td><span class="pill p-has">есть</span></td></tr>
+        <tr><td class="mono">site-map</td><td>карта сайта, ЧПУ, 301</td><td><span class="pill p-has">есть</span></td></tr>
+        <tr><td class="mono">marketolog</td><td>маркетинг: исследование по «да», бриф, смыслы, оффер, план блоков, тексты; база знаний 158 карточек; учится</td><td><span class="pill p-new">новый 19.10</span></td></tr>
+        <tr><td class="mono">site-seo</td><td>базовое SEO каждой страницы, включая лендинг: задание и проверка</td><td><span class="pill p-new">новый 19.10</span></td></tr>
+        <tr><td class="mono">site-tech</td><td>техника: индексация, зеркала, 301, 404, sitemap, ссылки, скорость, консоль, телефон</td><td><span class="pill p-new">новый 19.10</span></td></tr>
+        <tr><td class="mono">site-forms</td><td>формы и кнопки: от галочки до заявки в Telegram и цели Метрики</td><td><span class="pill p-new">новый 19.10</span></td></tr>
+        <tr><td class="mono">boy.md</td><td>чек-лист вывода в бой: до, переключение, после</td><td><span class="pill p-new">новый 19.10</span></td></tr>
+        <tr><td class="mono">site-landing · site-shop</td><td>проверка лендинга и магазина; формы и техника теперь по отчётам site-forms и site-tech</td><td><span class="pill p-up">обновлены</span></td></tr>
+        <tr><td class="mono">юр-проверка · защита-сайта · deploy-check</td><td>закон, дыры и ключи, GO/NO-GO перед пушем</td><td><span class="pill p-has">есть</span></td></tr>
+        <tr><td class="mono">admin-builder</td><td>админка и ЛК по эталонам</td><td><span class="pill p-has">есть</span></td></tr>
+        <tr><td class="mono">site-mentor</td><td>уроки по итогам сайта в стандарты</td><td><span class="pill p-has">есть</span></td></tr>
+        <tr><td class="mono">прототипировщик</td><td>чёрно-белый прототип по плану блоков</td><td><span class="pill p-up">в плане</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section aria-labelledby="mk-h">
+    <p class="eyebrow">Маркетолог</p>
+    <h2 id="mk-h">Как он учится и чистит базу</h2>
+    <div class="two">
+      <div class="note"><b>База знаний: 158 карточек</b><p>Курсы Смыслоген, Paradigma, Парников – 62; база viberendered – 69; GitHub и сервисы – 23; русские проекты на тесте – 4. Каждая карточка: суть, как применить, когда не применять, пример, источник.</p></div>
+      <div class="note"><b>Цикл</b><p>Взял 3–7 карточек → назвал их в ответе → счётчик «применено» +1 → спросил «что зашло, что мимо?» → ваша реакция в карточку и журнал → раз в неделю уборка: «в архив?», «в скилл?», «дубли?» – только после вашего «да».</p></div>
+    </div>
   </section>
 
   <section aria-labelledby="blocks-h">
@@ -341,13 +396,12 @@ td .mono { white-space: nowrap; }
       <table>
         <thead><tr><th>Шаг</th><th>Что делаем</th><th>Проверка</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td>Справочник блоков из MASTER: нормализовать около 200 базовых, доказательных и конверсионных блоков (вопрос клиента, когда ставить, доказательство, формат)</td><td>скрипт считает поля; пустых нет</td></tr>
-          <tr><td>2</td><td>Агент site-prototype: план блоков и чёрно-белый прототип; метод из Codex + Paradigma + база</td><td>прототип на одном брифе, проверка на телефоне</td></tr>
-          <tr><td>3</td><td>Агенты site-brief и site-smysly; вопрос «с исследованием?» в site-lead</td><td>прогон на Evolution, где уже есть исследование и вопросы</td></tr>
-          <tr><td>4</td><td>Правила текста по-русски, голос бренда, лимиты длины</td><td>линтер на тексте прототипа</td></tr>
-          <tr><td>5</td><td>Рубрика проверки и 3 эталонных брифа</td><td>прогон с правилами и без</td></tr>
-          <tr><td>6</td><td>site-mentor: отзыв после задачи, журнал уроков, урок → эталонная проверка</td><td>одна ваша правка доходит до правила</td></tr>
-          <tr><td>7</td><td>Пилот на живом проекте</td><td>ваше «да» на прототип</td></tr>
+          <tr><td>✓</td><td>Маркетолог с базой знаний и уборкой; тест 4 русских проектов</td><td>прогон на газ-маге, 158 карточек без ошибок</td></tr>
+          <tr><td>✓</td><td>Сеошник, тех-проверка, проверка форм, вывод в бой</td><td>живой прогон site-tech и site-forms на газ-маге – см. ниже</td></tr>
+          <tr><td>1</td><td>Справочник блоков из MASTER: нормализовать около 200 базовых, доказательных и конверсионных блоков</td><td>скрипт считает поля; пустых нет</td></tr>
+          <tr><td>2</td><td>Прототипировщик: чёрно-белая HTML-страница по плану блоков</td><td>прототип на одном брифе, телефон и компьютер</td></tr>
+          <tr><td>3</td><td>Эталонные брифы и рубрика проверки маркетолога и прототипировщика</td><td>прогон со знаниями и без</td></tr>
+          <tr><td>4</td><td>Пилот на живом проекте</td><td>ваше «да» на прототип</td></tr>
         </tbody>
       </table>
     </div>
@@ -356,11 +410,12 @@ td .mono { white-space: nowrap; }
 
   <section aria-labelledby="ask-h">
     <p class="eyebrow">Нужно ваше решение</p>
-    <h2 id="ask-h">Три вопроса</h2>
+    <h2 id="ask-h">Решения</h2>
     <ol class="q">
-      <li><b>В чём прототип?</b><span class="muted">Рекомендую чёрно-белую HTML-страницу ссылкой: тот же стек Astro, телефон сразу, проверяется кодом, дизайнер и вёрстка идут от неё. Альтернатива – Figma (MCP подключён), но мобилку и проверки там делать дольше.</span></li>
-      <li><b>На каком проекте обкатываем?</b><span class="muted">Рекомендую Evolution: там уже есть исследование и 12 вопросов брифа. Альтернатива – газ-маг, он уже на коде.</span></li>
-      <li><b>Проект Codex переносим?</b><span class="muted">Рекомендую перенести метод и исследователя в скиллы Claude рядом с site-lead, а репозиторий Codex оставить архивом, чтобы не было двух источников правды.</span></li>
+      <li><b>В чём прототип?</b><span class="muted">Решено 18.10: HTML-страница.</span></li>
+      <li><b>На каком проекте обкатываем прототипировщика?</b><span class="muted">Предлагаю Evolution: там уже есть исследование и 12 вопросов брифа. Альтернатива – газ-маг.</span></li>
+      <li><b>Проект Codex переносим?</b><span class="muted">Предлагаю: метод уже в маркетологе и его знаниях, репозиторий Codex оставить архивом.</span></li>
+      <li><b>Внести в стандарты сайтов?</b><span class="muted">(а) Скорость на телефоне: LCP до 2,5 с, CLS до 0,1 – иначе FAIL. (б) Тестовая заявка на боевом сайте – только с вашего разрешения. (в) SEO-задание на каждую страницу, включая лендинг. Без вашего «да» в стандарты не вношу.</span></li>
     </ol>
   </section>
 

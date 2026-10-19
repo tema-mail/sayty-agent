@@ -131,6 +131,17 @@ header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
   body { padding-bottom: 72px; }
 }
 @media (max-width: 420px) { .w-grid.one-m { grid-template-columns: 1fr; } }
+
+/* Мобильная шапка и первое окно (комплект 19.10) */
+@media (max-width: 760px) {
+  /* Мобильная шапка: логотип, короткий дескриптор и «Меню»; звонок и мессенджеры – в липкой панели снизу */
+  .w-header .w-wrap { flex-wrap: nowrap; padding-block: 8px; gap: 10px; }
+  .w-header .w-contacts-top, .w-header .w-wrap > .w-btn, .w-nav { display: none !important; }
+  .w-header .w-descr { font-size: 12px; line-height: 1.3; }
+  .w-header > .w-wrap:first-of-type::after { content: "☰ Меню"; margin-left: auto; border: 1px solid var(--ink); padding: 6px 10px; font-size: 13px; white-space: nowrap; }
+  .w-hero .w-media, .w-block[data-n="1"] .w-media:first-of-type { min-height: 160px; }
+  .w-bar .w-wrap { padding-block: 4px; gap: 4px 10px; font-size: 11px; }
+}
 </style>
 <style>
 /* Дополнения к комплекту для карточки товара – только серое. */
@@ -154,6 +165,30 @@ header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
   .p-top, .p-two { grid-template-columns: 1fr; gap: 20px; }
   .p-thumbs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .p-price { font-size: 26px; }
+}
+.p-gal { position: sticky; top: 48px; }
+.p-main { position: relative; }
+.p-top .p-main .w-media { aspect-ratio: 4 / 3; min-height: 0; }
+.p-dots { display: none; }
+.p-power { display: grid; gap: 6px; }
+.p-chips { flex-wrap: nowrap; }
+.p-buy { gap: 12px; }
+.p-buy h1 { font-size: clamp(24px, 2.6vw, 34px); }
+@media (max-width: 760px) {
+  .p-gal { position: static; }
+  .p-crumbs { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 8px; font-size: 12.5px; }
+  .p-thumbs { display: none; }
+  .p-dots { display: block; position: absolute; left: 0; right: 0; bottom: 6px; text-align: center; font-size: 11px; letter-spacing: 2px; color: var(--ink); }
+  .p-top .p-main .w-media { padding: 10px; font-size: 13px; }
+  .p-top { gap: 12px; }
+  .p-buy { gap: 10px; }
+  .p-buy h1 { font-size: 22px; }
+  .p-chips { gap: 6px; }
+  .p-chips button { flex: 1 1 0; padding: 0 6px; min-height: 40px; }
+  .o-brand { order: 1; } .o-h1 { order: 2; } .o-price { order: 3; } .o-chips { order: 4; } .o-buy { order: 5; } .o-call { order: 6; }
+  .o-answer { order: 7; } .o-podbor { order: 8; } .o-promo { order: 9; } .o-skidki { order: 10; }
+  .o-price .w-muted { flex-basis: 100%; font-size: 13px; order: 2; }
+  .o-buy .w-btn:not(.ghost) { flex: 1 1 auto; }
 }
 </style>
 </head>
@@ -186,8 +221,11 @@ header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
     <div class="w-wrap">
       <nav class="p-crumbs" aria-label="Хлебные крошки"><a href="#">Главная</a> › <a href="#">Каталог</a> › <a href="#">Газовые котлы</a> › Настенный газовый котел HUBERT Smart AGB 10-24DY</nav>
       <div class="p-top">
-        <div>
-          <div class="w-media" data-alt="Настенный газовый котел HUBERT Smart AGB 10-24DY – фото 1">Фото 1 из 6: котёл анфас на белом фоне – клиент узнаёт модель, которую искал</div>
+        <div class="p-gal">
+          <div class="p-main">
+            <div class="w-media" data-alt="Настенный газовый котел HUBERT Smart AGB 10-24DY – фото 1">Фото 1 из 6: котёл анфас на белом фоне – клиент узнаёт модель, которую искал</div>
+            <span class="p-dots" aria-hidden="true">● ○ ○ ○ ○ ○</span>
+          </div>
           <div class="p-thumbs">
             <div class="w-media" data-alt="Настенный газовый котел HUBERT Smart AGB 10-24DY – фото 2">фото 2 из 6 товара</div>
             <div class="w-media" data-alt="Настенный газовый котел HUBERT Smart AGB 10-24DY – фото 3">фото 3 из 6 товара</div>
@@ -196,34 +234,34 @@ header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
             <div class="w-media" data-alt="Настенный газовый котел HUBERT Smart AGB 10-24DY – фото 6">фото 6 из 6 товара</div>
             <div class="w-media w-hide-m" data-alt="Котёл HUBERT Smart AGB 10-24DY на стене после монтажа">если есть: котёл на стене у клиента</div>
           </div>
-          <p class="w-note">Галерея из 6 фото товара; alt у каждого свой – «{T} – фото N» (сейчас у всех один). Седьмое место – фото монтажа, только если владелец даст своё; номер дома и лица не показывать. На телефоне – листание пальцем, точки вместо миниатюр.</p>
+          <p class="w-note">Компьютер: галерея слева, справа H1, цена, мощности чипами в одну строку и «В корзину» – всё в первом окне 1440×900. Телефон: фото 4:3 с точками поверх (листание пальцем), сразу под ним H1, цена, чипы, «В корзину» – над липкой панелью на 390×844; ответ под H1, буллеты, акция и скидки – ниже кнопки. Галерея из 6 фото товара; alt у каждого свой – «{T} – фото N» (сейчас у всех один). Седьмое место – фото монтажа, только если владелец даст своё; номер дома и лица не показывать. </p>
         </div>
-        <div class="w-stack">
-          <p class="p-brand">HUBERT</p>
-          <h1>Настенный газовый котел HUBERT Smart AGB 10-24DY</h1>
-          <p>Двухконтурный настенный котёл с закрытой камерой: отопление и горячая вода для дома 110–260 м². Мощность 10, 13, 18 или 24 кВт, коаксиальный дымоход 60/100, производство – Россия.</p>
-          <ul class="w-hide-m" style="margin:0;padding-left:20px;display:grid;gap:4px">
-            <li><b>Одна цена на 4 мощности</b> – 44 910 ₽ за 10, 13, 18 или 24 кВт</li>
-            <li><b>Отопление и горячая вода</b> – двухконтурный, дом 110–260 м²</li>
-            <li><b>Установка от 8 тыс. ₽</b> – подключим к отоплению и газопроводу</li>
-          </ul>
-          <div class="w-stack" style="gap:8px">
+        <div class="w-stack p-buy">
+          <p class="p-brand o-brand">HUBERT</p>
+          <h1 class="o-h1">Настенный газовый котел HUBERT Smart AGB 10-24DY</h1>
+          <p class="o-answer">Двухконтурный настенный котёл с закрытой камерой: отопление и горячая вода для дома 110–260 м². Мощность 10, 13, 18 или 24 кВт, коаксиальный дымоход 60/100, производство – Россия.</p>
+          <div class="p-row o-price"><span class="p-price">44 910 ₽</span><span class="w-muted">Наличие: <span class="w-ask">[запросить: наличие по каждой мощности – в наличии или под заказ и через сколько дней]</span></span></div>
+          <div class="p-power o-chips">
             <span class="w-muted">Мощность, кВт</span>
             <div class="p-chips" role="group" aria-label="Мощность, кВт">
               <button type="button" aria-pressed="false">10кВт</button><button type="button" aria-pressed="false">13кВт</button><button type="button" aria-pressed="false">18кВт</button><button type="button" aria-pressed="true">24кВт</button>
             </div>
-            <a href="#" class="w-hint">Не знаете, какая мощность нужна? Подбор котла HUBERT – 8 вопросов</a>
           </div>
-          <div class="p-row"><span class="p-price">44 910 ₽</span><span class="w-muted">Наличие: <span class="w-ask">[запросить: наличие по каждой мощности – в наличии или под заказ и через сколько дней]</span></span></div>
-          <p class="p-box"><b>Акция: котёл HUBERT Smart AGB 10-24DY со скидкой + монтаж</b><span><span class="w-ask">[запросить: действует ли акция и какая скидка; на сайте – «срок акции уточняйте у менеджера»]</span></span></p>
-          <div class="p-row">
+          <div class="p-row o-buy">
             <span class="p-qty"><span>–</span><span>1</span><span>+</span></span>
             <button type="button" class="w-btn">В корзину</button>
             <button type="button" class="w-btn ghost" aria-label="В избранное">♡</button>
+            <a class="w-btn ghost" href="#odin-klik">Заказать в один клик</a>
           </div>
-          <a class="w-btn ghost" href="#odin-klik">Заказать в один клик</a>
-          <p class="w-hint">Менеджер перезвонит и подтвердит наличие, доставку и оплату</p>
-          <p class="w-hint">Скидки: пенсионерам – 5% · юрлицам и монтажникам – 7% · при покупке от 100 тыс. – 7% · <a href="#">все акции</a></p>
+          <p class="w-hint o-call">Менеджер перезвонит и подтвердит наличие, доставку и оплату</p>
+          <a href="#" class="w-hint o-podbor">Не знаете, какая мощность нужна? Подбор котла HUBERT – 8 вопросов</a>
+          <ul class="w-hide-m o-bullets" style="margin:0;padding-left:20px;display:grid;gap:4px">
+            <li><b>Одна цена на 4 мощности</b> – 44 910 ₽ за 10, 13, 18 или 24 кВт</li>
+            <li><b>Отопление и горячая вода</b> – двухконтурный, дом 110–260 м²</li>
+            <li><b>Установка от 8 тыс. ₽</b> – подключим к отоплению и газопроводу</li>
+          </ul>
+          <p class="p-box o-promo"><b>Акция: котёл HUBERT Smart AGB 10-24DY со скидкой + монтаж</b><span><span class="w-ask">[запросить: действует ли акция и какая скидка; на сайте – «срок акции уточняйте у менеджера»]</span></span></p>
+          <p class="w-hint o-skidki">Скидки: пенсионерам – 5% · юрлицам и монтажникам – 7% · при покупке от 100 тыс. – 7% · <a href="#">все акции</a></p>
         </div>
       </div>
       <p class="w-note">Шаблон: бренд над H1 – из поля brand; ответ под H1 – из chars, если text пуст (формула в SEO-задании). Цена меняется при выборе варианта; нет варианта – «В корзину» неактивна. Подбор HUBERT и акция показываются только у товаров HUBERT; оговорка «кроме котлов из списка Мимакс» – только на карточках Мимакс. На телефоне буллеты скрыты: их смысл повторяют варианты, цена и блок 3.</p>

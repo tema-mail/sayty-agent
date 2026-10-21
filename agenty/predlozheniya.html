@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}</style>
+<title>Предложения агентам</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Макет: продолжение листа «Команда сайтов» – чертёж студии; цепочка как маршрутный лист, знания – карточки по агентам. */
+:root {
+  --paper: #f5f6f8;
+  --sheet: #ffffff;
+  --ink: #16203a;
+  --muted: #5d667b;
+  --line: #d9dde6;
+  --teal: #0b7a83;
+  --teal-soft: #e2f2f3;
+  --amber: #b5660a;
+  --amber-soft: #fbefdf;
+  --red: #b3261e;
+  --red-soft: #fbe9e8;
+  --violet: #5b4bb7;
+  --violet-soft: #ece9fa;
+  --display: 'Unbounded', 'Arial Black', system-ui, sans-serif;
+  --body: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0f1424; --sheet: #161d31; --ink: #e8ecf5; --muted: #9aa3b8; --line: #2a3350;
+  --teal: #4cc3cc; --teal-soft: #12343a; --amber: #f0a34a; --amber-soft: #3a2a14; --red: #f08a82; --red-soft: #3c1d1b;
+  --violet: #a99cf5; --violet-soft: #26214a; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #0f1424; --sheet: #161d31; --ink: #e8ecf5; --muted: #9aa3b8; --line: #2a3350;
+  --teal: #4cc3cc; --teal-soft: #12343a; --amber: #f0a34a; --amber-soft: #3a2a14; --red: #f08a82; --red-soft: #3c1d1b;
+  --violet: #a99cf5; --violet-soft: #26214a; color-scheme: dark; }
+
+body { background: var(--paper); color: var(--ink); font: 400 16px/1.6 var(--body); }
+.wrap { max-width: 1060px; margin: 0 auto; padding-block: 40px 72px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 64px; }
+h1, h2, h3 { margin: 0; line-height: 1.15; text-wrap: balance; }
+h1 { font: 700 clamp(28px, 5vw, 48px)/1.1 var(--display); letter-spacing: -0.01em; }
+h2 { font: 700 clamp(21px, 3vw, 28px)/1.2 var(--display); }
+h3 { font: 700 17px/1.3 var(--body); }
+p { margin: 0; }
+ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.eyebrow { font: 600 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--teal); }
+.muted { color: var(--muted); }
+code, .mono { font-family: var(--mono); font-size: .86em; }
+section { display: grid; gap: 22px; }
+.prose { max-width: 68ch; display: grid; gap: 12px; }
+.lead { font-size: 18px; max-width: 64ch; }
+.hero { display: grid; gap: 18px; }
+.quote { border-left: 3px solid var(--amber); padding: 4px 0 4px 18px; color: var(--muted); font-style: italic; max-width: 72ch; }
+
+.verdict { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.verdict > div { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
+.verdict b { font: 700 13px/1.3 var(--mono); color: var(--teal); text-transform: uppercase; letter-spacing: .06em; }
+
+/* маршрутный лист цепочки */
+.route { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: r; }
+.route > li { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 14px; position: relative; padding-bottom: 14px; }
+.route > li::before { counter-increment: r; content: counter(r); width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font: 700 17px/1 var(--display); background: var(--sheet); border: 2px solid var(--teal); color: var(--teal); position: relative; z-index: 1; }
+.route > li:not(:last-child)::after { content: ""; position: absolute; left: 22px; top: 46px; bottom: 0; width: 2px; background: var(--line); }
+.route .box { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 6px; min-width: 0; }
+.route .top { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+.route .who { font: 600 12.5px/1.4 var(--mono); color: var(--muted); }
+.route .out { font: 400 13px/1.5 var(--mono); color: var(--muted); }
+.route li.opt::before { border-style: dashed; }
+.route li.gate .box { border-color: var(--amber); background: var(--amber-soft); }
+.pill { font: 700 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; white-space: nowrap; }
+.p-new { background: var(--violet-soft); color: var(--violet); }
+.p-has { background: var(--teal-soft); color: var(--teal); }
+.p-up { background: var(--amber-soft); color: var(--amber); }
+.p-gate { background: var(--amber); color: var(--sheet); }
+.fork { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fork > div { border: 1px dashed var(--line); border-radius: 10px; padding: 10px 12px; font-size: 14.5px; min-width: 0; }
+
+/* блоки MASTER */
+.levels { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.levels > div { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.levels .code { font: 700 20px/1 var(--display); color: var(--teal); }
+.levels .n { font: 600 12px/1.3 var(--mono); color: var(--muted); }
+.stages { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.stages span { font: 600 12.5px/1 var(--mono); padding: 8px 10px; border-radius: 8px; background: var(--teal-soft); color: var(--teal); }
+.stages i { color: var(--muted); font-style: normal; }
+.formula { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; font: 400 14px/1.7 var(--mono); overflow-x: auto; white-space: pre; }
+
+/* карточки по агентам */
+.agents { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.agent { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.agent header { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.agent li { font-size: 14.5px; }
+.src { font: 600 10.5px/1 var(--mono); padding: 3px 6px; border-radius: 5px; background: var(--paper); color: var(--muted); border: 1px solid var(--line); margin-left: 4px; white-space: nowrap; }
+
+table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 600 11.5px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.sheet { background: var(--sheet); border: 1px solid var(--line); border-radius: 14px; padding: 6px 8px; }
+.scroll { overflow-x: auto; }
+td .mono { white-space: nowrap; }
+
+.loop { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.loop > div { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 4px; align-content: start; min-width: 0; font-size: 14px; }
+.loop b { font-size: 14.5px; }
+.loop .k { font: 600 11px/1.3 var(--mono); color: var(--muted); }
+
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.note { padding: 14px 16px; border-radius: 12px; background: var(--amber-soft); display: grid; gap: 6px; }
+.note b { color: var(--amber); }
+.bad { padding: 14px 16px; border-radius: 12px; background: var(--red-soft); display: grid; gap: 8px; min-width: 0; }
+.bad b { color: var(--red); }
+.q { list-style: none; padding: 0; display: grid; gap: 10px; counter-reset: q; }
+.q li { background: var(--sheet); border: 1px solid var(--amber); border-radius: 12px; padding: 14px 16px; display: grid; gap: 4px; }
+
+@media (max-width: 820px) {
+  .verdict, .agents, .two, .fork { grid-template-columns: 1fr; }
+  .levels, .loop { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wrap { gap: 48px; padding-block: 24px 56px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap"><div class="prose" style="max-width:none;display:grid;gap:14px">
+<p class="eyebrow"><a href="../">← САЙТЫ АГЕНТ</a></p>
+<h1>Предложения агентам из разборов видео – что внесено и что нашло на газ-маге (21.10.2026)</h1>
+<p>Источник: 12 сводок разборов видео (10 у маркетолога, 2 у продавца). Нашёл около 170 предложений: 115 – агентам site-*, 35 – маркетологу, 12 – продавцу, 9 – прочим (site-map, админка, метрика, стандарт, блог). После склейки дублей и отсева внесено <b>41 пункт</b> в 6 агентов и комплект прототипа. Остальное – в разделе «Не взял».</p>
+<p>Правки пока <b>на пробу</b>: коммита нет, копии «до» лежат в <code>agenty-do-pravki/</code> (см. «Как откатить»). Живой gaz-mag.ru проверялся только чтением: любой запрос, кроме GET, Playwright обрывал. Перехвачено 5 попыток отправки заявки – ни одна не ушла. Код ~/Sites/gaz-mag не менялся.</p>
+<p>Пометки: <b>FAIL</b> – надо чинить; <b>внимание</b> – решить владельцу; <b>PASS</b> – в порядке; <b>не проверено</b> – нет данных.</p>
+<h2>Что добавлено и что нашло</h2>
+<h3>site-forms – формы и кнопки</h3>
+<div class="sheet scroll"><table><thead><tr><th>Что добавлено</th><th>Зачем (какая была проблема)</th><th>Что нашло на газ-маге</th><th>Откуда</th></tr></thead><tbody><tr><td>Маска телефона: набор с «8», с «+7» и вставка целиком, цифры в поле и в заявке сверяются</td><td>Маску проверяли одним вводом, и ошибка в номере проходила незамеченной</td><td><b>FAIL.</b> Если набрать «+79131234567», в поле будет «+7 (791) 312-34-567», а в заявку уйдёт «+7 (791) 312-34-56» – чужой номер. С «8», с «9» и при вставке номер правильный. Та же маска стоит в оформлении заказа в корзине</td><td>Михайлов, «Трафик есть, а заявок нет»</td></tr><tr><td>Нет других заранее отмеченных галочек (подписка, рассылка)</td><td>Галочка подписки, отмеченная заранее, нарушает закон</td><td><b>PASS</b></td><td>Корнеев v20, Богданова v21</td></tr><tr><td>Кнопка называет результат, рядом – что будет дальше</td><td>«Отправить» не говорит, что человек получит</td><td><b>внимание.</b> Кнопки «Отправить» (форма внизу каждой страницы) и «Оставить заявку». Подписи под ними есть («менеджер перезвонит…»), но без срока</td><td>Морозова v14/v18, Михалицын «Формы»</td></tr><tr><td>Мягкий канал у формы: мессенджер или выбор «позвонить / написать»</td><td>Кто не хочет звонков, уходит без заявки</td><td><b>внимание.</b> У форм мессенджеров нет: Telegram, WhatsApp и VK есть только в шапке</td><td>Стрижак v02/v16/v22, Михайлов</td></tr><tr><td>Состав заявки: страница, откуда пришла, и utm</td><td>Менеджер не понимает, откуда заявка и по какой рекламе</td><td><b>PASS.</b> В перехваченной заявке есть страница и источник «Реклама: proverka-agentov»</td><td>Михалицын «Формы», Михайлов</td></tr><tr><td>Резервный канал: заявка пишется минимум в два места</td><td>Если уведомление одно и оно сломалось, заявки теряются молча</td><td><b>FAIL.</b> Telegram не настроен (<code>/api/health</code>: telegram false). Заявки ложатся только в файл на сервере, об их приходе никто не узнает. Вопрос известен: нужен бот от владельца</td><td>Сырицо v09, Файзуллин v10</td></tr><tr><td>Цель «заявка» ставится по ответу сервера, а не по визиту «Спасибо»; клики по телефону и мессенджерам – тоже цели</td><td>Визиты «Спасибо» считают и обновления страницы, цифры заявок врут</td><td><b>FAIL.</b> Метрики на сайте нет вовсе, считать заявки нечем</td><td>Корнеев v20, Файзуллин v10, Михалицын</td></tr><tr><td>После отправки: кто и когда свяжется, срочный контакт, что подготовить</td><td>Голое «Спасибо» тратит момент, когда доверие самое высокое</td><td><b>FAIL.</b> На странице «Спасибо» только «в ближайшее время с вами свяжется менеджер» и «На главную / В каталог». Срока нет, срочного контакта нет</td><td>Корнеев v20, Чуранов v08, Стрижак, Михалицын</td></tr><tr><td>Промокод: видно, куда вводить, какая скидка и до какого числа</td><td>Промокод без правил – признак слабого оффера</td><td><b>FAIL.</b> «Стабилизатор в подарок по промокоду GAZMAG» висит на главной, в акциях и на /kotly-hubert. Поля для промокода нет ни в корзине, ни в формах, срока нет</td><td>Богатей v11</td></tr></tbody></table></div>
+<h3>site-tech – техника</h3>
+<div class="sheet scroll"><table><thead><tr><th>Что добавлено</th><th>Зачем</th><th>Что нашло на газ-маге</th><th>Откуда</th></tr></thead><tbody><tr><td>Страница 404 не тупик: поиск или каталог и контакт</td><td>Человек со старой ссылки уходит с сайта</td><td><b>PASS.</b> Код 404, ссылки «На главную» и «В каталог», телефон и поиск в шапке</td><td>Михалицын «18 ошибок»</td></tr><tr><td>sitemap: есть честный <code>lastmod</code></td><td>Без даты или с датой сборки у всех адресов поиск не видит, что обновилось</td><td><b>внимание.</b> В sitemap 79 адресов, <code>lastmod</code> нет ни у одного</td><td>Михайлов, кейс GEO</td></tr><tr><td>Меню и разделы каталога есть в HTML без скриптов</td><td>Меню, которое появляется только по клику, поиск не видит</td><td><b>PASS.</b> Все 6 разделов есть в HTML. ИНФО: каждая ссылка повторяется 3 раза (шапка, мобильное меню, подвал)</td><td>Михалицын «SEO-меню»</td></tr><tr><td>Переход по рекламной ссылке с utm</td><td>Дорогой клик по рекламе, а сайт не открылся</td><td><b>PASS.</b> 4 страницы с utm и yclid отдают 200, параметры сохраняются, ошибок консоли нет</td><td>Богданова v21</td></tr><tr><td>Видео, карты и виджеты грузятся по нажатию, список сторонних доменов</td><td>Тяжёлые вставки тормозят телефон</td><td><b>PASS.</b> До нажатия нет ни одного iframe. ИНФО: единственный сторонний домен до согласия – Google Fonts (IP посетителя уходит в Google; вопрос для юр-проверки)</td><td>Стрижак v16, Михалицын</td></tr><tr><td>Поля ввода не меньше 16 px</td><td>iPhone приближает страницу при касании мелкого поля</td><td><b>FAIL.</b> Имя и телефон во всех формах – 15 px, поиск и цена в фильтре каталога – 14 px</td><td>Стрижак v16</td></tr><tr><td>Раскрытие не только по наведению</td><td>На телефоне наведения нет: подсказка не откроется</td><td><b>PASS.</b> Выпадающее меню шапки открывается и по фокусу. Наведение на карточке только увеличивает фото</td><td>Богданова v03, Михалицын</td></tr><tr><td>Окна в первые 10 с на телефоне</td><td>Окно поверх текста раздражает и мешает поиску</td><td><b>PASS</b> (других окон нет). ИНФО: окно cookie с затемнением закрывает весь экран 390 px – по закону так можно</td><td>Корнеев v13, Стрижак v16</td></tr><tr><td>Настройки счётчика: вебвизор, карта кликов, ссылки, точный отказ</td><td>Без них после запуска нечем смотреть, что читают и куда кликают</td><td><b>FAIL.</b> Счётчика нет (см. site-forms)</td><td>Гринёв v06, Сырицо v09, Файзуллин v10</td></tr></tbody></table></div>
+<h3>site-seo – SEO страниц</h3>
+<div class="sheet scroll"><table><thead><tr><th>Что добавлено</th><th>Зачем</th><th>Что нашло на газ-маге</th><th>Откуда</th></tr></thead><tbody><tr><td>Скрытое (FAQ, вкладки, подсказки) – в HTML</td><td>То, что подгружается по клику, поиск и ИИ-ответы не видят</td><td><b>PASS.</b> 16 ответов FAQ на 3 страницах лежат в HTML</td><td>Богданова v03, Морозова v18, Парников v17</td></tr><tr><td>Серия страниц по шаблону: текст не совпадает больше чем на 80%</td><td>Страницы, отличающиеся одним словом, поиск склеивает</td><td><b>PASS.</b> Две услуги совпадают на 4%. Среди 53 товаров максимум 80% (герметик синий и зелёный), 79% у двух Federica Bugatti – на границе</td><td>Чернецов v04</td></tr><tr><td>Копии посадочных – с noindex или canonical на основную</td><td>Дубли под A/B-тесты и сегменты спорят друг с другом в поиске</td><td><b>PASS.</b> /kotly-hubert и акция HUBERT совпадают на 1%, это разные страницы</td><td>Тарарова v01, Белан v15, Стрижак v22</td></tr><tr><td>Разметка: каждый тип один раз, цена = видимой, sameAs на свои профили</td><td>Двойная или неверная разметка – предупреждения в Вебмастере</td><td><b>PASS</b> по типам. <b>внимание:</b> у 2 карточек (котёл Очаг 10-24E, бойлер Federica Bugatti 150 л) в разметке «от 47 000 / 53 000», а на странице цена первого варианта 52 180 / 61 800 без «от»; в каталоге же «от 47 000». <b>внимание:</b> у Store нет sameAs, хотя на сайте есть ссылки на VK и Telegram</td><td>Михалицын «Микроразметка» и «Сайт + соцсети»</td></tr><tr><td>Статьи: автор и даты в разметке = видимым</td><td>Без автора и дат статье меньше доверяют поиск и ИИ</td><td><b>не проверено</b> – статей нет</td><td>Михайлов, кейс GEO</td></tr><tr><td>Каннибализация по съёмам позиций</td><td>Две страницы спорят за один запрос, обе проседают</td><td><b>не проверено</b> – съёмов позиций нет</td><td>Михайлов, «Каннибализация»</td></tr><tr><td>Посадочная под рекламу: запрос группы в H1</td><td>Объявление про одно, страница про другое</td><td><b>не проверено</b> – рекламных групп нет</td><td>Гринёв v06, Файзуллин v10</td></tr><tr><td>В «Запрещено»: уникализация случайными блоками и скрытыми меню</td><td>Приём продают как SEO, а по правилам поиска это нарушение</td><td>Правило, проверки нет</td><td>Михалицын «Уникализация»</td></tr></tbody></table></div>
+<h3>site-shop – магазин</h3>
+<div class="sheet scroll"><table><thead><tr><th>Что добавлено</th><th>Зачем</th><th>Что нашло на газ-маге</th><th>Откуда</th></tr></thead><tbody><tr><td>Метки «Хит / Новинка / Скидка» и старая цена – из данных, у скидки дата окончания</td><td>Вечная «скидка» и метка без основания нарушают закон о рекламе</td><td><b>PASS.</b> Меток нет, старых цен в 53 товарах нет</td><td>Михалицын «Вкладки», «Популярные»; Михайлов</td></tr><tr><td>Вставка в листинге не оставляет дыр в ряду</td><td>Подсказка посреди сетки оставляла пустые клетки</td><td><b>PASS</b> на живом сайте – вставки в листинге нет. В прототипе вставка есть, и новая проверка её поймала (см. комплект)</td><td>Михалицын «Хитрый приём»</td></tr><tr><td>«В корзину» на 390 и кнопка оформления без прокрутки</td><td>Покупатель не находит, где оформить заказ</td><td><b>PASS:</b> после нажатия счётчик у значка корзины меняется, окно не перекрывает экран. <b>FAIL:</b> уже с 2 товарами кнопка «Оформить заказ» ниже экрана (низ 1003 px при окне 844). Видно только заголовок «Оформление заказа»</td><td>Михайлов, «Трафик есть, а заявок нет»</td></tr><tr><td>«Нет в наличии» – 200 и аналоги, не 404</td><td>Удалённый товар – тупик и потерянная страница</td><td><b>не проверено</b> – остатков в данных нет</td><td>Михайлов</td></tr><tr><td>«Похожие» стабильны и из той же категории</td><td>Случайный набор размывает страницу</td><td><b>PASS.</b> «Смотрите также»: 6 котлов, при двух загрузках список одинаковый</td><td>Михалицын «Уникализация»</td></tr><tr><td>Атрибуты фильтров заполнены у всех товаров; варианты – одной карточкой</td><td>Товар без атрибута выпадает из фильтра</td><td><b>PASS</b> по атрибутам (данные репозитория, 53 товара = 53 на сайте). <b>внимание:</b> Federica Bugatti 12-32 Varme заведён двумя карточками – обычная и «Wi-Fi чёрный»</td><td>Михалицын «18 ошибок», «Уникализация»</td></tr><tr><td>В карточке номер сертификата или декларации, если товар подлежит сертификации</td><td>Документ у места решения снимает страх подделки</td><td><b>внимание.</b> Ни в одной из 53 карточек нет номера сертификата или декларации. Газовое оборудование сертифицируется обязательно – вопрос владельцу</td><td>Михалицын «Сертификаты»</td></tr><tr><td>Видео в карточке – по нажатию, не YouTube</td><td>Тяжёлый плеер тормозит, YouTube в РФ замедлен</td><td><b>не проверено</b> – видео нет</td><td>Михалицын «Видео в магазине»</td></tr></tbody></table></div>
+<h3>site-landing – лендинги и акции</h3>
+<div class="sheet scroll"><table><thead><tr><th>Что добавлено</th><th>Зачем</th><th>Что нашло на газ-маге</th><th>Откуда</th></tr></thead><tbody><tr><td>Призывы по 4 признакам слабого оффера</td><td>«Воспользуйтесь акцией» не говорит, что человек получит</td><td><b>внимание.</b> На 5 страницах акций кнопка «Воспользоваться акцией» и «Отправить». Хорошо: «Получить расчёт + закрепить акцию» на акции HUBERT</td><td>Богатей v11</td></tr><tr><td>Сроки акций не в прошлом; срочность только с причиной</td><td>Прошедший срок при живой акции – недостоверная реклама</td><td><b>FAIL.</b> /akcii/kotel-hubert-s-montazhom: «Акция до 31 января» без года, сегодня 21.10.2026. Вопрос у владельца открыт с 14.10. Фраз «только сегодня» и таймеров нет</td><td>Богатей v11</td></tr><tr><td>Штамп ниши: H1 не встречается у 2+ конкурентов</td><td>Фраза, как у всех, не отличает</td><td><b>не проверено</b> – нет матрицы конкурентов</td><td>Богатей v11</td></tr></tbody></table></div>
+<h3>site-prototype и комплект прототипа (proverka.mjs, kit.css, shablon.html)</h3>
+<div class="sheet scroll"><table><thead><tr><th>Что добавлено</th><th>Зачем</th><th>Что нашло в прототипах газ-мага</th><th>Откуда</th></tr></thead><tbody><tr><td>Состояние формы «после отправки» (<code>.w-success</code>) и строка «что будет после нажатия» (<code>.w-hint</code>) – FAIL, если нет</td><td>Прототип не показывал, что видит человек после заявки</td><td><b>FAIL в 5 прототипах из 6</b> (главная, карточка, категория, контакты, услуга): <code>.w-success</code> нет. Прототипы сделаны до этого правила. <code>.w-hint</code> есть везде</td><td>Корнеев v20, Чуранов v08</td></tr><tr><td>Плашка призыва между блоками (<code>.w-cta-strip</code>) и ИНФО «больше 3 блоков подряд без кнопки»</td><td>Кнопка только в начале и в конце – человек ищет, куда нажать</td><td>Нигде нет больше 3 блоков подряд без кнопки</td><td>Богатей v19, Шишкина v07</td></tr><tr><td>ИНФО «блок выше двух окон на 390 px»</td><td>Длинный блок на телефоне не дочитывают</td><td>hab: блоки 2 и 3 (1811 и 2055 px), карточка: блок 3, категория: блок 3 (2488 px) – сетки товаров</td><td>Стрижак v16</td></tr><tr><td>Вставка в сетке не рвёт ряд – FAIL</td><td>Подсказка после неполного ряда оставляет пустые клетки</td><td><b>FAIL в kategoriya.html:</b> на 1440 подсказка «Не знаете, какой мощности нужен котёл?» стоит после ряда из 1 карточки из 3, две клетки пустые. Это тот самый баг из сводки M2; на 390 ряд полный</td><td>Михалицын «Хитрый приём»</td></tr></tbody></table></div>
+<p>Шаблон после правок: те же 2 FAIL, что и до них. Это заглушки SEO-задания, так задумано. Новые элементы шаблона проходят.</p>
+<h2>Главное по газ-магу (что чинить, по важности)</h2>
+<ol><li>Маска телефона ломает номер, если набирать с «+7» – заявка придёт с чужим номером (формы и корзина, <code>src/lib/phone.ts</code>).</li><li>Telegram не подключён – о заявках никто не узнает.</li><li>Метрики нет – не посчитать ни заявки, ни поведение.</li><li>Акция HUBERT «до 31 января» и промокод GAZMAG, который некуда ввести.</li><li>Поля 15 px – iPhone приближает страницу; кнопка оформления в корзине ниже экрана.</li><li>«Спасибо» без срока и срочного контакта.</li></ol>
+<h2>Не взял и почему</h2>
+<p><b>Уже есть в агентах (дубли):</b></p>
+<ul><li>«Спасибо» – noindex и вне sitemap: в site-tech это уже пункты 1 и 5.</li><li>Галочка и неактивная кнопка у мини-форм: уже пункт 3 site-forms и проверка прототипа.</li><li>Стоп-лист H2-рубрик («Отзывы», «Почему мы»): уже в proverka.mjs с 19.10.</li><li>canonical на себя у серии услуг: пункт 2 site-tech.</li><li>Сжатие картинок документов и галерей: пункт 8 site-tech.</li><li>Раскрытие по нажатию в прототипе: комплект и так на <code>details</code>.</li><li>Пометка «какой вопрос снимает блок»: есть <code>data-question</code> / <code>data-proof</code>.</li></ul>
+<p><b>Расплывчато или вкусовое (нет PASS/FAIL):</b></p>
+<ul><li>«Заголовки блоков с выводом, но с ключом в начале» – правило письма, не проверка.</li><li>«Отзывы о {категория}» как заголовок – спорит со стоп-листом рубрик.</li><li>Ритм «не больше двух блоков одного вида подряд» – в комплекте нет признака «вид блока», проверка была бы на глаз.</li><li>Пометки в прототипе «пункт про продукт или про компанию», «якорь на 1–2 экране», «то же в мессенджере» под кнопкой, «призыв = текст кнопки».</li><li>«Не нашли вопрос?» у FAQ – один спикер, решение маркетолога.</li><li>Содержание прототипа: подписи источника у подборок, поле вставки, место под видео, поля карточки, B2B-строка, документы, цифры, отзывы, соцсети. Это решения плана блоков, а не проверка комплекта.</li><li>«Ряд из 8 миниатюр на 390», «без H2 на плитках главной» (один спикер), nofollow на ссылках отзывов (сказано «можно»), «подборки – не обещание позиций».</li></ul>
+<p><b>Нужны данные, которых нет:</b></p>
+<ul><li>Прогноз окупаемости SEO вилкой: нужна маржа клиента. Правило «спрос не замерен» уже есть.</li><li>Конкуренты по стабильности за период: метод для задания, не проверка.</li><li>Яндекс Бизнес, просьба об отзыве после заказа, рейтинг магазина в выдаче: это вне сайта, без доступа к кабинету не проверить – вопрос владельцу.</li><li>«Старая цена только при реальной скидке»: по сайту не проверить. Взял проверяемую часть – дату окончания.</li><li>«Наличие числом только при синхронизации»: остатков в данных нет.</li><li>Вопросы из форм раз в месяц – в семантику: это процесс, а не проверка.</li></ul>
+<p><b>Нет PASS/FAIL, отложено:</b></p>
+<ul><li>Атрибуты <code>data-uslovie</code> и <code>data-kriteriy</code> в прототипе: дают только ИНФО. Внести вместе с первой задачей «шаблон серии услуг».</li><li>«Работает ли лендинг, видно через 2–4 недели»: это напоминание, место ему в отчёте маркетолога.</li></ul>
+<p>**Другой адресат (вне заказа: правились только агенты site-* и комплект прототипа):**</p>
+<ul><li>marketolog – 35 пунктов про бриф и план блоков: сезонный спад, местные бесплатные альтернативы, условия сделки, 95/5, B2B, документы, «а старый куда?». Вносить отдельным шагом в SKILL.md маркетолога.</li><li>prodavec – 12 пунктов про скрипты, КП и CRM.</li><li>site-map – 2: колонка «в главном меню» и две формы имени раздела.</li><li>метрика-для-админки – 3, admin-builder – 2, standarty.md – 1 (через site-mentor), site-lead/blog.md – 1.</li></ul>
+<h2>Как откатить</h2>
+<p>Копии «до правки» лежат в <code>/private/tmp/claude-502/-Users-artemgalimov/f516e198-e32c-4981-9d10-f40bb6ded92a/scratchpad/agenty-do-pravki/</code> (site-forms, site-tech, site-seo, site-shop, site-landing, site-prototype и <code>prototip/</code> с proverka.mjs, kit.css, shablon.html).</p>
+<p>Откатить всё одной командой:</p>
+<div class="sheet scroll"><pre class="tree">D=/private/tmp/claude-502/-Users-artemgalimov/f516e198-e32c-4981-9d10-f40bb6ded92a/scratchpad/agenty-do-pravki
+cp $D/site-*.md ~/.claude/agents/ &amp;&amp; cp $D/prototip/* ~/.claude/skills/marketolog/prototip/</pre></div>
+<p>Откатить один агент – скопировать только его файл. Папка временная: если решишь «не внедрять», откатывать лучше сразу.</p>
+<p>Сырые данные прогона: <code>live/live-result.json</code>, <code>live/live-result2.json</code>, <code>live/analyze-result.json</code>, снимки корзины <code>live/korzina-otkryta-390.png</code>. Все пути – в той же папке scratchpad.</p>
+</div></div>
+</body>
+</html>

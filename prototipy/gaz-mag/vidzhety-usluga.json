@@ -1,0 +1,112 @@
+{
+  "_": "Прототип: demo – без контрольной группы, память до закрытия вкладки; consent:false – окна cookie в прототипе нет; endpoint demo: – заявки никуда не уходят.",
+  "demo": true,
+  "consent": false,
+  "endpoint": "demo:",
+  "tz": 7,
+  "agreement": "https://gaz-mag.ru/soglasie-na-obrabotku-dannyh",
+  "widgets": [
+    {
+      "id": "svyaz",
+      "enabled": true,
+      "type": "contacts",
+      "title": "Связь: боковая панель / нижняя панель",
+      "group": "contact",
+      "trigger": {
+        "on": "load"
+      },
+      "content": {
+        "layout": "side",
+        "phone": "+79134584567",
+        "phoneText": "8 (913) 458-45-67",
+        "wa": "https://wa.me/79134584567",
+        "tg": "https://t.me/+79134584567",
+        "email": "Gazmag.bolotnoe@yandex.ru",
+        "buttons": [
+          {
+            "text": "Записаться на монтаж",
+            "open": "zapis",
+            "kind": "main"
+          },
+          {
+            "text": "Позвонить",
+            "href": "tel:+79134584567",
+            "kind": "alt"
+          }
+        ],
+        "callback": "zvonok"
+      }
+    },
+    {
+      "id": "montazh-uhod",
+      "enabled": true,
+      "type": "modal",
+      "title": "Окно на уходе: посчитаем монтаж",
+      "group": "lead",
+      "trigger": {
+        "on": "exit"
+      },
+      "target": {
+        "device": "desktop"
+      },
+      "priority": 5,
+      "content": {
+        "title": "Перезвоним и посчитаем монтаж",
+        "text": "Монтаж и подключение котла – от 8 000 ₽, без ожидания очереди. Оставьте телефон – менеджер назовёт точную цену для вашего дома.",
+        "done": "Заявка принята",
+        "doneText": "Менеджер перезвонит и назовёт цену монтажа для вашего дома."
+      },
+      "form": {
+        "fields": [
+          "phone"
+        ],
+        "button": "Посчитать монтаж"
+      }
+    },
+    {
+      "id": "zapis",
+      "enabled": true,
+      "type": "callback",
+      "title": "Записаться на монтаж",
+      "trigger": {
+        "on": "click"
+      },
+      "content": {
+        "title": "Записаться на монтаж котла",
+        "soon": "Монтаж и подключение котла – от 8 000 ₽. Менеджер перезвонит, уточнит котёл и дом и назовёт точную цену.",
+        "later": "Монтаж и подключение котла – от 8 000 ₽. Менеджер перезвонит, уточнит котёл и дом и назовёт точную цену.",
+        "done": "Заявка на монтаж принята",
+        "doneText": "Менеджер перезвонит, уточнит котёл и дом и назовёт точную цену монтажа."
+      },
+      "form": {
+        "fields": [
+          "name",
+          "phone"
+        ],
+        "button": "Записаться"
+      }
+    },
+    {
+      "id": "zvonok",
+      "enabled": true,
+      "type": "callback",
+      "title": "Обратный звонок",
+      "trigger": {
+        "on": "click"
+      },
+      "content": {
+        "title": "Перезвоним вам",
+        "soon": "Менеджер перезвонит в рабочее время магазина.",
+        "later": "Менеджер перезвонит в рабочее время магазина.",
+        "done": "Заявка принята"
+      },
+      "form": {
+        "fields": [
+          "name",
+          "phone"
+        ],
+        "button": "Перезвоните мне"
+      }
+    }
+  ]
+}

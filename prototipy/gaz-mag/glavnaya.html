@@ -147,6 +147,13 @@ body.show-seo .w-seo { display: block; }
   .w-bar .w-wrap { padding-block: 4px; gap: 4px 10px; font-size: 11px; }
 }
 </style>
+<!-- Виджеты: модуль tema-mail/vidzhety (окна, ярлычок, боковая и нижняя панели). Настройки страницы – vidzhety-<страница>.json рядом. -->
+<link rel="stylesheet" href="https://tema-mail.github.io/vidzhety/vidzhety.css">
+<style>
+/* Виджеты в прототипе – серые, как весь прототип. Модуль показал свою нижнюю панель – запасная панель прототипа прячется. */
+:root { --w-accent: #141414; --w-accent-2: #5f5f5f; --w-radius: 6px; --w-wa: #3d3d3d; --w-tg: #3d3d3d; --w-max: #3d3d3d; }
+body.vz-has-sticky .w-sticky { display: none !important; }
+</style>
 </head>
 <body>
 <!-- Прототип главной gaz-mag.ru. Источник текста: docs/marketing/2026-10-19-glavnaya.md («Тексты блоков») и seo-glavnaya.md (H1, H2). -->
@@ -174,7 +181,7 @@ body.show-seo .w-seo { display: block; }
     <span class="w-actions"><a class="w-btn ghost" href="https://t.me/+79134584567">Telegram</a><a class="w-btn ghost" href="https://wa.me/79134584567">WhatsApp</a><a class="w-btn" href="tel:+79134584567">Позвонить</a></span>
   </div>
   <nav class="w-wrap w-nav"><a href="#katalog">Каталог</a><a href="#">Hubert</a><a href="#akcii">Акции</a><a href="#montazh">Услуги</a><a href="#kontakty">Контакты</a><a href="#">О компании</a></nav>
-  <div class="w-wrap"><p class="w-note">На телефоне шапка – логотип, дескриптор в одну строку, иконка телефона и бургер; Telegram и WhatsApp уходят в липкую панель снизу.</p></div>
+  <div class="w-wrap"><p class="w-note">На телефоне шапка – логотип, дескриптор в одну строку, иконка телефона и бургер; Telegram и WhatsApp – в меню: липкая панель снизу занята главным действием («Подобрать котёл») и звонком.</p></div>
 </header>
 
 <main>
@@ -361,7 +368,8 @@ body.show-seo .w-seo { display: block; }
   <span>Gazmag.bolotnoe@yandex.ru · <a href="#">Реквизиты</a> · <a href="#">Политика обработки персональных данных</a> · <a href="#">Согласие на обработку персональных данных</a> · <a href="#">Политика cookie</a> · <a href="#">Договор оферты</a></span>
 </div></footer>
 
-<div class="w-sticky"><a class="w-btn" href="tel:+79134584567">Позвонить</a><a class="w-btn ghost" href="https://wa.me/79134584567">Написать</a></div>
+<div class="w-wrap"><p class="w-note">Виджеты страницы: ярлычок «Подобрать котёл за минуту» (квиз из 3 вопросов, с 12-й секунды); окно через 20 с «−7% при покупке от 100 000 ₽» с полем телефона (телефон, прямой заход – шторка не выше 30% экрана, вход с поиска – плашка сверху); окно на уходе (только компьютер) «Стабилизатор в подарок к котлу HUBERT» по промокоду GAZMAG; боковая панель связи справа (телефон, WhatsApp, Telegram, почта, «Перезвоните мне»); на телефоне снизу «Подобрать котёл» + «Позвонить». Почему так: главная – вход для тех, кто ещё выбирает; подбор снимает вопрос «какой котёл мне нужен», скидка от 100 000 ₽ – повод оставить телефон сейчас, подарок на уходе – вторая попытка не потерять человека, панель – для тех, кто хочет спросить. Срок акций: <span class="w-ask">[запросить: срок акции]</span>. Правила модуля: первые 10 с ничего не всплывает; не больше двух окон за визит – первое любое, второе только на уходе; после заявки окна молчат; на телефоне при входе с поиска окно само не перекрывает страницу – становится плашкой. В прототипе заявки из окон никуда не уходят (демо). Проверить телефон с поиска: добавить к адресу ?w-device=phone&amp;w-ref=search.</p></div>
+<div class="w-sticky"><a class="w-btn" href="#podbor">Подобрать котёл</a><a class="w-btn ghost" href="tel:+79134584567">Позвонить</a></div>
 
 <script>
 document.querySelectorAll('.w-block').forEach(function (b) {
@@ -388,5 +396,7 @@ document.getElementById('t-seo').addEventListener('change', function (e) { docum
     '</ul></td></tr><tr><td>разметка</td><td>' + esc(d.schema || '–') + '</td></tr><tr><td>ссылки</td><td><ul>' + (d.links || []).map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul></td></tr></table>';
 })();
 </script>
+<div data-vidzhety data-src="vidzhety-glavnaya.json"></div>
+<script src="https://tema-mail.github.io/vidzhety/vidzhety.js"></script>
 </body>
 </html>

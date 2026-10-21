@@ -143,6 +143,13 @@ header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
   .w-bar .w-wrap { padding-block: 4px; gap: 4px 10px; font-size: 11px; }
 }
 </style>
+<!-- Виджеты: модуль tema-mail/vidzhety (окна, ярлычок, боковая и нижняя панели). Настройки страницы – vidzhety-<страница>.json рядом. -->
+<link rel="stylesheet" href="https://tema-mail.github.io/vidzhety/vidzhety.css">
+<style>
+/* Виджеты в прототипе – серые, как весь прототип. Модуль показал свою нижнюю панель – запасная панель прототипа прячется. */
+:root { --w-accent: #141414; --w-accent-2: #5f5f5f; --w-radius: 6px; --w-wa: #3d3d3d; --w-tg: #3d3d3d; --w-max: #3d3d3d; }
+body.vz-has-sticky .w-sticky { display: none !important; }
+</style>
 </head>
 <body>
 <!-- Прототип услуги /uslugi/ustanovka-gazovogo-kotla (шаблон для 2–5 услуг). Источник текста: docs/marketing/2026-10-19-usluga.md («Тексты блоков») и seo-usluga.md (H1, H2, title, description, FAQ). -->
@@ -171,7 +178,7 @@ header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
     <span class="w-actions"><a class="w-btn ghost w-hide-m" href="https://t.me/+79134584567">Telegram</a><a class="w-btn ghost w-hide-m" href="https://wa.me/79134584567">WhatsApp</a><a class="w-btn" href="tel:+79134584567">Позвонить</a></span>
   </div>
   <nav class="w-wrap w-nav"><a href="#">Каталог</a><a href="#">Hubert</a><a href="#">Акции</a><a href="#">Услуги</a><a href="#">Контакты</a><a href="#">О компании</a></nav>
-  <div class="w-wrap"><p class="w-note">На телефоне шапка – логотип, дескриптор в одну строку, иконка телефона и бургер; второй телефон, адрес, Telegram и WhatsApp – в меню и в липкой панели снизу.</p></div>
+  <div class="w-wrap"><p class="w-note">На телефоне шапка – логотип, дескриптор в одну строку, иконка телефона и бургер; второй телефон, адрес, Telegram и WhatsApp – в меню; липкая панель снизу – «Записаться на монтаж» и «Позвонить».</p></div>
 </header>
 
 <main>
@@ -317,7 +324,8 @@ header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
   <span>ИП Меньшиков Антон Юрьевич, ИНН 5435 5029 8025 · Реквизиты · Политика обработки персональных данных · Согласие на обработку · Политика cookie · Договор оферты</span>
 </div></footer>
 
-<div class="w-sticky"><a class="w-btn" href="tel:+79134584567">Позвонить</a><a class="w-btn ghost" href="https://wa.me/79134584567">Написать</a></div>
+<div class="w-wrap"><p class="w-note">Виджеты страницы: на телефоне снизу «Записаться на монтаж» (открывает форму записи) + «Позвонить»; окно на уходе (только компьютер) «Перезвоним и посчитаем монтаж» с телефоном; боковая панель связи справа. Окна по времени нет. Почему так: на странице услуги человек решает, кому доверить монтаж – главное действие всегда под пальцем, а на уходе – предложение посчитать цену для его дома (от 8 000 ₽ – с сайта). Правила модуля: первые 10 с ничего не всплывает; не больше двух окон за визит – первое любое, второе только на уходе; после заявки окна молчат; на телефоне при входе с поиска окно само не перекрывает страницу – становится плашкой. В прототипе заявки из окон никуда не уходят (демо). Проверить телефон с поиска: добавить к адресу ?w-device=phone&amp;w-ref=search.</p></div>
+<div class="w-sticky"><a class="w-btn" href="#zayavka">Записаться на монтаж</a><a class="w-btn ghost" href="tel:+79134584567">Позвонить</a></div>
 
 <script>
 // Переключатели прототипа и подпись логики над каждым блоком (по умолчанию скрыто).
@@ -348,5 +356,7 @@ document.querySelectorAll('form').forEach(function (f) {
   if (a && btn) a.addEventListener('change', function () { btn.disabled = !a.checked; });
 });
 </script>
+<div data-vidzhety data-src="vidzhety-usluga.json"></div>
+<script src="https://tema-mail.github.io/vidzhety/vidzhety.js"></script>
 </body>
 </html>

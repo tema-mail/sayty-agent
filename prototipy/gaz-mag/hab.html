@@ -143,6 +143,13 @@ header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
   .w-bar .w-wrap { padding-block: 4px; gap: 4px 10px; font-size: 11px; }
 }
 </style>
+<!-- Виджеты: модуль tema-mail/vidzhety (окна, ярлычок, боковая и нижняя панели). Настройки страницы – vidzhety-<страница>.json рядом. -->
+<link rel="stylesheet" href="https://tema-mail.github.io/vidzhety/vidzhety.css">
+<style>
+/* Виджеты в прототипе – серые, как весь прототип. Модуль показал свою нижнюю панель – запасная панель прототипа прячется. */
+:root { --w-accent: #141414; --w-accent-2: #5f5f5f; --w-radius: 6px; --w-wa: #3d3d3d; --w-tg: #3d3d3d; --w-max: #3d3d3d; }
+body.vz-has-sticky .w-sticky { display: none !important; }
+</style>
 </head>
 <body>
 <!-- Прототип хаба каталога gaz-mag.ru /katalog. Источник текста: docs/marketing/2026-10-19-hab.md («Тексты блоков») и seo-hab.md (H1, H2, title, description). Шаблон для /uslugi и /akcii. -->
@@ -220,7 +227,7 @@ header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
     </div>
   </section>
 
-  <section class="w-block" data-n="4" data-name="Подбор котла HUBERT" data-question="Какая мощность нужна моему дому?" data-proof="есть: квиз на /kotly-hubert, 8 вопросов (HubertQuiz.tsx); только HUBERT">
+  <section class="w-block" id="podbor" data-n="4" data-name="Подбор котла HUBERT" data-question="Какая мощность нужна моему дому?" data-proof="есть: квиз на /kotly-hubert, 8 вопросов (HubertQuiz.tsx); только HUBERT">
     <div class="w-wrap w-stack">
       <h2>Подобрать котёл HUBERT по площади дома</h2>
       <p>8 вопросов: площадь, утепление, отопительные приборы, горячая вода, бюджет. По ответам специалист предварительно определит серию и мощность котла HUBERT и свяжется с вами.</p>
@@ -278,7 +285,8 @@ header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
   <span>Gazmag.bolotnoe@yandex.ru · <a href="#">Реквизиты</a> · <a href="#">Политика обработки персональных данных</a> · <a href="#">Согласие на обработку персональных данных</a> · <a href="#">Политика cookie</a> · <a href="#">Договор оферты</a></span>
 </div></footer>
 
-<div class="w-sticky"><a class="w-btn" href="tel:+79134584567">Позвонить</a><a class="w-btn ghost" href="https://wa.me/79134584567">Написать</a></div>
+<div class="w-wrap"><p class="w-note">Виджеты страницы: ярлычок «Подобрать котёл за минуту» (короткий квиз в окне, с 12-й секунды – по заданию владельца, полный квиз остаётся на /kotly-hubert); боковая панель связи справа; на телефоне снизу «Подобрать котёл» + «Позвонить». Окон по времени и на уходе нет. Почему так: хаб – навигация по разделам; всплывающее окно здесь мешает выбрать раздел, а подбор помогает тем, кто не знает, что искать. Правила модуля: первые 10 с ничего не всплывает; не больше двух окон за визит – первое любое, второе только на уходе; после заявки окна молчат; на телефоне при входе с поиска окно само не перекрывает страницу – становится плашкой. В прототипе заявки из окон никуда не уходят (демо). Проверить телефон с поиска: добавить к адресу ?w-device=phone&amp;w-ref=search.</p></div>
+<div class="w-sticky"><a class="w-btn" href="#podbor">Подобрать котёл</a><a class="w-btn ghost" href="tel:+79134584567">Позвонить</a></div>
 
 <script>
 // Переключатели прототипа и подпись логики над каждым блоком (по умолчанию скрыто).
@@ -309,5 +317,7 @@ document.querySelectorAll('form').forEach(function (f) {
   if (a && btn) a.addEventListener('change', function () { btn.disabled = !a.checked; });
 });
 </script>
+<div data-vidzhety data-src="vidzhety-hab.json"></div>
+<script src="https://tema-mail.github.io/vidzhety/vidzhety.js"></script>
 </body>
 </html>

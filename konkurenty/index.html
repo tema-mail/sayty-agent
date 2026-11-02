@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;box-sizing:border-box}body{margin:0}img{max-width:100%}</style>
+<title>Коллеги по цеху: разбор подхода</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Макет: продолжение листа «Команда сайтов» – чертёж студии; цепочка как маршрутный лист, знания – карточки по агентам. */
+:root {
+  --paper: #f5f6f8;
+  --sheet: #ffffff;
+  --ink: #16203a;
+  --muted: #5d667b;
+  --line: #d9dde6;
+  --teal: #0b7a83;
+  --teal-soft: #e2f2f3;
+  --amber: #b5660a;
+  --amber-soft: #fbefdf;
+  --red: #b3261e;
+  --red-soft: #fbe9e8;
+  --violet: #5b4bb7;
+  --violet-soft: #ece9fa;
+  --display: 'Unbounded', 'Arial Black', system-ui, sans-serif;
+  --body: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0f1424; --sheet: #161d31; --ink: #e8ecf5; --muted: #9aa3b8; --line: #2a3350;
+  --teal: #4cc3cc; --teal-soft: #12343a; --amber: #f0a34a; --amber-soft: #3a2a14; --red: #f08a82; --red-soft: #3c1d1b;
+  --violet: #a99cf5; --violet-soft: #26214a; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #0f1424; --sheet: #161d31; --ink: #e8ecf5; --muted: #9aa3b8; --line: #2a3350;
+  --teal: #4cc3cc; --teal-soft: #12343a; --amber: #f0a34a; --amber-soft: #3a2a14; --red: #f08a82; --red-soft: #3c1d1b;
+  --violet: #a99cf5; --violet-soft: #26214a; color-scheme: dark; }
+
+body { background: var(--paper); color: var(--ink); font: 400 16px/1.6 var(--body); }
+.wrap { max-width: 1060px; margin: 0 auto; padding-block: 40px 72px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 64px; }
+h1, h2, h3 { margin: 0; line-height: 1.15; text-wrap: balance; }
+h1 { font: 700 clamp(28px, 5vw, 48px)/1.1 var(--display); letter-spacing: -0.01em; }
+h2 { font: 700 clamp(21px, 3vw, 28px)/1.2 var(--display); }
+h3 { font: 700 17px/1.3 var(--body); }
+p { margin: 0; }
+ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.eyebrow { font: 600 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--teal); }
+.muted { color: var(--muted); }
+code, .mono { font-family: var(--mono); font-size: .86em; }
+section { display: grid; gap: 22px; }
+.prose { max-width: 68ch; display: grid; gap: 12px; }
+.lead { font-size: 18px; max-width: 64ch; }
+.hero { display: grid; gap: 18px; }
+.quote { border-left: 3px solid var(--amber); padding: 4px 0 4px 18px; color: var(--muted); font-style: italic; max-width: 72ch; }
+
+.verdict { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.verdict > div { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
+.verdict b { font: 700 13px/1.3 var(--mono); color: var(--teal); text-transform: uppercase; letter-spacing: .06em; }
+
+/* маршрутный лист цепочки */
+.route { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: r; }
+.route > li { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 14px; position: relative; padding-bottom: 14px; }
+.route > li::before { counter-increment: r; content: counter(r); width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font: 700 17px/1 var(--display); background: var(--sheet); border: 2px solid var(--teal); color: var(--teal); position: relative; z-index: 1; }
+.route > li:not(:last-child)::after { content: ""; position: absolute; left: 22px; top: 46px; bottom: 0; width: 2px; background: var(--line); }
+.route .box { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 6px; min-width: 0; }
+.route .top { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+.route .who { font: 600 12.5px/1.4 var(--mono); color: var(--muted); }
+.route .out { font: 400 13px/1.5 var(--mono); color: var(--muted); }
+.route li.opt::before { border-style: dashed; }
+.route li.gate .box { border-color: var(--amber); background: var(--amber-soft); }
+.pill { font: 700 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; white-space: nowrap; }
+.p-new { background: var(--violet-soft); color: var(--violet); }
+.p-has { background: var(--teal-soft); color: var(--teal); }
+.p-up { background: var(--amber-soft); color: var(--amber); }
+.p-gate { background: var(--amber); color: var(--sheet); }
+.fork { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fork > div { border: 1px dashed var(--line); border-radius: 10px; padding: 10px 12px; font-size: 14.5px; min-width: 0; }
+
+/* блоки MASTER */
+.levels { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.levels > div { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.levels .code { font: 700 20px/1 var(--display); color: var(--teal); }
+.levels .n { font: 600 12px/1.3 var(--mono); color: var(--muted); }
+.stages { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.stages span { font: 600 12.5px/1 var(--mono); padding: 8px 10px; border-radius: 8px; background: var(--teal-soft); color: var(--teal); }
+.stages i { color: var(--muted); font-style: normal; }
+.formula { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; font: 400 14px/1.7 var(--mono); overflow-x: auto; white-space: pre; }
+
+/* карточки по агентам */
+.agents { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.agent { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.agent header { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.agent li { font-size: 14.5px; }
+.src { font: 600 10.5px/1 var(--mono); padding: 3px 6px; border-radius: 5px; background: var(--paper); color: var(--muted); border: 1px solid var(--line); margin-left: 4px; white-space: nowrap; }
+
+table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 600 11.5px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.sheet { background: var(--sheet); border: 1px solid var(--line); border-radius: 14px; padding: 6px 8px; }
+.scroll { overflow-x: auto; }
+td .mono { white-space: nowrap; }
+
+.loop { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.loop > div { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 4px; align-content: start; min-width: 0; font-size: 14px; }
+.loop b { font-size: 14.5px; }
+.loop .k { font: 600 11px/1.3 var(--mono); color: var(--muted); }
+
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.note { padding: 14px 16px; border-radius: 12px; background: var(--amber-soft); display: grid; gap: 6px; }
+.note b { color: var(--amber); }
+.bad { padding: 14px 16px; border-radius: 12px; background: var(--red-soft); display: grid; gap: 8px; min-width: 0; }
+.bad b { color: var(--red); }
+.q { list-style: none; padding: 0; display: grid; gap: 10px; counter-reset: q; }
+.q li { background: var(--sheet); border: 1px solid var(--amber); border-radius: 12px; padding: 14px 16px; display: grid; gap: 4px; }
+
+@media (max-width: 820px) {
+  .verdict, .agents, .two, .fork { grid-template-columns: 1fr; }
+  .levels, .loop { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wrap { gap: 48px; padding-block: 24px 56px; }
+}
+</style>
+<style>
+/* Разбор конкурентов: свои мелочи поверх общего листа проекта */
+.wrap code { display: inline; white-space: nowrap; }
+.tbl .num { white-space: nowrap; }
+.steps { counter-reset: s; list-style: none; padding: 0; margin: 18px 0 0; }
+.steps li { position: relative; padding: 10px 0 10px 46px; border-top: 1px solid var(--line); }
+.steps li::before { counter-increment: s; content: counter(s); position: absolute; left: 0; top: 10px;
+  width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%;
+  background: var(--teal-soft); color: var(--teal); font-weight: 700; font-size: 14px; }
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 14px; }
+.box { padding: 18px 20px; border-radius: 14px; border: 1px solid var(--line); }
+.box--teal { background: var(--teal-soft); }
+.box--amber { background: var(--amber-soft); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 14px; }
+.tile { padding: 16px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--sheet); }
+.tile h3 { margin: 0 0 8px; font-size: 16px; }
+.tile--muted { background: transparent; }
+.plain { padding-left: 20px; }
+.plain li { margin: 8px 0; }
+.note { margin-top: 14px; padding: 12px 14px; border-radius: 12px; background: var(--amber-soft); font-size: 14px; }
+.foot { margin: 28px 0 60px; color: var(--muted); font-size: 13px; }
+@media (max-width: 780px) { .two { grid-template-columns: minmax(0, 1fr); } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="sheet-head">
+    <p class="kicker">Разбор · 2 ноября 2026</p>
+    <h1>Коллеги по цеху: что они делают с сайтом<br>и что из этого берём в прототипы</h1>
+    <p class="lead">
+      Три студии в том же поле, что и мы: делают сайты малому и среднему бизнесу,
+      продают через сайт, а не через тендеры. Смотрел, как устроен их сайт как
+      инструмент продаж – структура, лестница входа, цены, доказательства.
+    </p>
+  </header>
+
+  <section class="card">
+    <h2>Кого смотрел</h2>
+    <table class="tbl">
+      <thead><tr><th>Студия</th><th>Чем представляется</th><th>Чем цепляет</th><th>Текста на главной</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>kontora.name</b></td>
+          <td>Сайты на Тильде с упором на заявки</td>
+          <td>Семь страниц под разные намерения, лестница входа, открытые цены</td>
+          <td class="num">очень много</td>
+        </tr>
+        <tr>
+          <td><b>sulagaev.ru</b></td>
+          <td>Цифровые решения, внедрение ИИ в малый и средний бизнес</td>
+          <td>Имидж, опыт в цифрах, связь через мессенджеры</td>
+          <td class="num">~4,7 тыс. знаков</td>
+        </tr>
+        <tr>
+          <td><b>effectweb.ru</b></td>
+          <td>Исследование + дизайн + вёрстка</td>
+          <td>Формула подхода прямо в названии студии</td>
+          <td class="num">~3,5 тыс. знаков</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">
+      Четвёртый адрес из списка, <code>spichkaaa.ru</code>, не отвечает: домен не разрешается
+      в DNS ни с одного резолвера. Похожий <code>spichka.ru</code> – это производитель
+      сувенирных спичек, не студия. Если адрес написан иначе – пришли, разберу отдельно.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Главное различие: сайт как витрина или сайт как воронка</h2>
+    <div class="two">
+      <div class="box box--teal">
+        <h3>Витрина (sulagaev, effectweb)</h3>
+        <p>
+          Короткая главная, крупная типографика, работы. Цен нет. Формы почти нет –
+          у одной студии её нет вовсе, связь уходит в мессенджеры.
+          Сайт говорит «посмотрите, как мы умеем» и рассчитывает,
+          что клиент придёт по имени или рекомендации.
+        </p>
+        <p class="small">
+          Опыт подан числом: одна студия заявляет 800 проектов и 11 лет,
+          у специалистов в команде указан стаж отдельно.
+        </p>
+      </div>
+      <div class="box box--amber">
+        <h3>Воронка (kontora)</h3>
+        <p>
+          Сайт устроен как путь: человек заходит с любого запроса и везде получает
+          следующий шаг. Цены открыты, сроки названы, работы с цифрами результата,
+          форм на странице от четырёх до десяти.
+        </p>
+        <p class="small">
+          Это ближе к тому, что мы продаём клиентам сами, – поэтому разбирал подробно.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Разбор kontora.name по страницам</h2>
+    <p class="lead small">
+      Семь адресов, каждый отвечает своему вопросу. Якорями внутри лендинга
+      так не сделать: якорь не берёт поисковый запрос.
+    </p>
+    <table class="tbl">
+      <thead><tr><th>Адрес</th><th>Чей вопрос закрывает</th><th>Что внутри</th><th>Форм</th></tr></thead>
+      <tbody>
+        <tr><td><code>/uslugi</code></td><td>«Сколько стоит»</td><td>Таблица тарифов с ценой и сроком, состав каждого, ползунок бюджета, бриф</td><td class="num">6</td></tr>
+        <tr><td><code>/case</code></td><td>«Покажите работы»</td><td>Работы с 2016 года, результаты клиентов цифрами</td><td class="num">10</td></tr>
+        <tr><td><code>/audit</code></td><td>«Почему мой сайт не продаёт»</td><td>Бесплатный разбор, примеры типовых проблем, тарифы по глубине</td><td class="num">7</td></tr>
+        <tr><td><code>/landing</code></td><td>«Как вы делаете лендинг»</td><td>Процесс по шагам: структура → аудит → текст и прототип → дизайн → адаптив → доведение</td><td class="num">6</td></tr>
+        <tr><td><code>/check</code></td><td>«Дайте что-то полезное»</td><td>Чек-лист из 53 критериев, отдают за репост и скриншот в личку</td><td class="num">4</td></tr>
+        <tr><td><code>/people</code></td><td>«Вам можно верить?»</td><td>Отзывы отдельной страницей</td><td class="num">4</td></tr>
+        <tr><td><code>/onas</code></td><td>«Кто вы»</td><td>Студия, команда, удалённая работа, вакансии, блог на внешней площадке</td><td class="num">5</td></tr>
+      </tbody>
+    </table>
+  </section>
+  <section class="card">
+    <h2>Лестница входа – главное, что стоит забрать</h2>
+    <p class="lead small">
+      Между «просто смотрю» и «плачу за проект» выстроено пять ступеней.
+      Каждая дешевле предыдущей по решению, которое надо принять.
+    </p>
+    <ol class="steps">
+      <li><b>Бесплатная консультация.</b> Ни к чему не обязывает, снимает первый страх.</li>
+      <li><b>Бесплатный разбор сайта.</b> Отдают документом или видео – человек получает вещь, а не обещание.</li>
+      <li><b>Чек-лист за действие.</b> Документ отдают не за почту, а за репост и скриншот в личку. Собирает не контакт, а охват.</li>
+      <li><b>Маленькая платная услуга.</b> Смысловая структура сайта за сумму на порядок ниже проекта, с прямой подачей «проверите нас в деле». Человек платит мало и видит качество работы.</li>
+      <li><b>Сам сайт.</b> Решение принимается, когда исполнитель уже знаком.</li>
+    </ol>
+    <p class="note">
+      Четвёртая ступень – то, чего у нас сейчас нет. У нас разрыв: бесплатная
+      консультация, а дальше сразу большой чек.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Приёмы, которые записал в знания маркетолога</h2>
+    <div class="grid">
+      <article class="tile">
+        <h3>Страница под каждое намерение</h3>
+        <p>Цены, работы, отзывы, разбор, лид-магнит, услуга, о студии – отдельными адресами, а не якорями одного лендинга.</p>
+        <p class="small muted">Риск: сайту на три страницы столько адресов не нужно – будет пустота и каннибализация.</p>
+      </article>
+      <article class="tile">
+        <h3>Лестница входа с платной ступенью</h3>
+        <p>Найти кусок услуги, который продаётся отдельно и полезен сам по себе, и назвать его как проверку исполнителя.</p>
+        <p class="small muted">Риск: если маленькая услуга не доводится до результата, она портит впечатление сильнее, чем создаёт.</p>
+      </article>
+      <article class="tile">
+        <h3>Один сквозной лид-магнит</h3>
+        <p>Одна и та же кнопка с одним предложением на всех страницах, форма повторяется каждые два-три экрана.</p>
+        <p class="small muted">Риск: два разных магнита на странице делят внимание и снижают оба.</p>
+      </article>
+      <article class="tile">
+        <h3>Цифры в заголовке страницы</h3>
+        <p>В title – цена «от», срок, год, количество работ. Отвечает на вопрос ещё в выдаче и отсекает тех, кому дорого.</p>
+        <p class="small muted">Риск: цена в title устаревает; лучше диапазон, чем число.</p>
+      </article>
+      <article class="tile">
+        <h3>Тарифы таблицей, выбор по ситуации</h3>
+        <p>Три колонки: что заказываете, цена от, срок от. У каждого тарифа строка «подходит, когда…» – она продаёт лучше перечня работ.</p>
+        <p class="small muted">Риск: ползунок бюджета без честного «за эти деньги не возьмёмся» выглядит игрой.</p>
+      </article>
+      <article class="tile tile--muted">
+        <h3>Участие клиента в часах</h3>
+        <p>Отдельно обещано, сколько времени займёт участие заказчика за весь проект. Снимает страх «меня затаскают по созвонам».</p>
+        <p class="small muted">Берём как формулировку, цифру ставим свою и честную.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Чего не беру</h2>
+    <ul class="plain">
+      <li><b>Сайт без цен.</b> У двух студий цен нет вовсе. Для нашего клиента это лишний шаг и повод уйти к тому, кто назвал порядок цифр.</li>
+      <li><b>Лид-магнит за репост.</b> Собирает тех, кто пришёл за файлом. Как охват – работает, как источник заявок – нет.</li>
+      <li><b>Десять форм на странице.</b> Повтор формы нужен, но десять – это уже шум; держим три-четыре опорных места.</li>
+      <li><b>Текстовая простыня главной.</b> У kontora главная весит больше полутора мегабайт разметки. Смыслы сильные, подача тяжёлая.</li>
+    </ul>
+  </section>
+
+  <section class="card card--final">
+    <h2>Что это меняет в наших прототипах</h2>
+    <ol class="plain">
+      <li>В карте сайта студии закладываем отдельные адреса под цены, работы, отзывы и бесплатный разбор – до вёрстки, а не потом.</li>
+      <li>В план блоков добавляем ступень «маленькая платная услуга» – у нас это смысловая структура или разбор рекламы.</li>
+      <li>Выбираем один сквозной магнит на весь сайт и повторяем его формулировку дословно.</li>
+      <li>На странице цен – таблица «что / цена от / срок от» и строка «подходит, когда…» у каждого тарифа.</li>
+      <li>В title страниц – настоящие цифры: цена, срок, количество работ.</li>
+    </ol>
+    <p class="note">
+      Пять приёмов записаны в базу знаний маркетолога карточками – дальше они
+      подтягиваются сами, когда собираем прототип или карту сайта.
+    </p>
+  </section>
+
+  <footer class="foot">
+    <p>Разбор сделан по открытым страницам сайтов 2 ноября 2026 года. Выводы и формулировки – наши;
+       чужие тексты и оформление не переносились.</p>
+  </footer>
+</main>
+</body>
+</html>

@@ -144,6 +144,15 @@ td .mono { white-space: nowrap; }
 .foot { margin: 28px 0 60px; color: var(--muted); font-size: 13px; }
 @media (max-width: 780px) { .two { grid-template-columns: minmax(0, 1fr); } }
 </style>
+<style>
+/* Лист разбора: карточки-секции и шапка (были в разметке, но не в стилях) */
+.sheet-head { display: grid; gap: 14px; }
+.kicker { font: 600 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--teal); margin: 0; }
+.card { background: var(--sheet); border: 1px solid var(--line); border-radius: 16px; padding: clamp(18px, 3vw, 28px); display: grid; gap: 14px; align-content: start; min-width: 0; }
+.small { font-size: 14px; }
+.tbl th, .tbl td { font-size: 14px; }
+.card--voice { background: var(--teal-soft); border-color: var(--teal); }
+</style>
 </head>
 <body>
 <main class="wrap">
@@ -165,7 +174,7 @@ td .mono { white-space: nowrap; }
 
   <section class="card">
     <h2>Кого смотрел</h2>
-    <table class="tbl">
+    <div class="scroll"><table class="tbl">
       <thead><tr><th>Студия</th><th>Чем представляется</th><th>Чем цепляет</th><th>Текста на главной</th></tr></thead>
       <tbody>
         <tr>
@@ -187,7 +196,7 @@ td .mono { white-space: nowrap; }
           <td class="num">~3,5 тыс. знаков</td>
         </tr>
       </tbody>
-    </table>
+    </table></div>
     <p class="note">
       Четвёртый адрес из списка, <code>spichkaaa.ru</code>, не отвечает: домен не разрешается
       в DNS ни с одного резолвера. Похожий <code>spichka.ru</code> – это производитель
@@ -231,7 +240,7 @@ td .mono { white-space: nowrap; }
       Семь адресов, каждый отвечает своему вопросу. Якорями внутри лендинга
       так не сделать: якорь не берёт поисковый запрос.
     </p>
-    <table class="tbl">
+    <div class="scroll"><table class="tbl">
       <thead><tr><th>Адрес</th><th>Чей вопрос закрывает</th><th>Что внутри</th><th>Форм</th></tr></thead>
       <tbody>
         <tr><td><code>/uslugi</code></td><td>«Сколько стоит»</td><td>Таблица тарифов с ценой и сроком, состав каждого, ползунок бюджета, бриф</td><td class="num">6</td></tr>
@@ -242,7 +251,7 @@ td .mono { white-space: nowrap; }
         <tr><td><code>/people</code></td><td>«Вам можно верить?»</td><td>Отзывы отдельной страницей</td><td class="num">4</td></tr>
         <tr><td><code>/onas</code></td><td>«Кто вы»</td><td>Студия, команда, удалённая работа, вакансии, блог на внешней площадке</td><td class="num">5</td></tr>
       </tbody>
-    </table>
+    </table></div>
   </section>
   <section class="card">
     <h2>Лестница входа – главное, что стоит забрать</h2>

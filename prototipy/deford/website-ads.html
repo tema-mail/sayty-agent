@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Прототип – Deford, /services/website-ads/</title>
+<!-- kit.css вставляется целиком внутрь <style> (прототип – один файл, открывается без интернета) -->
+<style>/* Комплект чёрно-белого прототипа (маркетолог → site-prototype).
+   Прототип показывает смысл, текст, порядок и действие – не дизайн. Цвета только серые; дизайнер делает визуал после «да» владельца.
+   Блок: <section class="w-block" data-n="1" data-name="Первый экран" data-question="вопрос клиента" data-proof="опора"> */
+:root {
+  --ink: #141414; --muted: #5f5f5f; --line: #b9b9b9; --fill: #ececec; --fill2: #f6f6f6; --paper: #ffffff;
+  --note: #fff6c8; --note-line: #c9b44a; --ask: #7a1f1f;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, Menlo, Consolas, monospace;
+  --wrap: 1180px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 var(--font); }
+img { max-width: 100%; }
+a { color: var(--ink); }
+h1, h2, h3 { margin: 0; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(28px, 4.2vw, 46px); }
+h2 { font-size: clamp(22px, 3vw, 32px); }
+h3 { font-size: 18px; }
+p { margin: 0; }
+.w-wrap { max-width: var(--wrap); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.w-stack { display: grid; gap: 14px; }
+.w-muted { color: var(--muted); }
+
+/* Панель прототипа: переключатели «Логика» и «Комментарии» */
+.w-bar { position: sticky; top: 0; z-index: 50; background: var(--ink); color: #fff; font: 13px/1.3 var(--mono); }
+.w-bar .w-wrap { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding-block: 8px; }
+.w-bar b { font-weight: 600; }
+.w-bar label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+
+/* Блок и его подпись логики */
+.w-block { border-top: 1px dashed var(--line); padding-block: 40px; position: relative; }
+.w-logic { display: none; font: 12.5px/1.45 var(--mono); background: var(--fill2); border: 1px solid var(--line); padding: 8px 10px; margin-bottom: 18px; }
+body.show-logic .w-logic { display: block; }
+.w-logic b { font-weight: 700; }
+.w-note { display: none; background: var(--note); border: 1px dashed var(--note-line); padding: 8px 10px; font-size: 13.5px; margin-top: 12px; }
+body.show-notes .w-note { display: block; }
+.w-note::before { content: "Дизайнеру: "; font-weight: 700; }
+.w-seo { display: none; font: 13px/1.5 var(--mono); background: #eef3ff; border: 1px solid #8aa0d6; padding: 12px 14px; margin: 12px auto; max-width: var(--wrap); }
+body.show-seo .w-seo { display: block; }
+.w-seo table { border-collapse: collapse; width: 100%; }
+.w-seo td { border-top: 1px solid #c9d4ee; padding: 4px 6px; vertical-align: top; }
+.w-seo td:first-child { white-space: nowrap; font-weight: 700; width: 1%; }
+.w-seo .bad { color: var(--ask); font-weight: 700; }
+.w-seo ul { margin: 0; padding-left: 18px; }
+.w-ask { color: var(--ask); font-weight: 600; background: #f7e9e9; padding: 0 4px; }
+
+/* Место под фото/видео/схему: роль, а не «картинка» */
+.w-media { background: repeating-linear-gradient(45deg, var(--fill), var(--fill) 10px, var(--fill2) 10px, var(--fill2) 20px);
+  border: 1px solid var(--line); min-height: 220px; display: grid; place-items: center; text-align: center; padding: 16px;
+  color: var(--muted); font-size: 14px; }
+.w-media::before { content: "▣ "; }
+.w-media.small { min-height: 120px; }
+
+/* Кнопки */
+.w-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border: 2px solid var(--ink);
+  background: var(--ink); color: #fff; font-weight: 600; text-decoration: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+.w-btn.ghost { background: transparent; color: var(--ink); }
+.w-btn[disabled] { opacity: .45; cursor: not-allowed; }
+.w-hint { font-size: 13px; color: var(--muted); }
+
+/* Шапка */
+.w-header .w-wrap { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between; padding-block: 12px; }
+.w-logo { border: 2px solid var(--ink); padding: 6px 10px; font-weight: 700; }
+.w-descr { font-size: 13.5px; color: var(--muted); max-width: 34ch; }
+.w-contacts-top { display: grid; gap: 2px; font-size: 14px; text-align: right; }
+.w-nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14.5px; border-top: 1px solid var(--line); padding-block: 8px; }
+
+/* Первый экран */
+.w-hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; }
+.w-hero ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.w-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* Сетки и карточки */
+.w-grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 14px; }
+.w-card { border: 1px solid var(--line); padding: 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.w-card .w-media { min-height: 140px; }
+.w-price { font-weight: 700; }
+
+/* Этапы */
+.w-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 14px; counter-reset: st; }
+.w-steps li { border: 1px solid var(--line); padding: 14px; counter-increment: st; display: grid; gap: 6px; }
+.w-steps li::before { content: counter(st); font-weight: 700; font-size: 22px; }
+
+/* Таблица */
+.w-table-wrap { overflow-x: auto; }
+.w-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.w-table th, .w-table td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+.w-table th { background: var(--fill2); }
+
+/* FAQ */
+.w-faq details { border: 1px solid var(--line); padding: 12px 14px; }
+.w-faq details + details { border-top: 0; }
+.w-faq summary { font-weight: 600; cursor: pointer; }
+
+/* Форма */
+.w-form { border: 2px solid var(--ink); padding: 18px; display: grid; gap: 12px; max-width: 520px; }
+.w-field { display: grid; gap: 4px; font-size: 14px; }
+.w-field input, .w-field select { min-height: 44px; border: 1px solid var(--ink); padding: 0 10px; font: inherit; background: #fff; }
+.w-check { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; }
+
+/* Полоса призыва */
+.w-cta { background: var(--fill); padding: 24px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+/* Плашка призыва между блоками: section.w-block.w-cta-strip с одной строкой предложения и кнопкой или мини-формой (карточка prizyv-mezhdu-blokami) */
+.w-block.w-cta-strip { padding-block: 16px; }
+.w-cta-strip .w-cta { padding: 14px 18px; }
+.w-cta-strip .w-cta p { margin: 0; font-weight: 600; }
+
+/* Состояние формы после отправки (карточка stranica-spasibo-sleduyushchiy-shag): видно по переключателю «После отправки» */
+.w-success { display: none; border: 2px dashed var(--ink); padding: 14px; background: var(--fill); }
+.w-success p { margin: 0 0 6px; }
+body.show-success .w-success { display: block; }
+
+/* Подвал */
+.w-footer { background: var(--fill2); border-top: 1px solid var(--line); padding-block: 28px; font-size: 14px; }
+
+/* Липкая панель действий на телефоне */
+.w-sticky { display: none; }
+header.w-block { padding-block: 0; border-top: 0; }
+header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
+
+@media (max-width: 760px) {
+  .w-hide-m { display: none !important; }
+  /* Мобильная шапка: логотип, короткий дескриптор и «Меню»; звонок и мессенджеры – в липкой панели снизу */
+  .w-header .w-wrap { flex-wrap: nowrap; padding-block: 8px; gap: 10px; }
+  .w-header .w-contacts-top, .w-header .w-wrap > .w-btn, .w-nav { display: none !important; }
+  .w-header .w-descr { font-size: 12px; line-height: 1.3; }
+  .w-header > .w-wrap:first-of-type::after { content: "☰ Меню"; margin-left: auto; border: 1px solid var(--ink); padding: 6px 10px; font-size: 13px; white-space: nowrap; }
+  .w-hero .w-media, .w-block[data-n="1"] .w-media:first-of-type { min-height: 160px; }
+  .w-bar .w-wrap { padding-block: 4px; gap: 4px 10px; font-size: 11px; }
+  .w-hero { grid-template-columns: 1fr; }
+  .w-grid { grid-template-columns: repeat(var(--cols-m, 2), minmax(0, 1fr)); }
+  .w-steps { grid-template-columns: 1fr; }
+  .w-contacts-top { text-align: left; }
+  .w-block { padding-block: 28px; }
+  .w-sticky { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+    background: #fff; border-top: 1px solid var(--line); }
+  body { padding-bottom: 72px; }
+}
+@media (max-width: 420px) { .w-grid.one-m { grid-template-columns: 1fr; } }
+
+/* Таблица тарифов на телефоне – стопка карточек (иначе колонка с ценой уезжает за экран) */
+@media (max-width: 760px) {
+  .w-table.cards, .w-table.cards tbody, .w-table.cards tr, .w-table.cards td { display: block; width: 100%; min-width: 0; }
+  .w-table.cards thead { display: none; }
+  .w-table.cards tr { border: 1px solid var(--line); margin-bottom: 14px; }
+  .w-table.cards td { border: 0; border-top: 1px solid var(--line); }
+  .w-table.cards td:first-child { border-top: 0; background: var(--fill2); font-size: 17px; }
+  .w-table.cards td::before { content: attr(data-th); display: block; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .w-table.cards td:first-child::before { content: none; }
+}
+</style>
+<!-- Виджеты страницы (окна, ярлычок, боковая панель мессенджеров, нижняя панель телефона) – модуль tema-mail/vidzhety.
+     Набор под страницу – по справочнику ~/.claude/skills/marketolog/references/vidzhety-spravochnik.md. Чтобы включить – раскомментировать
+     это и блок «Виджеты: подключение» в конце страницы, положить рядом vidzhety-<страница>.json. Образец – ~/Sites/sayty-agent/prototipy/gaz-mag/.
+<link rel="stylesheet" href="https://tema-mail.github.io/vidzhety/vidzhety.css">
+<style>
+:root { --w-accent: #141414; --w-accent-2: #5f5f5f; --w-radius: 6px; --w-wa: #3d3d3d; --w-tg: #3d3d3d; --w-max: #3d3d3d; }
+body.vz-has-sticky .w-sticky { display: none !important; }
+</style>
+-->
+</head>
+<body>
+<!-- Прототип страницы /services/website-ads/ студии Deford (deford.ru). Источник текста: задание владельца от 03.11.2026 (слова владельца о продукте,
+     цифры прошлых КП, цифры спроса Вордстата). Плана блоков docs/marketing/2026-11-03-website-ads.md и SEO-задания seo-website-ads.md от site-seo НЕТ –
+     SEO-слой ниже собран из задания и ждёт проверки site-seo. Тексты и цифры не выдуманы: нет данных – метка в тексте. -->
+<div class="w-bar"><div class="w-wrap">
+  <b>Прототип · Deford · /services/website-ads/ «Сайт + реклама для быстрого старта» · версия 03.11.2026</b>
+  <label><input type="checkbox" id="t-logic"> Логика блоков</label>
+  <label><input type="checkbox" id="t-notes"> Комментарии дизайнеру</label>
+  <label><input type="checkbox" id="t-seo"> SEO страницы</label>
+  <label><input type="checkbox" id="t-success"> После отправки</label>
+  <span>Меток «запросить»: <b id="ask-count">0</b></span>
+</div></div>
+
+<!-- SEO-слой: своего SEO-задания от site-seo по этой странице нет, собран прототипировщиком из задания владельца и помечен к проверке. -->
+<script type="application/json" id="w-seo">{"title": "Сайт и реклама для быстрого старта – студия Deford", "description": "Сайт на своём коде плюс Яндекс Директ или Яндекс Бизнес: один запуск для локального бизнеса – страница, реклама и канал заявок. Студия Deford.", "h1": "Сайт и реклама для быстрого старта: первые заявки за [запросить: срок до первых заявок]", "zapros": "Своего поискового спроса у связки нет: «создание сайта и настройка рекламы» 17 показов в месяц по России, «сайт и продвижение под ключ» 110, «создание сайтов и реклама» 393. Страница работает как посадочная под объявления и как ссылка в коммерческом предложении, трафика из поиска от неё не ждём. Спрос на инструменты по отдельности – «настройка яндекс директ» 5 481, «яндекс бизнес продвижение» 1 658, «продвижение в яндекс картах» 766 – уходит на свои страницы /services/yandex-direct/ и /services/yandex-business/ (в плане, ещё не сделаны). Проверить задание у site-seo.", "schema": "Service: name «Сайт и реклама для быстрого старта», provider Deford, areaServed – [запросить: города, в которых работаем]; offers добавлять только после цен от владельца; BreadcrumbList Главная / Услуги / Сайт и реклама. FAQPage = видимый блок 10. Разметку Review и AggregateRating не ставить – отзывов на странице нет.", "links": ["/services/yandex-direct/ – блоки 4 и 10 (страница в плане, до её выхода ссылку не публиковать)", "/services/yandex-business/ – блоки 4 и 10 (страница в плане)", "/cases/ – блок 8, после решения, какие работы можно показывать", "/contacts/ – шапка и подвал", "входящие: /services/ (список услуг), объявления Яндекс Директа, ссылка в коммерческом предложении"]}</script>
+<div class="w-seo" id="w-seo-box"></div>
+
+<header class="w-header w-block" data-n="0" data-name="Шапка" data-question="Кто вы и как с вами быстро связаться?" data-proof="есть: Telegram t.me/Artem1Galimov, WhatsApp wa.me/79537777891; запросить: телефон для сайта, города работы, часы ответа">
+  <div class="w-wrap">
+    <span class="w-logo">DEFORD</span>
+    <span class="w-descr">Студия Deford: сайты на своём коде и реклама для локального бизнеса</span>
+    <span class="w-contacts-top">
+      <a href="https://t.me/Artem1Galimov">Telegram: @Artem1Galimov</a>
+      <a class="w-hide-m" href="https://wa.me/79537777891">WhatsApp: +7 953 777-78-91</a>
+      <span class="w-muted w-hide-m">Отвечаем <span class="w-ask">[запросить: часы, в которые отвечаем]</span></span>
+    </span>
+    <a class="w-btn ghost" href="#zayavka">Получить план запуска</a>
+  </div>
+  <nav class="w-wrap w-nav"><a href="/services/">Услуги</a><a href="/services/website-ads/">Сайт и реклама</a><a href="/cases/">Работы</a><a href="/about/">О студии</a><a href="/contacts/">Контакты</a></nav>
+  <div class="w-wrap"><p class="w-note">На телефоне в шапке остаются логотип, одна строка дескриптора и бургер; WhatsApp и часы ответа – в меню, быстрый контакт – в липкой панели снизу. Телефона для сайта нет: если владелец его не даёт, в липкой панели обе кнопки ведут в мессенджеры, а не на tel:.</p></div>
+</header>
+
+<main>
+  <section class="w-block" data-n="1" data-name="Первый экран" data-question="Мне нужны заявки, а не сайт – вы это даёте и когда?" data-proof="есть: три состава запуска, сайт своим кодом на Astro, сайты с 2015 года; запросить: срок до первых заявок, фото или скрины запуска">
+    <div class="w-wrap">
+      <p class="w-muted">Главная / Услуги / Сайт и реклама для быстрого старта</p>
+      <div class="w-hero">
+        <div class="w-stack">
+          <h1>Сайт и реклама для быстрого старта: первые заявки за <span class="w-ask">[запросить: срок до первых заявок]</span></h1>
+          <p>Локальному бизнесу нужен не сайт, а звонки и сообщения. Поэтому делаем одним запуском: страницу под вашу услугу и город, настроенную рекламу в Яндексе и канал, куда падают заявки.</p>
+          <ul>
+            <li><b>Один подрядчик</b> на сайт и на рекламу, без переписки между двумя исполнителями</li>
+            <li><b>Сайт своим кодом</b> на Astro, не сборка в конструкторе: страницу можно дорабатывать дальше</li>
+            <li><b>Рекламный бюджет ваш</b> и платите вы его Яндексу, мимо нас</li>
+          </ul>
+          <div class="w-actions"><a class="w-btn" href="#zayavka">Получить план запуска</a><a class="w-btn ghost" href="https://t.me/Artem1Galimov">Спросить в Telegram</a></div>
+          <p class="w-hint">Посмотрим вашу услугу и город и ответим, какой состав запуска подходит и сколько он стоит</p>
+        </div>
+        <div class="w-media" data-alt="Схема запуска: страница сайта, объявление в Яндексе и заявка в мессенджере">Смысловая схема на один экран: объявление в Яндексе, страница сайта и заявка в мессенджере, соединённые стрелками. Доказывает, что продаём не сайт, а цепочку до заявки. Если вместо схемы даём настоящие скрины – <span class="w-ask">[запросить: с какого проекта можно показать скрин объявления и заявки]</span></div>
+      </div>
+      <p class="w-note">Важно про назначение страницы: поискового спроса на связку почти нет – «создание сайта и настройка рекламы» 17 показов в месяц на всю Россию, «сайт и продвижение под ключ» 110, «создание сайтов и реклама» 393. Страница работает как посадочная под рекламные объявления и как ссылка в коммерческом предложении, трафика из поиска от неё ждать не нужно. Отсюда и подача: первый экран говорит про заявки и срок, а не про слово «сайт», и сразу даёт быстрый канал связи. Спрос есть на отдельные инструменты, под них будут свои страницы (блок 4).</p>
+      <p class="w-note">Виджеты страницы: боковая панель связи справа (Telegram, WhatsApp, «Напишите нам») – с загрузки; одно окно на уходе, только на компьютере: «Пришлём состав и цены запуска в Telegram» с одним полем; на телефоне снизу «Написать в Telegram» и «WhatsApp». Окна по времени и ярлычка-квиза нет. Почему так: трафик рекламный и тёплый, человек пришёл по конкретному объявлению – перекрывать чтение окном через 20 секунд незачем, а на уходе с компьютера это вторая попытка получить контакт. Содержимое окна на уходе зависит от цен: <span class="w-ask">[запросить: можно ли высылать цены составов в переписке]</span>. Правила модуля: первые 10 секунд ничего не всплывает; не больше одного окна за визит; после заявки окна молчат. В прототипе заявки из окон никуда не уходят (демо).</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="2" data-name="Что получает клиент" data-question="Что именно будет у меня на руках после запуска?" data-proof="есть: сайт на Astro своим кодом, настроенный кабинет рекламы, канал заявок; запросить: куда отдаём заявки по умолчанию, чьи домен, хостинг и кабинет">
+    <div class="w-wrap w-stack">
+      <h2>После запуска у вас три рабочие вещи, а не папка с макетами</h2>
+      <div class="w-grid one-m" style="--cols:3;--cols-m:1">
+        <article class="w-card">
+          <h3>Страница под одну услугу и один город</h3>
+          <p>Текст от вашего клиента: что делаете, за сколько, как быстро, чем подтверждаете. Сделана кодом на Astro, грузится быстро и дальше её можно дорабатывать, а не переделывать с нуля.</p>
+        </article>
+        <article class="w-card">
+          <h3>Настроенная реклама в Яндексе</h3>
+          <p>Собранные запросы, объявления и кабинет с целями, а не кнопка «продвигать». Состав зависит от выбранного тарифа: Яндекс Бизнес, Яндекс Директ или Директ вместе с SEO.</p>
+        </article>
+        <article class="w-card">
+          <h3>Канал, куда приходят заявки</h3>
+          <p>Заявка с сайта приходит туда, где вы её точно увидите, и считается целью в Метрике, чтобы было видно, какая реклама её привела. Куда именно отдаём заявки по умолчанию – <span class="w-ask">[запросить: мессенджер, почта или CRM]</span></p>
+        </article>
+      </div>
+      <p class="w-note">Три карточки в ряд на компьютере, на телефоне в одну колонку. Иконки не нужны, важнее подзаголовки: человек читает их по диагонали и должен за 5 секунд понять, что получает.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="3" data-name="Шаги первых недель" data-question="Что будет происходить неделю за неделей и что нужно от меня?" data-proof="есть: порядок работы студии; запросить: срок каждого шага и что входит в первый месяц после запуска">
+    <div class="w-wrap w-stack">
+      <h2>Что делаем от первого разговора до первых заявок</h2>
+      <ol class="w-steps" style="--cols:5">
+        <li><b>Разбор</b><span>Созвон: услуга, город, цена, кто ваш клиент и с кем он вас сравнивает. От вас – ответы и доступы, если сайт или кабинет уже есть.</span></li>
+        <li><b>Текст и карта страницы</b><span>Собираем смыслы и порядок блоков, показываем страницу-прототип до вёрстки: видно текст и действие, правки вносим здесь, а не после запуска.</span></li>
+        <li><b>Сайт</b><span>Вёрстка на Astro, домен, хостинг, Метрика и цели на заявку. Проверяем на телефоне, потому что реклама в основном приходит с телефонов.</span></li>
+        <li><b>Реклама</b><span>Запросы, объявления, кабинет и бюджет. Для Директа – поиск по вашим запросам, для Яндекс Бизнеса – карточка компании и подписка.</span></li>
+        <li><b>Первые недели после запуска</b><span>Смотрим, по каким запросам приходят люди, что они делают на странице и откуда заявки; правим объявления и текст. <span class="w-ask">[запросить: срок каждого шага и что входит в ведение первого месяца]</span></span></li>
+      </ol>
+      <p class="w-note">Шаги не раздувать до «12 этапов»: их пять, и у каждого видно, что нужно от клиента. На телефоне – одна колонка, у каждого шага свой номер крупно; срок шага дизайнер поставит отдельной строкой, когда владелец его назовёт.</p>
+    </div>
+  </section>
+
+  <section class="w-block w-cta-strip" data-n="3а" data-name="Плашка призыва после шагов" data-question="Мне подходит порядок работы – что сделать сейчас?" data-proof="предложение по блоку выше: разбор ситуации без оплаты">
+    <div class="w-wrap"><div class="w-cta"><p>Напишите, какая у вас услуга и город – скажем, с чего начинать запуск</p><a class="w-btn" href="https://t.me/Artem1Galimov">Написать в Telegram</a></div></div>
+  </section>
+
+  <section class="w-block" data-n="4" data-name="Бизнес или Директ" data-question="Чем Яндекс Бизнес отличается от Яндекс Директа и что мне нужно?" data-proof="есть: устройство обоих инструментов и цифры спроса на них; запросить: подтвердить описание под нашу практику">
+    <div class="w-wrap w-stack">
+      <h2>Яндекс Бизнес и Яндекс Директ – разные вещи, вот разница простыми словами</h2>
+      <div class="w-grid one-m" style="--cols:2;--cols-m:1">
+        <article class="w-card">
+          <h3>Яндекс Бизнес – вас находят рядом</h3>
+          <p>Это карточка вашей компании в Яндекс Картах и Поиске: адрес, телефон, часы, фото, отзывы и маршрут. Платная подписка поднимает карточку в списке и ставит метку на карте.</p>
+          <p>Подходит, когда к вам приходят или приезжают: салон, сервис, кафе, магазин, клиника. Человек выбирает ближайших и смотрит отзывы.</p>
+          <p>Подписка покупается на срок, а по промокоду срок удваивается. <span class="w-ask">[подтвердить: действует ли промокод и на какую подписку]</span></p>
+          <p class="w-muted">Спрос на инструмент: «яндекс бизнес продвижение» 1 658 показов в месяц, «продвижение в яндекс картах» 766.</p>
+          <a class="w-btn ghost" href="/services/yandex-business/">Подробно про Яндекс Бизнес</a>
+          <p class="w-hint">Страница /services/yandex-business/ в плане, ещё не сделана: до её выхода ссылку не публикуем</p>
+        </article>
+        <article class="w-card">
+          <h3>Яндекс Директ – вас находят по запросу</h3>
+          <p>Это объявления в поиске Яндекса по словам, которые человек набирает прямо сейчас: «натяжные потолки цена», «ремонт стиральных машин на дом». Платите за переходы на сайт, а не за подписку.</p>
+          <p>Подходит, когда услугу ищут словами и решение принимают быстро. Сюда обязательно нужна страница: из поиска человек идёт на сайт, а не в карточку.</p>
+          <p class="w-muted">Спрос на инструмент: «настройка яндекс директ» 5 481 показ в месяц.</p>
+          <a class="w-btn ghost" href="/services/yandex-direct/">Подробно про Яндекс Директ</a>
+          <p class="w-hint">Страница /services/yandex-direct/ в плане, ещё не сделана: до её выхода ссылку не публикуем</p>
+        </article>
+      </div>
+      <p>Если коротко: Бизнес работает на тех, кто ищет «рядом со мной», Директ – на тех, кто ищет услугу словами. Локальному бизнесу чаще нужны оба, но начинать дешевле с одного, и с какого именно – зависит от того, приезжают к вам или вы к клиенту.</p>
+      <p class="w-note">Это самый важный блок для нашего клиента: владелец салона или сервиса обычно не знает разницы и поэтому боится «переплатить за непонятное». Две карточки рядом, без таблицы с галочками. Обе ссылки ведут на страницы, которых пока нет: на вёрстке их ставить неактивными или убирать до выхода страниц, иначе получим битые ссылки.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="5" data-name="Три состава и цены" data-question="Сколько это стоит и что входит в каждый вариант?" data-proof="есть: три состава от владельца, цифры прошлых КП (требуют подтверждения); запросить: цену и срок каждого состава">
+    <div class="w-wrap w-stack">
+      <h2>Три состава запуска: выбираете по тому, где вас ищут</h2>
+      <div class="w-table-wrap">
+        <table class="w-table cards">
+          <thead><tr><th>Состав</th><th>Что входит</th><th>Кому подходит</th><th>Цена</th><th>Срок запуска</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>Сайт + Яндекс Бизнес</b></td>
+              <td data-th="Что входит">Страница под услугу и город, карточка компании в Картах и Поиске, подписка Яндекс Бизнеса, канал заявок, Метрика с целями.</td>
+              <td data-th="Кому подходит">К вам приходят или приезжают: салон, сервис, кафе, магазин.</td>
+              <td data-th="Цена"><span class="w-ask">[запросить: цена состава «Сайт + Яндекс Бизнес»]</span><br><span class="w-muted">Из прошлых КП: сайт 120 000 ₽ вместо 150 000, настройка Яндекс Бизнеса 50 000 ₽ со скидкой до 15 000 ₽, подписка 15 000 ₽ за 3 месяца. <span class="w-ask">[подтвердить: действуют ли эти цифры сейчас]</span></span></td>
+              <td data-th="Срок запуска"><span class="w-ask">[запросить: срок запуска состава 1]</span></td>
+            </tr>
+            <tr>
+              <td><b>Сайт + Яндекс Директ</b></td>
+              <td data-th="Что входит">Страница под услугу и город, сбор запросов, объявления, кабинет Директа, канал заявок, Метрика с целями, правки первых недель.</td>
+              <td data-th="Кому подходит">Услугу ищут словами и решают быстро: выездные работы, ремонт, монтаж, доставка.</td>
+              <td data-th="Цена"><span class="w-ask">[запросить: цена состава «Сайт + Яндекс Директ»]</span><br><span class="w-muted">Из прошлых КП: настройка Директа 35 000 ₽ плюс сайт 120 000 ₽. <span class="w-ask">[подтвердить: действуют ли эти цифры сейчас]</span></span></td>
+              <td data-th="Срок запуска"><span class="w-ask">[запросить: срок запуска состава 2]</span></td>
+            </tr>
+            <tr>
+              <td><b>Сайт + Яндекс Директ + SEO</b></td>
+              <td data-th="Что входит">Всё из второго состава плюс работа под поиск: структура страниц, тексты, техническая часть, отчёты.</td>
+              <td data-th="Кому подходит">Вы надолго и хотите не только платные переходы: заявки из поиска дешевеют со временем.</td>
+              <td data-th="Цена"><span class="w-ask">[запросить: цена состава «Сайт + Директ + SEO» и за какой период SEO]</span></td>
+              <td data-th="Срок запуска"><span class="w-ask">[запросить: срок запуска состава 3 и когда ждать эффект от SEO]</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Рекламный бюджет во всех трёх составах считается отдельно и платите его вы – о нём ниже.</p>
+      <p class="w-muted">Сайт в прошлых КП шёл в рассрочку: 20 000 ₽ старт и 10 000 ₽ в месяц. <span class="w-ask">[подтвердить: оставляем ли рассрочку]</span></p>
+      <p class="w-note">На телефоне таблица уже собрана в три карточки по составам, друг под другом, с одинаковым порядком строк: что входит, кому, цена, срок; горизонтальной прокрутки быть не должно. Блок на 390 выходит чуть выше двух экранов (1716 px) – для сравнения трёх составов это нормально, делить его не надо; если понадобится короче, второй и третий состав можно свернуть до строки «что входит» с раскрытием по тапу. Цифры из прошлых КП стоят мелким текстом под ценой намеренно: это ориентир для разговора, а не цена на странице. Пока владелец не подтвердил цены, на боевой странице вместо чисел ставим «Цена зависит от города и услуги» и кнопку расчёта – голые проценты скидок без условий публиковать нельзя.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="6" data-name="Рекламный бюджет" data-question="Сколько я отдам Яндексу и это точно не вы заберёте?" data-proof="есть: бюджет от 1 000 ₽ в день из прошлых КП (требует подтверждения); запросить: как оформляем бюджет и кабинет">
+    <div class="w-wrap w-stack">
+      <h2>Рекламный бюджет – ваши деньги, они идут Яндексу, а не нам</h2>
+      <p>Это отдельная строка в смете, и её важно понять до начала. Мы берём деньги за работу: сайт, настройку и ведение. Бюджет на показы и переходы вы платите Яндексу со своего кабинета и видите каждый рубль в статистике.</p>
+      <ul>
+        <li><b>От 1 000 ₽ в день</b> на старте для одного города и одной услуги. <span class="w-ask">[подтвердить: это по-прежнему минимум, который мы советуем]</span></li>
+        <li><b>Бюджет не входит в цену запуска</b> ни в одном из трёх составов.</li>
+        <li><b>Кабинет на вас</b> или через нас – <span class="w-ask">[запросить: на кого оформляем кабинет и бюджет, кто платит Яндексу]</span></li>
+        <li><b>Сколько нужно на ваш город</b> зависит от конкуренции по запросам: считаем на разборе, до оплаты.</li>
+      </ul>
+      <p class="w-note">Этот блок снимает главное подозрение локального бизнеса: «вы включите мои деньги себе в счёт». Поэтому отдельный блок, а не сноска в таблице цен. Сумму «от 1 000 ₽ в день» давать обычным текстом, без крупной плашки: это не оффер, а порог входа.</p>
+    </div>
+  </section>
+
+  <section class="w-block w-cta-strip" data-n="6а" data-name="Плашка призыва после цены" data-question="Сколько в сумме выйдет у меня?" data-proof="предложение по блоку выше: расчёт бюджета под город и услугу">
+    <div class="w-wrap"><div class="w-cta"><p>Посчитаем бюджет и состав под ваш город и услугу, до любых оплат</p><a class="w-btn" href="#zayavka">Посчитать мой запуск</a></div></div>
+  </section>
+
+  <section class="w-block" data-n="7" data-name="Если заявок нет" data-question="А если я заплачу и заявок не будет?" data-proof="есть: порядок разбора по Метрике и кабинету; запросить: что студия обязуется сделать, решение владельца">
+    <div class="w-wrap w-stack">
+      <h2>Если заявок не будет, мы не разводим руками</h2>
+      <p>Честно: гарантировать число заявок нельзя – их дают спрос, цена и то, как вы отвечаете на обращения. Что можно обещать, так это разбор по шагам и работу по результату.</p>
+      <ul>
+        <li><b>Смотрим цепочку целиком:</b> показы объявлений, переходы на сайт, поведение на странице, заявки. Обрыв всегда виден в одном из четырёх мест.</li>
+        <li><b>Называем причину прямо:</b> мало спроса в городе, слишком узкие запросы, цена выше рынка, не отвечают на заявки или слабая страница.</li>
+        <li><b>Что студия делает дальше:</b> <span class="w-ask">[запросить: решение владельца – доработка бесплатно, продление ведения, возврат части денег или что-то ещё]</span></li>
+        <li><b>Что фиксируем в договоре:</b> <span class="w-ask">[запросить: какие условия и сроки прописываем письменно]</span></li>
+      </ul>
+      <p class="w-note">Самый уязвимый блок: пока владелец не назвал своё обязательство, тут честный разбор процесса, а не обещание. Громкие формулировки вроде «гарантируем заявки» или «вернём деньги» дизайнеру не домысливать – ждём решения владельца. Если решения не будет, блок остаётся в этом виде: он всё равно сильнее молчания.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="8" data-name="Примеры локального бизнеса" data-question="Вы такое уже делали и что получилось?" data-proof="запросить: какие проекты можно показывать и какие цифры разрешено называть">
+    <div class="w-wrap w-stack">
+      <h2>Что уже запускали для локального бизнеса</h2>
+      <p><span class="w-ask">[запросить: какие проекты можно показывать на этой странице – ниша, город, что сделали]</span></p>
+      <div class="w-grid one-m" style="--cols:3;--cols-m:1">
+        <article class="w-card">
+          <div class="w-media small" data-alt="Первый экран сайта локального бизнеса на телефоне">Скрин первого экрана запущенного сайта на телефоне: доказывает, что страница живая и читается с телефона, откуда идёт реклама</div>
+          <h3>Ниша и город</h3>
+          <p>Что было до запуска, что сделали, что получилось. <span class="w-ask">[запросить: разрешение клиента называть его и показывать цифры]</span></p>
+        </article>
+        <article class="w-card">
+          <div class="w-media small" data-alt="Статистика Метрики: переходы из рекламы и достигнутые цели за месяц">Скрин Метрики с целью «заявка» за месяц, суммы без личных данных: доказывает, что заявки считаются, а не пересказываются словами</div>
+          <h3>Ниша и город</h3>
+          <p>Сколько заявок и по какой цене. <span class="w-ask">[запросить: можно ли публиковать цену заявки и бюджет]</span></p>
+        </article>
+        <article class="w-card">
+          <div class="w-media small" data-alt="Объявление в поиске Яндекса и карточка компании в Картах">Скрин объявления в поиске и карточки в Картах по одному проекту: показывает, как связка работает вместе</div>
+          <h3>Ниша и город</h3>
+          <p>Что из инструментов сработало лучше. <span class="w-ask">[запросить: какой проект можно показать на скрине]</span></p>
+        </article>
+      </div>
+      <p class="w-note">Блок пока пустой не случайно: это задача на материал, а не «добавьте кейсы». Нужно собрать по 3 проектам локального бизнеса: ниша и город, что было до, что сделали, что получилось в заявках, скрин Метрики за понятный период, скрин первого экрана на телефоне и письменное разрешение клиента на публикацию. Без разрешения показываем обезличенно: «салон красоты, Новосибирск». Пока материала нет, блок на боевой странице не публикуем, иначе получим три пустые рамки, и это хуже, чем отсутствие блока.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="9" data-name="Кто делает" data-question="Кто конкретно будет делать мой сайт и рекламу?" data-proof="есть: Артём Галимов, 15 лет в маркетинге, сайты с 2015 года; Денис Коротаев, Target Factory, ведёт Яндекс Директ; запросить: как называть эту связку и фото">
+    <div class="w-wrap w-stack">
+      <h2>Кто будет делать работу</h2>
+      <div class="w-hero">
+        <div class="w-stack">
+          <h3>Артём Галимов, основатель студии Deford</h3>
+          <p>15 лет в маркетинге, сайты делает с 2015 года. С вами на разборе говорит он же, а не менеджер: сам собирает смыслы страницы и отвечает за результат запуска.</p>
+          <p>Сайты собираем своим кодом на Astro. Это не сборка в конструкторе: страницу можно дорабатывать и расширять, и она не упирается в чужой тариф.</p>
+          <h3>Яндекс Директ ведёт Денис Коротаев, Target Factory</h3>
+          <p>Рекламу в Директе ведёт специалист, который занимается только этим. <span class="w-ask">[запросить: как называть это на странице – «наш партнёр» или «наша команда»]</span></p>
+          <div class="w-actions"><a class="w-btn ghost" href="https://t.me/Artem1Galimov">Написать Артёму в Telegram</a></div>
+        </div>
+        <div class="w-media" data-alt="Артём Галимов, основатель студии Deford">Живое фото Артёма, не сток и не аватар: лицо подрядчика снимает страх «заплачу неизвестно кому». <span class="w-ask">[запросить: фото Артёма для сайта]</span></div>
+      </div>
+      <p class="w-note">Авторство здесь не для красоты: локальный бизнес выбирает человека, а не студию. Фото обязательно настоящее; если фото не будет, блок остаётся текстовым, но стоковое лицо не ставить ни в каком виде. Формулировку про Дениса до ответа владельца на вёрстку не выносить.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="10" data-name="Вопросы перед заказом" data-question="Что меня ещё останавливает?" data-proof="есть: ответы про Astro, отдельные услуги и ссылки на будущие страницы; запросить: владение доменом и кабинетом, поддержка после запуска">
+    <div class="w-wrap w-stack w-faq">
+      <h2>Что спрашивают перед запуском</h2>
+      <details><summary>Можно взять только рекламу, без сайта?</summary><p>Да, инструменты продаются отдельно: для Директа будет страница /services/yandex-direct/, для Яндекс Бизнеса – /services/yandex-business/ (обе в плане). Но если рекламу вести некуда, кроме карточки в Картах, Директ запускать нет смысла: человеку из поиска нужна страница.</p></details>
+      <details><summary>На чём вы делаете сайт?</summary><p>На Astro, своим кодом. Страница грузится быстро, её можно дорабатывать и переносить, и вы не платите за сборку в чужом конструкторе.</p></details>
+      <details><summary>Кому принадлежат сайт, домен и рекламный кабинет?</summary><p><span class="w-ask">[запросить: на кого оформляем домен, хостинг и кабинет и что остаётся клиенту при расставании]</span></p></details>
+      <details><summary>Что будет после запуска, если нужно поменять текст или добавить услугу?</summary><p><span class="w-ask">[запросить: что входит в поддержку после запуска, сколько стоит и как быстро вносим правки]</span></p></details>
+      <details><summary>Сколько времени нужно от меня?</summary><p>Один созвон на разбор и ответы на вопросы по услуге и ценам. Дальше нужны только согласования: текст страницы и прототип вы смотрите до вёрстки. <span class="w-ask">[запросить: сколько по времени занимает созвон-разбор]</span></p></details>
+      <p class="w-note">Вопросы взяты из того, что реально спрашивают при заказе сайта с рекламой. Два ответа пустые не потому, что их забыли: это условия работы студии, их задаёт владелец. На вёрстку такой вопрос без ответа не выносим.</p>
+    </div>
+  </section>
+
+  <section class="w-block" id="zayavka" data-n="11" data-name="Заявка и быстрый канал" data-question="Как сделать первый шаг и что будет после?" data-proof="есть: Telegram и WhatsApp студии; запросить: срок ответа, что высылаем после заявки">
+    <div class="w-wrap w-stack">
+      <h2>Расскажите про услугу и город – ответим, как её запускать</h2>
+      <p>Это не «оставьте заявку и мы вам перезвоним». На разборе смотрим ваш спрос в Вордстате, что делают конкуренты в вашем городе и с чего дешевле начать: с Яндекс Бизнеса, с Директа или сразу с поиска.</p>
+      <form class="w-form" onsubmit="event.preventDefault()">
+        <h3>Получить план запуска</h3>
+        <label class="w-field">Как к вам обращаться<input id="f-name" autocomplete="name"></label>
+        <label class="w-field">Телефон или ник в Telegram<input id="f-phone" inputmode="tel" placeholder="+7 (___) ___-__-__ или @nick"></label>
+        <label class="w-field">Услуга и город<input id="f-task" placeholder="Например: натяжные потолки, Новосибирск"></label>
+        <label class="w-check"><input type="checkbox" id="f-agree" data-agree> <span>Согласен на обработку <a href="/legal/personal-data/">персональных данных</a></span></label>
+        <button class="w-btn" id="f-send" type="submit" disabled>Получить план запуска</button>
+        <p class="w-hint">Напишем в тот канал, который вы указали, и зададим несколько вопросов про услугу и цены. Без звонков-продаж и без рассылок.</p>
+        <div class="w-success">
+          <p><b>Заявка принята.</b></p>
+          <p>Отвечает Артём Галимов, основатель студии, в течение <span class="w-ask">[запросить: срок ответа на заявку]</span></p>
+          <p>Срочно – напишите сразу: <a href="https://t.me/Artem1Galimov">Telegram</a> или <a href="https://wa.me/79537777891">WhatsApp</a></p>
+          <p>Чтобы разбор был точным, подготовьте: ссылку на текущий сайт или объявления, если они есть, цену вашей услуги и города, в которых хотите рекламу. Второй шаг: <span class="w-ask">[запросить: что высылаем после заявки – примеры работ, план запуска или смета]</span></p>
+        </div>
+      </form>
+      <p class="w-note">Три поля – предел для рекламного трафика: имя, канал связи, услуга и город. Поле «услуга и город» оставить обязательно, оно отсекает случайные заявки и экономит первый разговор. Состояние после отправки смотреть переключателем «После отправки» в панели сверху. Отдельной страницы «Спасибо» не делаем: ответ показываем на месте формы, чтобы человек не терял страницу.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="w-footer"><div class="w-wrap w-stack">
+  <span><b>Студия Deford</b> · сайты на своём коде и реклама для локального бизнеса</span>
+  <span><a href="https://t.me/Artem1Galimov">Telegram @Artem1Galimov</a> · <a href="https://wa.me/79537777891">WhatsApp +7 953 777-78-91</a></span>
+  <span class="w-muted">Телефон, адрес и реквизиты: <span class="w-ask">[запросить: телефон, юридические данные и города работы для подвала]</span></span>
+  <span class="w-muted"><a href="/legal/personal-data/">Политика обработки персональных данных</a> · <a href="/legal/consent/">Согласие на обработку</a> · <a href="/legal/cookies/">Файлы cookie</a></span>
+</div></footer>
+
+<div class="w-sticky"><a class="w-btn" href="https://t.me/Artem1Galimov">Написать в Telegram</a><a class="w-btn ghost" href="https://wa.me/79537777891">WhatsApp</a></div>
+
+<script>
+// Переключатели прототипа и подпись логики над каждым блоком (по умолчанию скрыто).
+document.querySelectorAll('.w-block').forEach(function (b) {
+  var d = b.dataset, el = document.createElement('div');
+  el.className = 'w-logic';
+  el.innerHTML = '<b>Блок ' + (d.n || '?') + ' · ' + (d.name || '') + '</b><br>Вопрос клиента: ' + (d.question || '–') + '<br>Опора: ' + (d.proof || '–');
+  if (b.tagName === 'HEADER') b.prepend(el); else (b.querySelector('.w-wrap') || b).prepend(el);
+});
+document.getElementById('t-logic').addEventListener('change', function (e) { document.body.classList.toggle('show-logic', e.target.checked); });
+document.getElementById('t-notes').addEventListener('change', function (e) { document.body.classList.toggle('show-notes', e.target.checked); });
+document.getElementById('t-seo').addEventListener('change', function (e) { document.body.classList.toggle('show-seo', e.target.checked); });
+document.getElementById('t-success').addEventListener('change', function (e) { document.body.classList.toggle('show-success', e.target.checked); });
+(function () {
+  var src = document.getElementById('w-seo'), box = document.getElementById('w-seo-box');
+  if (!src || !box) return;
+  var d = JSON.parse(src.textContent), esc = function (t) { return String(t).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); };
+  var len = function (t, max) { return ' <span class="' + (t.length > max ? 'bad' : '') + '">(' + t.length + ' / ' + max + ')</span>'; };
+  var heads = [].map.call(document.querySelectorAll('main h1, main h2, header h1'), function (h) { return '<li>' + h.tagName + ' – ' + esc(h.textContent.trim()) + '</li>'; }).join('');
+  var alts = [].map.call(document.querySelectorAll('.w-media[data-alt]'), function (m) { return '<li>' + esc(m.dataset.alt) + '</li>'; }).join('');
+  box.innerHTML = '<table><tr><td>title</td><td>' + esc(d.title) + len(d.title, 65) + '</td></tr><tr><td>description</td><td>' + esc(d.description) + len(d.description, 160) +
+    '</td></tr><tr><td>запрос</td><td>' + esc(d.zapros || '–') + '</td></tr><tr><td>заголовки</td><td><ul>' + heads + '</ul></td></tr><tr><td>alt</td><td><ul>' + (alts || '<li>–</li>') +
+    '</ul></td></tr><tr><td>разметка</td><td>' + esc(d.schema || '–') + '</td></tr><tr><td>ссылки</td><td><ul>' + (d.links || []).map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul></td></tr></table>';
+})();
+document.getElementById('ask-count').textContent = document.querySelectorAll('.w-ask').length;
+// Любая форма: галочка data-agree включает кнопку отправки своей формы.
+document.querySelectorAll('form').forEach(function (f) {
+  var a = f.querySelector('[data-agree]'), btn = f.querySelector('button[type="submit"], button:not([type])');
+  if (a && btn) a.addEventListener('change', function () { btn.disabled = !a.checked; });
+});
+</script>
+<!-- Виджеты: подключение (раскомментировать вместе с блоком в head).
+<div data-vidzhety data-src="vidzhety-stranica.json"></div>
+<script src="https://tema-mail.github.io/vidzhety/vidzhety.js"></script>
+Пример vidzhety-stranica.json (факты – только с сайта клиента; срок акции не выдумывать):
+{
+  "demo": true, "consent": false, "endpoint": "demo:", "tz": 7, "agreement": "https://<сайт>/soglasie",
+  "widgets": [
+    { "id": "svyaz", "enabled": true, "type": "contacts", "group": "contact", "trigger": { "on": "load" },
+      "content": { "layout": "side", "phone": "+70000000000", "phoneText": "8 (000) 000-00-00", "wa": "https://wa.me/70000000000",
+        "tg": "https://t.me/...", "email": "...", "callback": "zvonok",
+        "buttons": [ { "text": "Главное действие страницы", "open": "zvonok", "kind": "main" }, { "text": "Позвонить", "href": "tel:+70000000000" } ] } },
+    { "id": "akciya", "enabled": true, "type": "modal", "trigger": { "on": "time", "s": 20 }, "mobileAs": "bar",
+      "content": { "title": "Предложение с сайта", "text": "Оставьте телефон – менеджер закрепит условия.", "short": "Коротко для плашки", "button": "Закрепить" },
+      "form": { "fields": ["phone"], "button": "Оставить телефон" } },
+    { "id": "uhod", "enabled": true, "type": "modal", "trigger": { "on": "exit" }, "target": { "device": "desktop" },
+      "content": { "title": "Предложение на уходе" }, "form": { "fields": ["phone"] } },
+    { "id": "zvonok", "enabled": true, "type": "callback", "trigger": { "on": "click" }, "content": { "title": "Перезвоним вам" },
+      "form": { "fields": ["name", "phone"], "button": "Перезвоните мне" } }
+  ]
+}
+В комментарий дизайнеру (.w-note) – строка «Виджеты страницы: … Почему так: …».
+-->
+</body>
+</html>

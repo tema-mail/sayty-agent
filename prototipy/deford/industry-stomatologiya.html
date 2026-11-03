@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Прототип – Сайт для стоматологии (шаблон нишевой страницы Deford)</title>
+<!-- kit.css вставляется целиком внутрь <style> (прототип – один файл, открывается без интернета) -->
+<style>/* Комплект чёрно-белого прототипа (маркетолог → site-prototype).
+   Прототип показывает смысл, текст, порядок и действие – не дизайн. Цвета только серые; дизайнер делает визуал после «да» владельца.
+   Блок: <section class="w-block" data-n="1" data-name="Первый экран" data-question="вопрос клиента" data-proof="опора"> */
+:root {
+  --ink: #141414; --muted: #5f5f5f; --line: #b9b9b9; --fill: #ececec; --fill2: #f6f6f6; --paper: #ffffff;
+  --note: #fff6c8; --note-line: #c9b44a; --ask: #7a1f1f;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, Menlo, Consolas, monospace;
+  --wrap: 1180px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 var(--font); }
+img { max-width: 100%; }
+a { color: var(--ink); }
+h1, h2, h3 { margin: 0; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(28px, 4.2vw, 46px); }
+h2 { font-size: clamp(22px, 3vw, 32px); }
+h3 { font-size: 18px; }
+p { margin: 0; }
+.w-wrap { max-width: var(--wrap); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.w-stack { display: grid; gap: 14px; }
+.w-muted { color: var(--muted); }
+
+/* Панель прототипа: переключатели «Логика» и «Комментарии» */
+.w-bar { position: sticky; top: 0; z-index: 50; background: var(--ink); color: #fff; font: 13px/1.3 var(--mono); }
+.w-bar .w-wrap { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding-block: 8px; }
+.w-bar b { font-weight: 600; }
+.w-bar label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+
+/* Блок и его подпись логики */
+.w-block { border-top: 1px dashed var(--line); padding-block: 40px; position: relative; }
+.w-logic { display: none; font: 12.5px/1.45 var(--mono); background: var(--fill2); border: 1px solid var(--line); padding: 8px 10px; margin-bottom: 18px; }
+body.show-logic .w-logic { display: block; }
+.w-logic b { font-weight: 700; }
+.w-note { display: none; background: var(--note); border: 1px dashed var(--note-line); padding: 8px 10px; font-size: 13.5px; margin-top: 12px; }
+body.show-notes .w-note { display: block; }
+.w-note::before { content: "Дизайнеру: "; font-weight: 700; }
+.w-seo { display: none; font: 13px/1.5 var(--mono); background: #eef3ff; border: 1px solid #8aa0d6; padding: 12px 14px; margin: 12px auto; max-width: var(--wrap); }
+body.show-seo .w-seo { display: block; }
+.w-seo table { border-collapse: collapse; width: 100%; }
+.w-seo td { border-top: 1px solid #c9d4ee; padding: 4px 6px; vertical-align: top; }
+.w-seo td:first-child { white-space: nowrap; font-weight: 700; width: 1%; }
+.w-seo .bad { color: var(--ask); font-weight: 700; }
+.w-seo ul { margin: 0; padding-left: 18px; }
+.w-ask { color: var(--ask); font-weight: 600; background: #f7e9e9; padding: 0 4px; }
+
+/* Место под фото/видео/схему: роль, а не «картинка» */
+.w-media { background: repeating-linear-gradient(45deg, var(--fill), var(--fill) 10px, var(--fill2) 10px, var(--fill2) 20px);
+  border: 1px solid var(--line); min-height: 220px; display: grid; place-items: center; text-align: center; padding: 16px;
+  color: var(--muted); font-size: 14px; }
+.w-media::before { content: "▣ "; }
+.w-media.small { min-height: 120px; }
+
+/* Кнопки */
+.w-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border: 2px solid var(--ink);
+  background: var(--ink); color: #fff; font-weight: 600; text-decoration: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+.w-btn.ghost { background: transparent; color: var(--ink); }
+.w-btn[disabled] { opacity: .45; cursor: not-allowed; }
+.w-hint { font-size: 13px; color: var(--muted); }
+
+/* Шапка */
+.w-header .w-wrap { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between; padding-block: 12px; }
+.w-logo { border: 2px solid var(--ink); padding: 6px 10px; font-weight: 700; }
+.w-descr { font-size: 13.5px; color: var(--muted); max-width: 34ch; }
+.w-contacts-top { display: grid; gap: 2px; font-size: 14px; text-align: right; }
+.w-nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14.5px; border-top: 1px solid var(--line); padding-block: 8px; }
+
+/* Первый экран */
+.w-hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; }
+.w-hero ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.w-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* Сетки и карточки */
+.w-grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 14px; }
+.w-card { border: 1px solid var(--line); padding: 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.w-card .w-media { min-height: 140px; }
+.w-price { font-weight: 700; }
+
+/* Этапы */
+.w-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 14px; counter-reset: st; }
+.w-steps li { border: 1px solid var(--line); padding: 14px; counter-increment: st; display: grid; gap: 6px; }
+.w-steps li::before { content: counter(st); font-weight: 700; font-size: 22px; }
+
+/* Таблица */
+.w-table-wrap { overflow-x: auto; }
+.w-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.w-table th, .w-table td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+.w-table th { background: var(--fill2); }
+
+/* FAQ */
+.w-faq details { border: 1px solid var(--line); padding: 12px 14px; }
+.w-faq details + details { border-top: 0; }
+.w-faq summary { font-weight: 600; cursor: pointer; }
+
+/* Форма */
+.w-form { border: 2px solid var(--ink); padding: 18px; display: grid; gap: 12px; max-width: 520px; }
+.w-field { display: grid; gap: 4px; font-size: 14px; }
+.w-field input, .w-field select { min-height: 44px; border: 1px solid var(--ink); padding: 0 10px; font: inherit; background: #fff; }
+.w-check { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; }
+
+/* Полоса призыва */
+.w-cta { background: var(--fill); padding: 24px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+/* Плашка призыва между блоками: section.w-block.w-cta-strip с одной строкой предложения и кнопкой или мини-формой (карточка prizyv-mezhdu-blokami) */
+.w-block.w-cta-strip { padding-block: 16px; }
+.w-cta-strip .w-cta { padding: 14px 18px; }
+.w-cta-strip .w-cta p { margin: 0; font-weight: 600; }
+
+/* Состояние формы после отправки (карточка stranica-spasibo-sleduyushchiy-shag): видно по переключателю «После отправки» */
+.w-success { display: none; border: 2px dashed var(--ink); padding: 14px; background: var(--fill); }
+.w-success p { margin: 0 0 6px; }
+body.show-success .w-success { display: block; }
+
+/* Подвал */
+.w-footer { background: var(--fill2); border-top: 1px solid var(--line); padding-block: 28px; font-size: 14px; }
+
+/* Липкая панель действий на телефоне */
+.w-sticky { display: none; }
+header.w-block { padding-block: 0; border-top: 0; }
+header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
+
+@media (max-width: 760px) {
+  .w-hide-m { display: none !important; }
+  /* Мобильная шапка: логотип, короткий дескриптор и «Меню»; звонок и мессенджеры – в липкой панели снизу */
+  .w-header .w-wrap { flex-wrap: nowrap; padding-block: 8px; gap: 10px; }
+  .w-header .w-contacts-top, .w-header .w-wrap > .w-btn, .w-nav { display: none !important; }
+  .w-header .w-descr { font-size: 12px; line-height: 1.3; }
+  .w-header > .w-wrap:first-of-type::after { content: "☰ Меню"; margin-left: auto; border: 1px solid var(--ink); padding: 6px 10px; font-size: 13px; white-space: nowrap; }
+  .w-hero .w-media, .w-block[data-n="1"] .w-media:first-of-type { min-height: 160px; }
+  .w-bar .w-wrap { padding-block: 4px; gap: 4px 10px; font-size: 11px; }
+  .w-hero { grid-template-columns: 1fr; }
+  .w-grid { grid-template-columns: repeat(var(--cols-m, 2), minmax(0, 1fr)); }
+  .w-steps { grid-template-columns: 1fr; }
+  .w-contacts-top { text-align: left; }
+  .w-block { padding-block: 28px; }
+  .w-sticky { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+    background: #fff; border-top: 1px solid var(--line); }
+  body { padding-bottom: 72px; }
+}
+@media (max-width: 420px) { .w-grid.one-m { grid-template-columns: 1fr; } }
+/* Нишевое место шаблона: подставляется при переносе страницы на другую нишу (серый пунктир, не элемент дизайна) */
+.w-slot { border-bottom: 2px dotted var(--line); background: var(--fill2); padding: 0 2px; }
+
+</style>
+<!-- Виджеты страницы (окна, ярлычок, боковая панель мессенджеров, нижняя панель телефона) – модуль tema-mail/vidzhety.
+     Набор под страницу – по справочнику ~/.claude/skills/marketolog/references/vidzhety-spravochnik.md. Чтобы включить – раскомментировать
+     это и блок «Виджеты: подключение» в конце страницы, положить рядом vidzhety-<страница>.json. Образец – ~/Sites/sayty-agent/prototipy/gaz-mag/.
+<link rel="stylesheet" href="https://tema-mail.github.io/vidzhety/vidzhety.css">
+<style>
+:root { --w-accent: #141414; --w-accent-2: #5f5f5f; --w-radius: 6px; --w-wa: #3d3d3d; --w-tg: #3d3d3d; --w-max: #3d3d3d; }
+body.vz-has-sticky .w-sticky { display: none !important; }
+</style>
+-->
+</head>
+<body>
+<!-- Прототип страницы-образца нишевого раздела Deford: /industries/stomatologiya/.
+     Это ШАБЛОН под 5–7 ниш. Нишевые места подсвечены пунктиром (класс .w-slot) – их меняем при переносе.
+     Инструкция по переносу – комментарием в самом низу файла. Тире только «–». -->
+<div class="w-bar"><div class="w-wrap">
+  <b>Прототип · Deford · /industries/stomatologiya/ · версия 03.11.2026</b>
+  <label><input type="checkbox" id="t-logic"> Логика блоков</label>
+  <label><input type="checkbox" id="t-notes"> Комментарии дизайнеру</label>
+  <label><input type="checkbox" id="t-seo"> SEO страницы</label>
+  <label><input type="checkbox" id="t-success"> После отправки</label>
+  <span>Меток «запросить»: <b id="ask-count">0</b></span>
+  <span>Пунктир = нишевое место шаблона</span>
+</div></div>
+
+<!-- SEO-задание страницы. Отдельного файла docs/marketing/seo-industry-stomatologiya.md нет – слой собран из задания главного
+     и замера спроса ~/Sites/sayty-agent/deford/nishi-120-2026-10.tsv. Поисковой задачи у страницы нет: 25 запросов в месяц на всю Россию. -->
+<script type="application/json" id="w-seo">{"title": "Сайт для стоматологии под ключ – 120 000 ₽ · Deford", "description": "Сайт стоматологии на своём коде: запись, цены, врачи, лицензии. Фиксированно 120 000 ₽ до 100 страниц. Сначала покажем спрос на ваши услуги в вашем городе.", "h1": "Сайт для стоматологии", "zapros": "создание сайта для стоматологии – 25 запросов в месяц на всю Россию, точная фраза 23 (Wordstat, октябрь 2026). Поискового спроса на «сайт для <ниша>» нет: страница работает на рекламу и ссылку из КП, не на поиск", "schema": "Service (разработка сайта для стоматологии), Organization (Deford, Артём Галимов), BreadcrumbList: Главная – Ниши – Сайт для стоматологии. Только то, что видно на странице; Review и AggregateRating не ставить, пока нет кейса в нише", "links": ["/services/website/ – сайт под ключ, полный состав работ и цена 120 000 ₽", "/services/seo/ – ведение сайта и рост записей, 10 000 ₽/мес", "/industries/ – другие ниши, где у нас есть показываемый результат", "/cases/ – работа в нише; адрес появится, когда кейс по клинике подтвердят"]}</script>
+<div class="w-seo" id="w-seo-box"></div>
+
+<header class="w-header w-block" data-n="0" data-name="Шапка" data-question="Куда я попал и как быстро связаться?" data-proof="название студии, канал связи, адрес раздела ниш">
+  <div class="w-wrap">
+    <span class="w-logo">DEFORD</span>
+    <span class="w-descr">Сайты на коде для <span class="w-slot">клиник и медцентров</span>. Фиксированная цена, без конструкторов.</span>
+    <span class="w-contacts-top w-hide-m"><a href="https://t.me/Artem1Galimov">Telegram</a><a href="https://wa.me/79537777891">WhatsApp</a><span class="w-muted"><span class="w-ask">[запросить: телефон для шапки]</span></span></span>
+    <a class="w-btn ghost w-hide-m" href="#zayavka">Показать спрос</a>
+  </div>
+  <nav class="w-wrap w-nav"><a href="/services/website/">Сайт под ключ</a><a href="/services/seo/">Ведение и рост</a><a href="/industries/">Ниши</a><a href="/cases/">Работы</a><a href="#zayavka">Связаться</a></nav>
+  <div class="w-wrap"><p class="w-note">Шапка общая для всех нишевых страниц, меняется только дескриптор (нишевое место). На телефоне – логотип, дескриптор в одну строку и «Меню»; мессенджеры и главное действие – в липкой панели снизу. Хлебные крошки «Главная – Ниши – Сайт для стоматологии» дизайнер ставит под шапкой: человек должен видеть, что ниш несколько.</p></div>
+</header>
+
+<main>
+  <section class="w-block" data-n="1" data-name="Первый экран" data-question="Вы делаете сайты именно для таких клиник, как моя, и сколько это стоит?" data-proof="цена 120 000 ₽ фиксированно до 100 страниц – условие студии; срок ждёт подтверждения">
+    <div class="w-wrap">
+      <div class="w-hero">
+        <div class="w-stack">
+          <h1>Сайт для <span class="w-slot">стоматологии</span></h1>
+          <p>Собираем сайт, с которого <span class="w-slot">записываются к врачу</span>: запись на время, цены по услугам, врачи с образованием, лицензии. На своём коде, не на конструкторе.</p>
+          <ul>
+            <li><b>120 000 ₽ фиксированно</b> – до 100 страниц, цена не меняется по ходу работы</li>
+            <li><b>Срок</b> – <span class="w-ask">[запросить: срок сдачи сайта под ключ, в неделях]</span></li>
+            <li><b>Сначала цифры, потом разговор</b> – покажем спрос на <span class="w-slot">услуги клиники</span> в вашем городе</li>
+          </ul>
+          <div class="w-actions"><a class="w-btn" href="#zayavka">Показать спрос в вашем городе</a><a class="w-btn ghost" href="https://t.me/Artem1Galimov">Написать в Telegram</a></div>
+          <p class="w-hint">Пришлём таблицу: какие <span class="w-slot">услуги клиники</span> ищут в вашем городе и сколько раз в месяц. Без звонка, если сами не попросите.</p>
+        </div>
+        <div class="w-media" data-alt="таблица спроса на услуги стоматологии по городу клиента – замер студии Deford">Роль: снимок нашей таблицы спроса по городу клиента – строки с услугами клиники, числа запросов в месяц, одна строка выделена. Доказывает, что первый шаг – замер, а не обещание трафика.</div>
+      </div>
+      <p class="w-note">Главное про назначение страницы. Поискового спроса на «сайт для &lt;ниша&gt;» не существует: снят замер по 119 нишам (Wordstat, Россия, октябрь 2026, файл ~/Sites/sayty-agent/deford/nishi-120-2026-10.tsv). Стоматология – лучший результат из всех: «создание сайта для стоматологии» 25 запросов в месяц на всю страну, точная фраза 23. Для сравнения: автосервис 9, цветочный магазин 3, автосалон 2, установочный центр 0. Поэтому страница работает НЕ на поиск, а на продажу: сюда приходят из рекламы и по ссылке из коммерческого предложения, и человек должен за две секунды увидеть свою нишу и наши цифры в ней. Таких страниц делаем столько, сколько ниш, где есть показываемый результат, – не круглое число «сделаем 20 ниш». Дизайнеру: H1 крупно, цена рядом с ним, кнопка выше первого сгиба; фон – без стоковых улыбок из фотобанка.</p>
+      <p class="w-note">Виджеты страницы: на телефоне снизу «Показать спрос» (открывает форму) + «Написать в Telegram»; на компьютере боковая панель связи справа (Telegram, WhatsApp) и окно на уходе «Заберите таблицу спроса по вашему городу» с одним полем. Окна по времени нет. Почему так: трафик рекламный и дорогой, а решение долгое – мягкий первый шаг нужен и на уходе; на поисковые страницы это не влияет, страница под noindex-логикой продаж. Правила модуля: первые 10 с ничего не всплывает, не больше двух окон за визит, после заявки окна молчат, на телефоне окно становится плашкой. Подключение – закомментированный блок в конце файла, набор по справочнику ~/.claude/skills/marketolog/references/vidzhety-spravochnik.md.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="2" data-name="Что не так у сайтов ниши" data-question="Вы вообще понимаете, как устроен сайт такой клиники?" data-proof="наш осмотр сайтов клиник – наблюдение, выборка не посчитана">
+    <div class="w-wrap w-stack">
+      <h2>Что мы видим, когда открываем сайты <span class="w-slot">стоматологий</span></h2>
+      <div class="w-grid" style="--cols:1;--cols-m:1">
+        <article class="w-card"><h3>Записаться нельзя – только позвонить</h3><p>Человек выбирает <span class="w-slot">клинику</span> вечером, после работы. Звонить он не станет, а формы «оставьте телефон, мы перезвоним» ждут до утра. Нужна запись на конкретное время к конкретному <span class="w-slot">врачу</span>.</p></article>
+        <article class="w-card"><h3>Цен нет или они в файле</h3><p>«Имплантация – от» без списка работ, или прайс PDF-файлом, который на телефоне открывается в полэкрана. Цену ищут до звонка, и если её нет – идут туда, где она есть.</p></article>
+        <article class="w-card"><h3><span class="w-slot">Врачи</span> – список фамилий</h3><p>Без фото, образования, стажа и направлений выбрать не из чего. А выбирают в <span class="w-slot">медицине</span> именно человека, а не организацию.</p></article>
+        <article class="w-card"><h3><span class="w-slot">Лицензии и документы</span> спрятаны</h3><p>Документ есть, но на сайте его нет или он нечитаемым сканом. Это первое, что проверяют перед <span class="w-slot">имплантацией и наркозом</span>.</p></article>
+        <article class="w-card"><h3>Отзывы написаны самим сайтом</h3><p>Три безымянных отзыва в рамке вместо ссылок на Яндекс Карты и 2ГИС, где отзывы живые и их видно целиком.</p></article>
+      </div>
+      <p class="w-hint"><span class="w-slot">Нишевое место шаблона</span>: весь список болей меняется под нишу. Автосервису – мастера и оборудование вместо врачей и лицензий.</p>
+      <p class="w-note">Это наше наблюдение, а не замер: ни «никто», ни «всегда», ни процентов здесь нет. Чтобы поставить цифру («у 8 из 10 клиник города нет цен на сайте»), надо открыть 20 сайтов клиник в городе клиента и посчитать – тогда блок усилится и станет вторым доказательством после спроса. Пока цифр нет, формулировки держим как наблюдение. Дизайнеру: пять пунктов в одну колонку с короткими подзаголовками, читается за 20 секунд; иконки не нужны, нужен контраст заголовка и пояснения.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="3" data-name="Спрос в вашем городе" data-question="Мне-то сколько людей ищет мои услуги и сколько я из них не получаю?" data-proof="Wordstat по региону клиента – замер делаем до разговора; по городу клиента ещё не снят">
+    <div class="w-wrap w-stack">
+      <h2>Сколько людей в вашем городе ищут <span class="w-slot">ваши услуги</span> – и сколько из них вас не находят</h2>
+      <p>Не наши обещания, а спрос ваших пациентов числами. Берём список <span class="w-slot">услуг клиники</span>, снимаем частоту запросов по вашему региону за прошлый месяц и сверяем с вашим сайтом: есть ли под эту услугу отдельная страница. Строки без страницы – это люди, которые ищут <span class="w-slot">вашу услугу</span> и не доходят до вас.</p>
+      <p><span class="w-ask">[запросить: снять спрос по городу клиента перед показом – без этого блок не показываем]</span></p>
+      <div class="w-table-wrap">
+        <table class="w-table">
+          <thead><tr><th><span class="w-slot">Услуга клиники</span></th><th>Запросов в месяц в вашем городе</th><th>Есть ли у вас такая страница</th></tr></thead>
+          <tbody>
+            <tr><td><span class="w-slot">Имплантация зубов</span></td><td>NN</td><td>нет</td></tr>
+            <tr><td><span class="w-slot">Брекеты и выравнивание</span></td><td>NN</td><td>нет</td></tr>
+            <tr><td><span class="w-slot">Лечение кариеса</span></td><td>NN</td><td>есть, но без цен</td></tr>
+            <tr><td><span class="w-slot">Профгигиена и чистка</span></td><td>NN</td><td>нет</td></tr>
+            <tr><td><span class="w-slot">Детская стоматология</span></td><td>NN</td><td>нет</td></tr>
+            <tr><td><span class="w-slot">Протезирование</span></td><td>NN</td><td>есть</td></tr>
+            <tr><td><b>Итого по <span class="w-slot">услугам клиники</span></b></td><td><b>NN</b></td><td><b>без своей страницы – NN запросов в месяц</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="w-hint">Под таблицей на сайте – подпись источника: Wordstat, регион и месяц замера, дата снятия. Числа «NN» – место под замер, а не пример: цифры подставляем только после снятия спроса по городу клиента.</p>
+      <div class="w-media" data-alt="снимок Wordstat с выбранным регионом и частотой запросов на услуги стоматологии">Роль: снимок окна Wordstat с выбранным регионом клиента и строками его услуг с частотами. Доказывает, откуда цифры, – человек видит инструмент, а не нашу картинку.</div>
+      <p class="w-note">Это главный блок страницы, ради него она и существует: вместо «сделаем красиво» – спрос самого клиента числами. Дизайнеру: таблица должна читаться на телефоне (на 390 – прокрутка внутри таблицы или перестройка в карточки «услуга / NN / есть страница»); строки без страницы выделить, итоговую строку отбить. Анимация не нужна, нужна читаемость чисел. Замер по городу клиента делаем руками до показа: пустую таблицу не показываем никому.</p>
+    </div>
+  </section>
+
+  <section class="w-block w-cta-strip" data-n="3а" data-name="Плашка после спроса" data-question="Сколько стоит узнать свои цифры?" data-proof="замер спроса – наш первый шаг, он бесплатный">
+    <div class="w-wrap"><div class="w-cta"><p>Спрос по вашему городу снимем бесплатно – до любого разговора о сайте</p><a class="w-btn" href="#zayavka">Прислать таблицу спроса</a></div></div>
+  </section>
+
+  <section class="w-block" data-n="4" data-name="Страницы сайта ниши" data-question="Из чего будет состоять мой сайт?" data-proof="карта сайта с адресами страниц – наш первый этап, до вёрстки">
+    <div class="w-wrap w-stack">
+      <h2>Из каких страниц собирается сайт <span class="w-slot">клиники</span>, чтобы его находили и чтобы с него записывались</h2>
+      <div class="w-grid" style="--cols:3;--cols-m:1">
+        <article class="w-card"><h3><span class="w-slot">Услуги по направлениям</span></h3><p>Одна услуга – одна страница с ценой, этапами и сроком: <span class="w-slot">имплантация, брекеты, гигиена, детский приём</span>. Общая страница «Услуги» списком не находится и не читается.</p></article>
+        <article class="w-card"><h3><span class="w-slot">Врачи</span></h3><p>Карточка <span class="w-slot">врача</span>: фото, направления, стаж, образование, сертификаты и кнопка записи именно к нему. Выбирают человека.</p></article>
+        <article class="w-card"><h3>Цены</h3><p>Таблица по услугам с датой обновления. Видно, что входит в цену, а что считается отдельно.</p></article>
+        <article class="w-card"><h3><span class="w-slot">Лицензии и документы</span></h3><p>Читаемые сканы с подписями: что за документ, кем выдан, до какого числа. Открывается в полный размер.</p></article>
+        <article class="w-card"><h3>Отзывы</h3><p>Ссылки на Яндекс Карты и 2ГИС плюс разобранные истории <span class="w-slot">лечения</span> – с разрешения <span class="w-slot">пациента</span>.</p></article>
+        <article class="w-card"><h3><span class="w-slot">Запись</span></h3><p>Запись на конкретное время к конкретному <span class="w-slot">врачу</span>, а не «оставьте телефон». <span class="w-ask">[запросить: с какими программами записи клиник мы умеем связывать сайт]</span></p></article>
+      </div>
+      <p class="w-hint"><span class="w-slot">Нишевое место шаблона</span>: набор карточек целиком свой у каждой ниши – это и показывает, что мы в теме.</p>
+      <p class="w-note">Блок про структуру сайта, а не про ниши вообще. Карту сайта с адресами страниц владелец клиники утверждает до вёрстки – дизайнеру: шесть карточек, на компьютере по три в ряд, на 390 – одна под другой (в две колонки текст не читается), без вставок на всю ширину.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="5" data-name="Что входит в цену" data-question="Что я получу за 120 000 ₽ и где подвох?" data-proof="цена студии: 120 000 ₽ фиксированно, до 100 страниц; ведение отдельно 10 000 ₽/мес">
+    <div class="w-wrap w-stack">
+      <h2>Что входит в 120 000 ₽</h2>
+      <ol class="w-steps" style="--cols:4">
+        <li><b>Карта сайта и адреса страниц</b><span>Согласуем до вёрстки – вы видите структуру и понимаете, за что платите.</span></li>
+        <li><b>Прототип каждой страницы</b><span>Такой же чёрно-белый документ, как этот: тексты, порядок блоков, действия. Правки – здесь, а не в готовом сайте.</span></li>
+        <li><b>Дизайн и код на Astro</b><span>Своим кодом, не конструктором. До 100 страниц – внутри этой цены.</span></li>
+        <li><b>Запуск на вашем домене</b><span>Формы с согласием на обработку данных, заявки приходят вам.</span></li>
+      </ol>
+      <p><span class="w-ask">[запросить: полный состав работ и что в цену НЕ входит – сверить со страницей /services/website/]</span></p>
+      <div class="w-actions"><a class="w-btn ghost" href="/services/website/">Подробно про сайт под ключ</a></div>
+      <p class="w-note">Коротко и без повтора страницы услуги: четыре шага и ссылка. Дизайнеру: 120 000 ₽ в блоке – один раз и крупно, рядом строка «до 100 страниц». Ничего про «скидку» и «акцию» – цена фиксированная, это и есть аргумент.</p>
+    </div>
+  </section>
+
+  <section class="w-block w-cta-strip" data-n="5а" data-name="Плашка после цены" data-question="А моей клинике сколько страниц нужно?" data-proof="считаем по списку услуг клиники и снятому спросу">
+    <div class="w-wrap"><div class="w-cta"><p>Не знаете, сколько страниц нужно <span class="w-slot">вашей клинике</span> – посчитаем по вашим <span class="w-slot">услугам</span> и спросу</p><a class="w-btn" href="#zayavka">Посчитать мой сайт</a></div></div>
+  </section>
+
+  <section class="w-block" data-n="6" data-name="Требования закона" data-question="Не прилетит ли мне за сайт от проверяющих?" data-proof="наш черновик по 152-ФЗ и 38-ФЗ – юридически не проверен">
+    <div class="w-wrap w-stack">
+      <h2>Что <span class="w-slot">сайту клиники</span> требуется по закону – и что мы ставим сразу</h2>
+      <p><span class="w-ask">[запросить: сверить список с юристом – мы его юридически не проверяли, до сверки блок в бой не идёт]</span></p>
+      <div class="w-grid" style="--cols:2;--cols-m:1">
+        <article class="w-card"><h3><span class="w-slot">Лицензия на медицинскую деятельность</span></h3><p>Номер, дата, кем выдана и читаемый скан – на сайте, а не только в рамке на стене. Плюс сведения о <span class="w-slot">клинике</span>: название, адрес, режим работы.</p></article>
+        <article class="w-card"><h3>Сведения о <span class="w-slot">врачах</span></h3><p>ФИО, должность, специальность, образование – в открытом доступе на карточке <span class="w-slot">врача</span>.</p></article>
+        <article class="w-card"><h3>Согласие на обработку данных</h3><p>У каждой формы – пустая галочка и ссылка на отдельный документ. Предзаполненных галочек нет. Это делаем на любом сайте, не только <span class="w-slot">медицинском</span>.</p></article>
+        <article class="w-card"><h3>Обещать результат <span class="w-slot">лечения</span> нельзя</h3><p>Ни «гарантия 100%», ни «вылечим навсегда», ни «без боли» как обещания. Тексты пишем так, чтобы продавали факты: оборудование, стаж, срок гарантии на работу – то, что можно подтвердить.</p></article>
+      </div>
+      <p class="w-hint"><span class="w-slot">Нишевое место шаблона</span>: в других нишах здесь свои требования – допуски и СРО, маркировка, возрастные ограничения. Пустым блок не оставляем: нет требований – убираем целиком.</p>
+      <p class="w-note">Блок-черновик. До ответа юриста показываем его только как «мы про это знаем и проверим с юристом», без ссылок на статьи и номера пунктов: ошибка в законе дороже, чем отсутствие блока. Дизайнеру: четыре карточки, без красных предупреждающих значков – тон спокойный, это не запугивание.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="7" data-name="Кейс в нише" data-question="Вы такое уже делали и что это дало?" data-proof="кейса в нише стоматологии нет – блок ждёт подтверждения">
+    <div class="w-wrap w-stack">
+      <h2>Сайт <span class="w-slot">клиники</span>, который мы сделали, и что он изменил</h2>
+      <p><span class="w-ask">[запросить: есть ли кейс в нише стоматологии – если нет, страницу не публикуем]</span></p>
+      <div class="w-media" data-alt="главная страница сайта клиники, сделанного студией Deford, и цифры записей до и после">Роль: снимок сделанного нами сайта клиники рядом с цифрами «было – стало» (визиты, записи с сайта, за какой срок). Доказывает, что в этой нише у нас есть результат, а не только мнение.</div>
+      <p>Что нужно собрать для этого блока: адрес сайта и дата запуска; что было до (визиты, сколько записей приходило с сайта); что стало и за какой срок; разрешение <span class="w-slot">клиники</span> на публикацию; снимок до и после; одна фраза от руководителя.</p>
+      <p class="w-note">Самое важное решение по странице: нишевая страница без кейса в своей нише бессмысленна – человек пришёл за «вы делали такое у нас». Пока кейса нет, страница живёт как шаблон и как прототип под КП, в бой не идёт. Подставлять сюда кейс из другой ниши нельзя: это ровно то, за что не доверяют. Если кейса не будет вообще – честный вариант блока: «в этой нише мы делаем первый сайт, поэтому условия такие-то» (условия – только от владельца).</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="8" data-name="Что дальше после запуска" data-question="Сайт сделали – а записи откуда?" data-proof="ведение 10 000 ₽/мес – условие студии">
+    <div class="w-wrap w-stack">
+      <h2>После запуска: кто ведёт сайт и растит записи</h2>
+      <p>Сайт сам себя в поиск не поднимет. Ведение – 10 000 ₽ в месяц: следим за страницами, добавляем новые под спрос, который снимали на первом шаге, и смотрим, с каких страниц приходят записи.</p>
+      <p><span class="w-ask">[запросить: что входит в ведение за 10 000 ₽/мес – сверить со страницей /services/seo/]</span></p>
+      <div class="w-actions"><a class="w-btn ghost" href="/services/seo/">Что входит в ведение</a></div>
+      <p class="w-note">Блок замыкает логику страницы: спрос мы посчитали в начале – здесь говорим, кто его будет отрабатывать дальше. Ведение не навязываем: одна строка цены и ссылка.</p>
+    </div>
+  </section>
+
+  <section class="w-block" id="zayavka" data-n="9" data-name="Заявка и быстрый канал" data-question="Что я получу, если оставлю заявку?" data-proof="замер спроса по городу – наш первый бесплатный шаг">
+    <div class="w-wrap w-stack">
+      <form class="w-form" onsubmit="event.preventDefault()">
+        <h2>Получить спрос по вашему городу</h2>
+        <p>Пришлём таблицу: какие <span class="w-slot">услуги клиники</span> ищут в вашем городе, сколько раз в месяц и каких страниц под них нет на вашем сайте.</p>
+        <label class="w-field">Имя<input id="f-name" autocomplete="name"></label>
+        <label class="w-field">Телефон или Telegram<input id="f-phone" inputmode="tel" placeholder="+7 (___) ___-__-__"></label>
+        <label class="w-field">Город<input id="f-city" autocomplete="address-level2" placeholder="где находится клиника"></label>
+        <label class="w-field">Адрес сайта, если есть<input id="f-site" inputmode="url" placeholder="example.ru"></label>
+        <label class="w-check"><input type="checkbox" id="f-agree" data-agree> <span>Согласен на обработку <a href="/privacy/">персональных данных</a></span></label>
+        <button class="w-btn" id="f-send" type="submit" disabled>Прислать спрос по моему городу</button>
+        <p class="w-hint">В ответ – таблица спроса и список недостающих страниц. Бесплатно, без звонка, если сами не попросите.</p>
+        <div class="w-success">
+          <p><b>Заявка принята.</b></p>
+          <p>Спрос по вашему городу снимет Артём Галимов и пришлёт таблицу – <span class="w-ask">[запросить: срок ответа]</span>.</p>
+          <p>Срочно – <a href="https://t.me/Artem1Galimov">написать в Telegram</a> или <a href="https://wa.me/79537777891">в WhatsApp</a>.</p>
+          <p>Чтобы замер был точным, пришлите список <span class="w-slot">услуг клиники</span> – хоть из прайса. Пока ждёте, посмотрите, <a href="/services/website/">что входит в сайт под ключ</a>.</p>
+        </div>
+      </form>
+      <p>Проще написать – напишите: <a href="https://t.me/Artem1Galimov">Telegram</a>, <a href="https://wa.me/79537777891">WhatsApp</a>. Отвечает Артём, без менеджеров и скриптов.</p>
+      <p class="w-note">Поля подобраны под первый шаг: без города и списка услуг замер не сделать, поэтому город – обязательное поле, а сайт – нет (его может не быть, и это как раз наш случай). Галочка согласия пустая, кнопка неактивна до отметки. Дизайнеру: на телефоне форму видно целиком без зума, поля 16 px, липкая панель форму не перекрывает.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="10" data-name="Автор" data-question="Кто это вообще и с кем я буду говорить?" data-proof="15 лет в маркетинге, сайты с 2015 года – слова основателя, фото ждём">
+    <div class="w-wrap w-stack">
+      <h2>Кто будет делать ваш сайт</h2>
+      <div class="w-hero">
+        <div class="w-stack">
+          <h3>Артём Галимов, основатель Deford</h3>
+          <p>15 лет в маркетинге, сайты делаю с 2015 года. Разговариваете вы со мной, а не с менеджером: я снимаю спрос, собираю структуру и отвечаю за результат.</p>
+          <p>Поэтому страница начинается с ваших цифр, а не с нашего портфолио: если спроса на <span class="w-slot">ваши услуги</span> в городе мало, я скажу это сразу и сайт продавать не буду.</p>
+          <div class="w-actions"><a class="w-btn ghost" href="https://t.me/Artem1Galimov">Написать Артёму</a></div>
+        </div>
+        <div class="w-media" data-alt="Артём Галимов, основатель студии Deford – фото за работой">Роль: фото Артёма за работой (экран с картой сайта или таблицей спроса в кадре). Доказывает, что студия – конкретный человек, которого видно; стоковое фото «мужчина в костюме» здесь всё портит.</div>
+      </div>
+      <p class="w-note">Блок авторства нужен и для доверия, и для E-E-A-T: на живом сайте тут же разметка автора и ссылка на страницу «Об авторе». Фото владелец даст позже – пока место под фото с ролью.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="w-footer"><div class="w-wrap w-stack">
+  <span>Deford – сайты на коде. Основатель Артём Галимов. Связь: <a href="https://t.me/Artem1Galimov">Telegram</a>, <a href="https://wa.me/79537777891">WhatsApp</a>.</span>
+  <span>Ниши: <a href="/industries/">все разделы</a>. Услуги: <a href="/services/website/">сайт под ключ</a>, <a href="/services/seo/">ведение</a>.</span>
+  <span class="w-muted"><a href="/privacy/">Политика обработки данных</a> · <a href="/consent/">Согласие на обработку данных</a> · реквизиты студии</span>
+</div></footer>
+
+<div class="w-sticky"><a class="w-btn" href="#zayavka">Показать спрос</a><a class="w-btn ghost" href="https://t.me/Artem1Galimov">Написать</a></div>
+
+<script>
+// Переключатели прототипа и подпись логики над каждым блоком (по умолчанию скрыто).
+document.querySelectorAll('.w-block').forEach(function (b) {
+  var d = b.dataset, el = document.createElement('div');
+  el.className = 'w-logic';
+  el.innerHTML = '<b>Блок ' + (d.n || '?') + ' · ' + (d.name || '') + '</b><br>Вопрос клиента: ' + (d.question || '–') + '<br>Опора: ' + (d.proof || '–');
+  if (b.tagName === 'HEADER') b.prepend(el); else (b.querySelector('.w-wrap') || b).prepend(el);
+});
+document.getElementById('t-logic').addEventListener('change', function (e) { document.body.classList.toggle('show-logic', e.target.checked); });
+document.getElementById('t-notes').addEventListener('change', function (e) { document.body.classList.toggle('show-notes', e.target.checked); });
+document.getElementById('t-seo').addEventListener('change', function (e) { document.body.classList.toggle('show-seo', e.target.checked); });
+document.getElementById('t-success').addEventListener('change', function (e) { document.body.classList.toggle('show-success', e.target.checked); });
+(function () {
+  var src = document.getElementById('w-seo'), box = document.getElementById('w-seo-box');
+  if (!src || !box) return;
+  var d = JSON.parse(src.textContent), esc = function (t) { return String(t).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); };
+  var len = function (t, max) { return ' <span class="' + (t.length > max ? 'bad' : '') + '">(' + t.length + ' / ' + max + ')</span>'; };
+  var heads = [].map.call(document.querySelectorAll('main h1, main h2, header h1'), function (h) { return '<li>' + h.tagName + ' – ' + esc(h.textContent.trim()) + '</li>'; }).join('');
+  var alts = [].map.call(document.querySelectorAll('.w-media[data-alt]'), function (m) { return '<li>' + esc(m.dataset.alt) + '</li>'; }).join('');
+  box.innerHTML = '<table><tr><td>title</td><td>' + esc(d.title) + len(d.title, 65) + '</td></tr><tr><td>description</td><td>' + esc(d.description) + len(d.description, 160) +
+    '</td></tr><tr><td>запрос</td><td>' + esc(d.zapros || '–') + '</td></tr><tr><td>заголовки</td><td><ul>' + heads + '</ul></td></tr><tr><td>alt</td><td><ul>' + (alts || '<li>–</li>') +
+    '</ul></td></tr><tr><td>разметка</td><td>' + esc(d.schema || '–') + '</td></tr><tr><td>ссылки</td><td><ul>' + (d.links || []).map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul></td></tr></table>';
+})();
+document.getElementById('ask-count').textContent = document.querySelectorAll('.w-ask').length;
+// Любая форма: галочка data-agree включает кнопку отправки своей формы.
+document.querySelectorAll('form').forEach(function (f) {
+  var a = f.querySelector('[data-agree]'), btn = f.querySelector('button[type="submit"], button:not([type])');
+  if (a && btn) a.addEventListener('change', function () { btn.disabled = !a.checked; });
+});
+</script>
+<!-- Виджеты: подключение (раскомментировать вместе с блоком в head).
+<div data-vidzhety data-src="vidzhety-stranica.json"></div>
+<script src="https://tema-mail.github.io/vidzhety/vidzhety.js"></script>
+Пример vidzhety-stranica.json (факты – только с сайта клиента; срок акции не выдумывать):
+{
+  "demo": true, "consent": false, "endpoint": "demo:", "tz": 7, "agreement": "https://<сайт>/soglasie",
+  "widgets": [
+    { "id": "svyaz", "enabled": true, "type": "contacts", "group": "contact", "trigger": { "on": "load" },
+      "content": { "layout": "side", "phone": "+70000000000", "phoneText": "8 (000) 000-00-00", "wa": "https://wa.me/70000000000",
+        "tg": "https://t.me/...", "email": "...", "callback": "zvonok",
+        "buttons": [ { "text": "Главное действие страницы", "open": "zvonok", "kind": "main" }, { "text": "Позвонить", "href": "tel:+70000000000" } ] } },
+    { "id": "akciya", "enabled": true, "type": "modal", "trigger": { "on": "time", "s": 20 }, "mobileAs": "bar",
+      "content": { "title": "Предложение с сайта", "text": "Оставьте телефон – менеджер закрепит условия.", "short": "Коротко для плашки", "button": "Закрепить" },
+      "form": { "fields": ["phone"], "button": "Оставить телефон" } },
+    { "id": "uhod", "enabled": true, "type": "modal", "trigger": { "on": "exit" }, "target": { "device": "desktop" },
+      "content": { "title": "Предложение на уходе" }, "form": { "fields": ["phone"] } },
+    { "id": "zvonok", "enabled": true, "type": "callback", "trigger": { "on": "click" }, "content": { "title": "Перезвоним вам" },
+      "form": { "fields": ["name", "phone"], "button": "Перезвоните мне" } }
+  ]
+}
+В комментарий дизайнеру (.w-note) – строка «Виджеты страницы: … Почему так: …».
+-->
+<!-- ============================================================================
+     ПЕРЕНОС ШАБЛОНА НА ДРУГУЮ НИШУ. Меняются только помеченные пунктиром места (.w-slot) и шесть смысловых мест:
+
+     1. Название ниши – H1, title, description, дескриптор в шапке, подписи кнопок и формы.
+        Все вхождения .w-slot: «стоматологии», «клиника», «врачи», «услуги клиники», «пациент», «лечение».
+     2. Список болей – блок 2 целиком. Пять пунктов берём из осмотра сайтов этой ниши, не переписываем стоматологические.
+     3. Таблица спроса – блок 3: строки услуг свои, числа только после замера Wordstat по городу клиента.
+     4. Набор нужных страниц – блок 4 целиком: у автосервиса мастера и оборудование вместо врачей и лицензий.
+     5. Требования закона – блок 6: свои для ниши (допуски и СРО, маркировка, возрастные ограничения).
+        Нет требований – блок удаляем целиком, пустым не оставляем. Каждый список сверяем с юристом.
+     6. Кейс – блок 7: только кейс в ЭТОЙ нише. Нет кейса – страницу не публикуем.
+     Плюс адрес страницы: /industries/<nisha>/ английским словом, перелинковка в script#w-seo и крошки «Главная – Ниши – …».
+
+     НЕ меняются: шапка и подвал, цена 120 000 ₽ и состав работ (блок 5), ведение 10 000 ₽/мес (блок 8),
+     форма и текст после отправки (блок 9), блок автора (блок 10), набор виджетов.
+
+     Сколько таких страниц делаем: столько, сколько ниш, где есть показываемый кейс. Поискового спроса на «сайт для <ниша>»
+     нет (замер 119 ниш, Wordstat, Россия, октябрь 2026): страницы работают на рекламу и ссылку из КП, а не на поиск.
+     ============================================================================ -->
+</body>
+</html>

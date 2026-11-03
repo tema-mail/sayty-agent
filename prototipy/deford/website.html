@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Прототип – Дефорд – сайт под ключ за 120 000 ₽</title>
+<!-- kit.css вставлен целиком (прототип – один файл, открывается без интернета) -->
+<style> (прототип – один файл, открывается без интернета) -->
+<style>/* Комплект чёрно-белого прототипа (маркетолог → site-prototype).
+   Прототип показывает смысл, текст, порядок и действие – не дизайн. Цвета только серые; дизайнер делает визуал после «да» владельца.
+   Блок: <section class="w-block" data-n="1" data-name="Первый экран" data-question="вопрос клиента" data-proof="опора"> */
+:root {
+  --ink: #141414; --muted: #5f5f5f; --line: #b9b9b9; --fill: #ececec; --fill2: #f6f6f6; --paper: #ffffff;
+  --note: #fff6c8; --note-line: #c9b44a; --ask: #7a1f1f;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, Menlo, Consolas, monospace;
+  --wrap: 1180px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 var(--font); }
+img { max-width: 100%; }
+a { color: var(--ink); }
+h1, h2, h3 { margin: 0; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(28px, 4.2vw, 46px); }
+h2 { font-size: clamp(22px, 3vw, 32px); }
+h3 { font-size: 18px; }
+p { margin: 0; }
+.w-wrap { max-width: var(--wrap); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.w-stack { display: grid; gap: 14px; }
+.w-muted { color: var(--muted); }
+
+/* Панель прототипа: переключатели «Логика» и «Комментарии» */
+.w-bar { position: sticky; top: 0; z-index: 50; background: var(--ink); color: #fff; font: 13px/1.3 var(--mono); }
+.w-bar .w-wrap { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding-block: 8px; }
+.w-bar b { font-weight: 600; }
+.w-bar label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+
+/* Блок и его подпись логики */
+.w-block { border-top: 1px dashed var(--line); padding-block: 40px; position: relative; }
+.w-logic { display: none; font: 12.5px/1.45 var(--mono); background: var(--fill2); border: 1px solid var(--line); padding: 8px 10px; margin-bottom: 18px; }
+body.show-logic .w-logic { display: block; }
+.w-logic b { font-weight: 700; }
+.w-note { display: none; background: var(--note); border: 1px dashed var(--note-line); padding: 8px 10px; font-size: 13.5px; margin-top: 12px; }
+body.show-notes .w-note { display: block; }
+.w-note::before { content: "Дизайнеру: "; font-weight: 700; }
+.w-seo { display: none; font: 13px/1.5 var(--mono); background: #eef3ff; border: 1px solid #8aa0d6; padding: 12px 14px; margin: 12px auto; max-width: var(--wrap); }
+body.show-seo .w-seo { display: block; }
+.w-seo table { border-collapse: collapse; width: 100%; }
+.w-seo td { border-top: 1px solid #c9d4ee; padding: 4px 6px; vertical-align: top; }
+.w-seo td:first-child { white-space: nowrap; font-weight: 700; width: 1%; }
+.w-seo .bad { color: var(--ask); font-weight: 700; }
+.w-seo ul { margin: 0; padding-left: 18px; }
+.w-ask { color: var(--ask); font-weight: 600; background: #f7e9e9; padding: 0 4px; }
+
+/* Место под фото/видео/схему: роль, а не «картинка» */
+.w-media { background: repeating-linear-gradient(45deg, var(--fill), var(--fill) 10px, var(--fill2) 10px, var(--fill2) 20px);
+  border: 1px solid var(--line); min-height: 220px; display: grid; place-items: center; text-align: center; padding: 16px;
+  color: var(--muted); font-size: 14px; }
+.w-media::before { content: "▣ "; }
+.w-media.small { min-height: 120px; }
+
+/* Кнопки */
+.w-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border: 2px solid var(--ink);
+  background: var(--ink); color: #fff; font-weight: 600; text-decoration: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+.w-btn.ghost { background: transparent; color: var(--ink); }
+.w-btn[disabled] { opacity: .45; cursor: not-allowed; }
+.w-hint { font-size: 13px; color: var(--muted); }
+
+/* Шапка */
+.w-header .w-wrap { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between; padding-block: 12px; }
+.w-logo { border: 2px solid var(--ink); padding: 6px 10px; font-weight: 700; }
+.w-descr { font-size: 13.5px; color: var(--muted); max-width: 34ch; }
+.w-contacts-top { display: grid; gap: 2px; font-size: 14px; text-align: right; }
+.w-nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14.5px; border-top: 1px solid var(--line); padding-block: 8px; }
+
+/* Первый экран */
+.w-hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; }
+.w-hero ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.w-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* Сетки и карточки */
+.w-grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 14px; }
+.w-card { border: 1px solid var(--line); padding: 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.w-card .w-media { min-height: 140px; }
+.w-price { font-weight: 700; }
+
+/* Этапы */
+.w-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 14px; counter-reset: st; }
+.w-steps li { border: 1px solid var(--line); padding: 14px; counter-increment: st; display: grid; gap: 6px; }
+.w-steps li::before { content: counter(st); font-weight: 700; font-size: 22px; }
+
+/* Таблица */
+.w-table-wrap { overflow-x: auto; }
+.w-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.w-table th, .w-table td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+.w-table th { background: var(--fill2); }
+
+/* FAQ */
+.w-faq details { border: 1px solid var(--line); padding: 12px 14px; }
+.w-faq details + details { border-top: 0; }
+.w-faq summary { font-weight: 600; cursor: pointer; }
+
+/* Форма */
+.w-form { border: 2px solid var(--ink); padding: 18px; display: grid; gap: 12px; max-width: 520px; }
+.w-field { display: grid; gap: 4px; font-size: 14px; }
+.w-field input, .w-field select { min-height: 44px; border: 1px solid var(--ink); padding: 0 10px; font: inherit; background: #fff; }
+.w-check { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; }
+
+/* Полоса призыва */
+.w-cta { background: var(--fill); padding: 24px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+/* Плашка призыва между блоками: section.w-block.w-cta-strip с одной строкой предложения и кнопкой или мини-формой (карточка prizyv-mezhdu-blokami) */
+.w-block.w-cta-strip { padding-block: 16px; }
+.w-cta-strip .w-cta { padding: 14px 18px; }
+.w-cta-strip .w-cta p { margin: 0; font-weight: 600; }
+
+/* Состояние формы после отправки (карточка stranica-spasibo-sleduyushchiy-shag): видно по переключателю «После отправки» */
+.w-success { display: none; border: 2px dashed var(--ink); padding: 14px; background: var(--fill); }
+.w-success p { margin: 0 0 6px; }
+body.show-success .w-success { display: block; }
+
+/* Подвал */
+.w-footer { background: var(--fill2); border-top: 1px solid var(--line); padding-block: 28px; font-size: 14px; }
+
+/* Липкая панель действий на телефоне */
+.w-sticky { display: none; }
+header.w-block { padding-block: 0; border-top: 0; }
+header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
+
+@media (max-width: 760px) {
+  .w-hide-m { display: none !important; }
+  /* Мобильная шапка: логотип, короткий дескриптор и «Меню»; звонок и мессенджеры – в липкой панели снизу */
+  .w-header .w-wrap { flex-wrap: nowrap; padding-block: 8px; gap: 10px; }
+  .w-header .w-contacts-top, .w-header .w-wrap > .w-btn, .w-nav { display: none !important; }
+  .w-header .w-descr { font-size: 12px; line-height: 1.3; }
+  .w-header > .w-wrap:first-of-type::after { content: "☰ Меню"; margin-left: auto; border: 1px solid var(--ink); padding: 6px 10px; font-size: 13px; white-space: nowrap; }
+  .w-hero .w-media, .w-block[data-n="1"] .w-media:first-of-type { min-height: 160px; }
+  .w-bar .w-wrap { padding-block: 4px; gap: 4px 10px; font-size: 11px; }
+  .w-hero { grid-template-columns: 1fr; }
+  .w-grid { grid-template-columns: repeat(var(--cols-m, 2), minmax(0, 1fr)); }
+  .w-steps { grid-template-columns: 1fr; }
+  .w-contacts-top { text-align: left; }
+  .w-block { padding-block: 28px; }
+  .w-sticky { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+    background: #fff; border-top: 1px solid var(--line); }
+  body { padding-bottom: 72px; }
+}
+@media (max-width: 420px) { .w-grid.one-m { grid-template-columns: 1fr; } }
+</style>
+<!-- Виджеты страницы (окна, ярлычок, боковая панель мессенджеров, нижняя панель телефона) – модуль tema-mail/vidzhety.
+     Набор под страницу – по справочнику ~/.claude/skills/marketolog/references/vidzhety-spravochnik.md. Чтобы включить – раскомментировать
+     это и блок «Виджеты: подключение» в конце страницы, положить рядом vidzhety-<страница>.json. Образец – ~/Sites/sayty-agent/prototipy/gaz-mag/.
+<link rel="stylesheet" href="https://tema-mail.github.io/vidzhety/vidzhety.css">
+<style>
+:root { --w-accent: #141414; --w-accent-2: #5f5f5f; --w-radius: 6px; --w-wa: #3d3d3d; --w-tg: #3d3d3d; --w-max: #3d3d3d; }
+body.vz-has-sticky .w-sticky { display: none !important; }
+</style>
+-->
+</head>
+<body>
+
+<div class="w-bar"><div class="w-wrap">
+  <b>Прототип · Дефорд · /services/website/ · версия 03.11.2026</b>
+  <label><input type="checkbox" id="t-logic"> Логика блоков</label>
+  <label><input type="checkbox" id="t-notes"> Комментарии дизайнеру</label>
+  <label><input type="checkbox" id="t-seo"> SEO страницы</label>
+  <label><input type="checkbox" id="t-success"> После отправки</label>
+  <span>Меток «запросить»: <b id="ask-count">0</b></span>
+</div></div>
+
+<!-- SEO-слой страницы: показывается переключателем «SEO страницы». H1 построен под запрос «сайт под ключ»;
+     «Сайт, который сам растёт в поиске» стоит подзаголовком и обещанием – такого запроса в поиске нет. -->
+<script type="application/json" id="w-seo">{"title": "Сайт под ключ за 120 000 ₽: до 100 страниц – Дефорд", "description": "Многостраничный сайт под ключ за фиксированные 120 000 ₽: исследование ниши, карта сайта с ЧПУ, прототип, вёрстка на своём коде. До 100 страниц.", "h1": "Сайт под ключ за 120 000 ₽ – до 100 страниц", "zapros": "сайт под ключ (6 962 показа в месяц, Россия, Wordstat, октябрь 2026); поддерживающие: сколько стоит сайт 22 065, создание сайта цена 847, сайт под ключ цена 729, разработка сайта цена 708", "schema": "Service + Offer (цена 120 000 ₽, валюта RUB – цифра есть на странице), FAQPage по блоку 12, Person – Артём Галимов (блок 14), BreadcrumbList: Главная → Услуги → Сайт под ключ", "links": ["/ – главная студии (хлебные крошки)", "/services/ – родительский раздел услуг", "/services/landing/ – лендинг: для тех, кому хватит одной страницы (из FAQ «чем отличается от лендинга»)", "/cases/ – работы с цифрами (из блока 9)", "/services/website/support/ – ведение сайта 10 000 ₽/мес (из блока 7)", "SEO-задание от site-seo по этой странице не передавали: слой собран по данным Wordstat из задания маркетолога, адреса перелинковки подтвердить у site-seo"]}</script>
+<div class="w-seo" id="w-seo-box"></div>
+
+<header class="w-header w-block" data-n="0" data-name="Шапка" data-question="Кто это и как с ними связаться?" data-proof="студия Дефорд, сайты с 2015 года; связь в Telegram и WhatsApp">
+  <div class="w-wrap">
+    <span class="w-logo">DEFORD</span>
+    <span class="w-descr">Студия Дефорд: сайты на своём коде с 2015 года – исследование, структура, вёрстка</span>
+    <span class="w-contacts-top">
+      <a href="https://t.me/Artem1Galimov">Telegram: @Artem1Galimov</a>
+      <a href="https://wa.me/79537777891">WhatsApp: +7 953 777-78-91</a>
+      <span class="w-muted"><span class="w-ask">[запросить: телефон для звонков и часы ответа – в материалах только мессенджеры]</span></span>
+    </span>
+    <a class="w-btn ghost" href="#zayavka">Получить структуру сайта</a>
+  </div>
+  <nav class="w-wrap w-nav">
+    <a href="#vhodit">Что входит</a><a href="#kak">Как собираем страницы</a><a href="#srok">Срок</a>
+    <a href="#soderzhanie">Сколько содержать</a><a href="#raboty">Наши сайты</a><a href="#cena">Почему 120 000 ₽</a><a href="#voprosy">Вопросы</a>
+  </nav>
+</header>
+
+<main>
+  <!-- блок 1 – первый экран; снимает «сколько это стоит и что я получу»; цифра цены вместо «стоимость после разговора»; текст из задания маркетолога 03.11.2026 -->
+  <section class="w-block" data-n="1" data-name="Первый экран" data-question="Сколько это стоит и что я получу за эти деньги?" data-proof="фиксированная цена 120 000 ₽ и названный объём: до 100 страниц, состав работ списком">
+    <div class="w-wrap">
+      <div class="w-hero">
+        <div class="w-stack">
+          <h1>Сайт под ключ за 120 000 ₽ – до 100 страниц</h1>
+          <p><b>Сайт, который сам растёт в поиске.</b> Сначала считаем, что ищут в вашей нише, потом собираем страницы под этот спрос. Цену называем до разговора, а не после.</p>
+          <ul>
+            <li><b>120 000 ₽ фиксированно</b> – цена одна для сайта и на 20, и на 100 страниц</li>
+            <li><b>Исследование и структура входят</b> – ниша, рынок, продукт, карта сайта с ЧПУ, прототип каждой страницы</li>
+            <li><b>Свой код, не конструктор</b> – Astro; на нашем магазине ALEX KROWN Lighthouse 93 на телефоне и 99 на компьютере</li>
+          </ul>
+          <div class="w-actions">
+            <a class="w-btn" href="#zayavka">Получить структуру сайта</a>
+            <a class="w-btn ghost" href="#vhodit">Что входит в 120 000 ₽</a>
+          </div>
+          <p class="w-hint">Напишете нишу и город – ответим в Telegram или WhatsApp, как удобнее.</p>
+        </div>
+        <div class="w-media w-hide-m" data-alt="Сайт под ключ от студии Дефорд: готовый сайт на мониторе и телефоне">Роль фото: один из наших сайтов на коде открыт рядом на мониторе и на телефоне, в кадре видна строка адреса – доказывает, что это работающий сайт, а не макет. Какой проект ставим на первый экран: <span class="w-ask">[запросить: какой сайт можно показать на первом экране]</span></div>
+      </div>
+      <p class="w-note">Цена – главный элемент экрана: «120 000 ₽» крупнее заголовка или вынести в отдельную плашку справа. Главный конкурент на этом месте пишет «стоимость после разговора» – наш смысл в том, что цифра видна сразу. На 390 фото скрыто (w-hide-m), чтобы заголовок и кнопка попали в первое окно.</p>
+    </div>
+  </section>
+
+  <!-- блок 2 – состав и границы; снимает «а что в эту цену не войдёт и за что доплачу»; источник состава – слова владельца 03.11.2026 -->
+  <section class="w-block" id="vhodit" data-n="2" data-name="Что входит" data-question="Что конкретно входит в 120 000 ₽ и где заканчивается ваша работа?" data-proof="состав работ назван владельцем 03.11.2026: сайт до 100 страниц, исследование ниши, рынка и продукта, прототип, SEO-структура, создание под ключ">
+    <div class="w-wrap w-stack">
+      <h2>Что входит в 120 000 ₽ и где границы работы</h2>
+      <div class="w-grid" style="--cols:3;--cols-m:2">
+        <article class="w-card"><h3>Сайт до 100 страниц</h3><p>Многостраничный сайт: главная, разделы, страницы услуг или товаров, статьи. Страниц больше 100: <span class="w-ask">[запросить: цена за страницы свыше 100]</span></p></article>
+        <article class="w-card"><h3>Исследование ниши, рынка и продукта</h3><p>Кто покупает и по каким словам ищет, что обещают другие в нише, чем вы отличаетесь. С этого начинается работа, а не с дизайна.</p></article>
+        <article class="w-card"><h3>SEO-структура сайта</h3><p>Карта сайта с ЧПУ: какие страницы нужны, под какой спрос каждая, какая на какую ссылается. Страницу без своего спроса не делаем.</p></article>
+        <article class="w-card"><h3>Прототип каждой страницы</h3><p>Чёрно-белая страница: текст, порядок блоков, кнопки. Смысл утверждаете до дизайна. Страница, которую вы читаете, – такой прототип.</p></article>
+        <article class="w-card"><h3>Создание под ключ</h3><p>Дизайн, вёрстка на Astro, наполнение, запуск на вашем домене. Отдаём работающий сайт, а не макеты.</p></article>
+      </div>
+      <h3>Границы, которые называем до договора</h3>
+      <ul>
+        <li><b>Дизайн</b> – <span class="w-ask">[запросить: сколько вариантов дизайна показываем и сколько кругов правок входит]</span></li>
+        <li><b>Тексты</b> – <span class="w-ask">[запросить: кто пишет тексты, на сколько страниц, нужны ли материалы от клиента]</span></li>
+        <li><b>Фото</b> – <span class="w-ask">[запросить: чьи фото: клиента, наша съёмка или покупной сток, и кто за них платит]</span></li>
+        <li><b>Наполнение</b> – <span class="w-ask">[запросить: сколько карточек, статей или страниц наполняем мы и что наполняет клиент]</span></li>
+        <li><b>Домен</b> – <span class="w-ask">[запросить: входит ли домен в 120 000 ₽, кто его оформляет и на кого]</span></li>
+        <li><b>Оплата частями</b> – <span class="w-ask">[подтвердить: 20 000 ₽ на старте и 10 000 ₽ в месяц – условие из прошлого коммерческого предложения, действует ли сейчас]</span></li>
+      </ul>
+      <p class="w-note">Пять строк границ – не украшение: это самые частые споры после подписания. В макете: блок делать таблицей «входит / не входит», когда владелец закроет метки.</p>
+    </div>
+  </section>
+
+  <!-- блок 3 – три отрицания; снимает «опять шаблон на конструкторе»; опора – Lighthouse 93/99 на ALEX KROWN -->
+  <section class="w-block" data-n="3" data-name="Три отрицания" data-question="Это ведь не очередной шаблон на конструкторе?" data-proof="свой код на Astro; Lighthouse 93 на телефоне и 99 на компьютере – наш магазин ALEX KROWN">
+    <div class="w-wrap w-stack">
+      <h2>Это не шаблон и не конструктор – сайт пишем кодом</h2>
+      <div class="w-grid" style="--cols:3;--cols-m:1">
+        <article class="w-card"><h3>Не шаблон</h3><p>Страницы берутся из спроса вашей ниши, а не из готовой темы с демо-контентом. Поэтому у двух клиентов структура не совпадает.</p></article>
+        <article class="w-card"><h3>Не конструктор</h3><p>Сайт собран кодом на Astro и лежит там, где решите вы. Вы не арендуете чужую площадку и не зависите от её тарифов и правил.</p></article>
+        <article class="w-card"><h3>Не медленный</h3><p>Код без лишних скриптов. Наш магазин ALEX KROWN: Lighthouse 93 на телефоне и 99 на компьютере. Скорость видно и в поиске, и человеку.</p></article>
+      </div>
+      <div class="w-media" data-alt="Lighthouse 93 на телефоне и 99 на компьютере – магазин на коде студии Дефорд">Роль скриншота: отчёт Lighthouse магазина ALEX KROWN крупно – читаются обе цифры, 93 для телефона и 99 для компьютера, видно дату проверки. Доказывает, что «быстро» – измеренная цифра, а не слово.</div>
+      <p class="w-note">Скриншот отчёта – фрагментом и крупно, чтобы цифры читались на телефоне. Мелкий общий вид ничего не доказывает.</p>
+    </div>
+  </section>
+
+  <!-- плашка после блока, снимающего сомнение «на словах все быстрые»: лёгкий шаг – проверить самому -->
+  <section class="w-block w-cta-strip" data-n="3а" data-name="Плашка: проверьте скорость сами" data-question="Как убедиться, что скорость настоящая?" data-proof="наши сайты на коде открыты в интернете, цифры можно повторить">
+    <div class="w-wrap"><div class="w-cta">
+      <p>Не верьте на слово: дадим адреса наших сайтов – прогоните скорость сами</p>
+      <a class="w-btn" href="#zayavka">Запросить адреса наших сайтов</a>
+    </div></div>
+  </section>
+
+  <!-- блок 4 – откуда страницы; снимает «зачем мне 100 страниц, хватит и 10»; опора – наш порядок работы -->
+  <section class="w-block" id="kak" data-n="4" data-name="Откуда берутся страницы" data-question="Почему 100 страниц, а не 10?" data-proof="порядок работы: исследование ниши → карта сайта с ЧПУ → прототип → вёрстка">
+    <div class="w-wrap w-stack">
+      <h2>Откуда берутся 100 страниц: сначала спрос, потом вёрстка</h2>
+      <p>Десять страниц отвечают на десять запросов. Сто страниц – на сто. Но страницу делаем только там, где есть и свой спрос, и свой ответ: страница без спроса визитов не приносит и мешает остальным.</p>
+      <ol class="w-steps" style="--cols:4">
+        <li><b>Исследование ниши, рынка и продукта</b><span>Что люди спрашивают, как выбирают, что обещают другие, чем вы отличаетесь.</span></li>
+        <li><b>Карта сайта с ЧПУ</b><span>Список всех страниц с адресами и иерархией: под какой спрос каждая и чем полезна. Карту утверждаете вы.</span></li>
+        <li><b>Прототип страниц</b><span>Чёрно-белая страница с текстом и порядком блоков – как эта. Правки здесь стоят ноль, в вёрстке – дорого.</span></li>
+        <li><b>Вёрстка и наполнение</b><span>Дизайн, код на Astro, наполнение, запуск на вашем домене.</span></li>
+      </ol>
+      <div class="w-media" data-alt="Карта сайта с ЧПУ на 100 страниц – структура многостраничного сайта">Роль скриншота: фрагмент настоящей карты сайта с ЧПУ – дерево адресов с иерархией, видно десятки страниц и частоту запроса рядом с каждой, имя клиента закрыто. Доказывает, что страницы не придуманы «для объёма», а посчитаны.</div>
+      <p class="w-note">Четыре шага на 390 идут в столбик – нормально. В макете: шаги 2 и 3 связать стрелкой с подписью «до вёрстки»: это главное отличие порядка работы.</p>
+    </div>
+  </section>
+
+  <!-- блок 5 – спрос цифрами; снимает «а в моей нише ищут ли вообще»; опора – Wordstat по этой же услуге -->
+  <section class="w-block" data-n="5" data-name="Спрос в вашей нише" data-question="А в моей нише вообще что-то ищут и сколько там людей?" data-proof="выгрузка Wordstat; пример по нашей же услуге – Россия, октябрь 2026">
+    <div class="w-wrap w-stack">
+      <h2>Покажем цифрами, что ищут в вашей нише, до начала работы</h2>
+      <p>Так выглядит спрос по нашей же услуге. По вашей нише делаем такую же выгрузку, и уже из неё растёт список страниц.</p>
+      <div class="w-table-wrap"><table class="w-table">
+        <tr><th>Что набирают в поиске</th><th>Показов в месяц</th></tr>
+        <tr><td>сколько стоит сайт</td><td>22 065</td></tr>
+        <tr><td>сайт под ключ</td><td>6 962</td></tr>
+        <tr><td>создание сайта цена</td><td>847</td></tr>
+        <tr><td>сайт под ключ цена</td><td>729</td></tr>
+        <tr><td>разработка сайта цена</td><td>708</td></tr>
+        <tr><td>многостраничный сайт</td><td>1 391</td></tr>
+        <tr><td>чем отличается лендинг от многостраничного сайта</td><td>23</td></tr>
+      </table></div>
+      <p class="w-muted">Источник: Wordstat, Россия, октябрь 2026.</p>
+      <p>Что из выгрузки отдаём до оплаты: <span class="w-ask">[запросить: показываем ли спрос по нише клиента бесплатно до оплаты или только в оплаченной работе]</span></p>
+      <div class="w-media" data-alt="Выгрузка Wordstat по нише: запросы и частота показов">Роль скриншота: окно выгрузки запросов с частотами по чужой нише – видно источник и дату. Доказывает, что цифры взяты из сервиса, а не написаны от руки.</div>
+      <p class="w-note">Таблицу на 390 не сжимать в столбик – оставить две колонки, частота справа крупно. Последняя строка с 23 показами нужна: она показывает, что считаем и мелкий спрос, а не только «жирные» запросы.</p>
+    </div>
+  </section>
+
+  <!-- плашка после цифр спроса: лёгкий шаг, человек ещё не готов к договору -->
+  <section class="w-block w-cta-strip" data-n="5а" data-name="Плашка: спрос в вашей нише" data-question="Сколько людей ищет то, что я продаю?" data-proof="выгрузку делаем по любой нише">
+    <div class="w-wrap"><div class="w-cta">
+      <p>Назовите нишу и город – посмотрим, что там ищут, и скажем, на сколько страниц это тянет</p>
+      <a class="w-btn" href="#zayavka">Узнать спрос в своей нише</a>
+    </div></div>
+  </section>
+
+  <!-- блок 6 – срок по шагам + когда ждать визиты из поиска (приём взят у конкурента); снимает «сколько ждать» -->
+  <section class="w-block" id="srok" data-n="6" data-name="Срок по шагам" data-question="Сколько ждать сайт и что будет происходить всё это время?" data-proof="порядок шагов тот же, что в работе; сроки – от владельца">
+    <div class="w-wrap w-stack">
+      <h2>Срок по шагам: от исследования до запуска</h2>
+      <ol class="w-steps" style="--cols:4">
+        <li><b>Исследование</b><span>Ниша, рынок, продукт, конкуренты. На выходе – что продаём, кому и какими словами.</span></li>
+        <li><b>Карта сайта с ЧПУ</b><span>Список страниц с адресами. Вы утверждаете его целиком до вёрстки.</span></li>
+        <li><b>Прототипы и тексты</b><span>Блоки и текст по каждому типу страниц. Правки принимаем здесь.</span></li>
+        <li><b>Вёрстка, наполнение, запуск</b><span>Дизайн, код на Astro, наполнение, перенос на ваш домен.</span></li>
+      </ol>
+      <p>Срок каждого шага и итог на сайт до 100 страниц: <span class="w-ask">[запросить: честный срок неделя за неделей и общий срок на 100 страниц]</span></p>
+      <p><b>Когда ждать первых визитов из поиска.</b> Сайт начинает собирать визиты не в день запуска: страницы должны попасть в индекс, и дальше рост идёт постепенно. Честный срок до первых визитов: <span class="w-ask">[запросить: через сколько после запуска ждать первые визиты из поиска – по нашим проектам]</span></p>
+      <div class="w-media" data-alt="График визитов из поиска после запуска сайта на коде">Роль графика: визиты из поиска по нашему проекту за первые месяцы после запуска, с датой запуска на оси – показывает, через сколько пошли люди. Какой проект берём: <span class="w-ask">[запросить: по какому проекту можно показать график визитов]</span></div>
+      <p class="w-note">Шаги 1–4 здесь и в блоке 4 – один и тот же порядок, но разные вопросы: там «почему столько страниц», здесь «сколько ждать». Если владелец скажет, что это повтор, блок 4 оставляем со смыслом спроса, а шаги – только тут.</p>
+    </div>
+  </section>
+
+  <!-- блок 7 – что после сдачи; снимает «сдадите и бросите»; два варианта названы владельцем -->
+  <section class="w-block" data-n="7" data-name="После сдачи" data-question="Что будет с сайтом, когда вы его сдадите?" data-proof="два варианта от владельца: ведение 10 000 ₽ в месяц или система, которую клиент ставит себе">
+    <div class="w-wrap w-stack">
+      <h2>Что будет с сайтом после сдачи: ведение или своя система</h2>
+      <p>Сайт растёт, пока на нём появляются новые страницы под новый спрос. Поэтому после сдачи есть два пути – выбираете вы.</p>
+      <div class="w-grid" style="--cols:2;--cols-m:1">
+        <article class="w-card"><h3>Ведём мы – 10 000 ₽ в месяц</h3><p>Следим за спросом, добавляем страницы, правим то, что просело.</p><p>Что входит в эти 10 000 ₽: <span class="w-ask">[запросить: состав ведения: сколько новых страниц в месяц, правки, отчёты, кто отвечает]</span></p><span class="w-price">10 000 ₽ / мес</span></article>
+        <article class="w-card"><h3>Ставите систему себе</h3><p>Покупаете систему, которая ведёт сайт, и она работает у вас – без платежа нам каждый месяц.</p><p>Цена и что она делает: <span class="w-ask">[запросить: цена системы, что именно она умеет и что остаётся на человеке]</span></p></article>
+      </div>
+      <p class="w-note">Второй вариант – главный аргумент против «вы подсаживаете на абонентку». В макете: две карточки равного веса, без выделения «выгодного».</p>
+    </div>
+  </section>
+
+  <!-- блок 8 – стоимость содержания (приём взят у конкурента); снимает скрытые платежи; честно, что часть денег идёт не нам -->
+  <section class="w-block" id="soderzhanie" data-n="8" data-name="Сколько стоит содержать" data-question="Сколько я буду платить каждый месяц после сдачи и кому?" data-proof="список обязательных платежей и честная отметка, что домен и хостинг оплачиваются не нам">
+    <div class="w-wrap w-stack">
+      <h2>Сколько стоит содержать сайт после сдачи</h2>
+      <p>Сайт – не разовая покупка: за имя сайта и за место, где он лежит, платят каждый год. Считаем вслух, чтобы это не стало сюрпризом.</p>
+      <div class="w-table-wrap"><table class="w-table">
+        <tr><th>За что платят</th><th>Сколько</th><th>Кому уходят деньги</th></tr>
+        <tr><td>Домен – имя сайта</td><td><span class="w-ask">[запросить: наша реальная цифра: домен в год]</span></td><td>Регистратору домена, не нам</td></tr>
+        <tr><td>Хостинг или сервер – где лежит сайт</td><td><span class="w-ask">[запросить: наша реальная цифра: хостинг или сервер в месяц]</span></td><td>Хостингу, не нам</td></tr>
+        <tr><td>Прочее: почта на домене, сертификат, второй домен</td><td><span class="w-ask">[запросить: что ещё платит клиент после сдачи и сколько это стоит]</span></td><td>Сервисам, не нам</td></tr>
+        <tr><td>Ведение сайта у нас – по желанию</td><td>10 000 ₽ в месяц</td><td>Нам</td></tr>
+      </table></div>
+      <p>Три строки из четырёх – не наш доход: домен и хостинг оплачиваются напрямую их владельцам, мы на этом не зарабатываем.</p>
+      <p class="w-note">Эту таблицу почти никто в нише не показывает – держать её на странице даже с незакрытыми метками. В макете: колонку «кому уходят деньги» не прятать на 390, она и есть смысл блока.</p>
+    </div>
+  </section>
+
+  <!-- плашка после разговора о деньгах: прямой шаг – посчитать свой случай -->
+  <section class="w-block w-cta-strip" data-n="8а" data-name="Плашка: посчитать свой случай" data-question="Сколько всё выйдет именно у меня?" data-proof="цена сайта названа, платежи после сдачи перечислены">
+    <div class="w-wrap"><div class="w-cta">
+      <p>Посчитаем ваш случай: 120 000 ₽ за сайт и что останется платить каждый месяц</p>
+      <a class="w-btn" href="#zayavka">Разобрать свой случай</a>
+    </div></div>
+  </section>
+
+  <!-- блок 9 – работы с цифрами; снимает «а у вас есть работающее»; цифры клиентов без разрешения не публикуем -->
+  <section class="w-block" id="raboty" data-n="9" data-name="Наши сайты" data-question="А у вас есть сайты, которые уже работают, а не красивые картинки?" data-proof="наши магазины на своём коде: ALEX KROWN, Milovini Flowers, Elite Rose, SIKOR; Lighthouse 93 и 99 на ALEX KROWN">
+    <div class="w-wrap w-stack">
+      <h2>Сайты, которые уже работают на нашем коде</h2>
+      <div class="w-grid" style="--cols:4;--cols-m:2">
+        <article class="w-card"><div class="w-media small" data-alt="ALEX KROWN – магазин на коде, Lighthouse 93 и 99">Роль: каталог магазина на телефоне плюс отчёт скорости рядом – доказывает связку «магазин работает и при этом быстрый»</div><h3>ALEX KROWN</h3><p>Магазин на коде. Lighthouse 93 на телефоне, 99 на компьютере.</p></article>
+        <article class="w-card"><div class="w-media small" data-alt="Milovini Flowers – магазин цветов на коде">Роль: карточка товара и корзина на телефоне – показывает, что покупку делаем до конца, а не «красивую главную»</div><h3>Milovini Flowers</h3><p>Магазин цветов: каталог, карточки, заказ.</p></article>
+        <article class="w-card"><div class="w-media small" data-alt="Elite Rose – магазин цветов на коде, Новосибирск">Роль: каталог и страница заказа – показывает второй магазин того же устройства, собранный быстрее за счёт готового кода</div><h3>Elite Rose</h3><p>Второй магазин того же устройства.</p></article>
+        <article class="w-card"><div class="w-media small" data-alt="SIKOR – магазин одежды на коде">Роль: страница товара с фото и размерами – показывает работу с одеждой, где важны фото и варианты</div><h3>SIKOR</h3><p>Магазин одежды: фото, размеры, страница товара.</p></article>
+      </div>
+      <p>Цифры «было – стало» по этим проектам: <span class="w-ask">[запросить: какие цифры роста разрешено публиковать и по каким проектам – визиты, заявки, позиции, с датами]</span></p>
+      <p>Имена клиентов: <span class="w-ask">[запросить: какие проекты можно показывать с именем клиента и ссылкой, а какие только скриншотом]</span></p>
+      <p class="w-note">Пока цифры не подтверждены, блок держится только на скриншотах – это слабее, чем «было 120 визитов, стало 1 400». Это первый блок, который надо усилить после ответа владельца.</p>
+    </div>
+  </section>
+
+  <!-- плашка после работ: прямой шаг, человек уже видел доказательства -->
+  <section class="w-block w-cta-strip" data-n="9а" data-name="Плашка: список страниц под вашу нишу" data-question="Как будет выглядеть мой сайт?" data-proof="карту сайта делаем по той же схеме, что и в показанных проектах">
+    <div class="w-wrap"><div class="w-cta">
+      <p>Соберём такой же список страниц под вашу нишу – и вы увидите, из чего сложится сайт</p>
+      <a class="w-btn" href="#zayavka">Хочу список страниц</a>
+    </div></div>
+  </section>
+
+  <!-- блок 10 – почему такая цена; снимает «в чём подвох»; честно про нашу же старую строку «от 300 000 ₽» -->
+  <section class="w-block" id="cena" data-n="10" data-name="Почему 120 000" data-question="Почему не 50 000 и не 300 000? В чём подвох?" data-proof="рынок многостраничных сайтов 80 000–300 000 ₽; в нашем же прайсе была строка «многостраничный сайт от 300 000 ₽»">
+    <div class="w-wrap w-stack">
+      <h2>Почему 120 000 ₽, а не 50 000 и не 300 000</h2>
+      <p>Многостраничные сайты в России продают за 80 000–300 000 ₽ – это наша оценка по предложениям студий на октябрь 2026. Мы встали в нижнюю половину и объясняем, почему.</p>
+      <ul>
+        <li><b>Дешевле не получается.</b> Исследование ниши, карта сайта с ЧПУ и прототип – это недели работы до первой строки кода. В цену «за 50 000 ₽» они не укладываются, и их просто не делают.</li>
+        <li><b>Дороже не нужно.</b> В нашем же прайсе до сих пор стоит «многостраничный сайт от 300 000 ₽». Почему теперь 120 000 ₽: <span class="w-ask">[запросить: чем честно объяснить снижение цены с 300 000 ₽ до 120 000 ₽]</span></li>
+        <li><b>Что мы не вырезали ради цены.</b> Исследование, карта сайта с ЧПУ, прототип каждой страницы, свой код. Это и есть работа, за которую берут 300 000 ₽.</li>
+        <li><b>Чего в 120 000 ₽ нет.</b> <span class="w-ask">[запросить: что сознательно вынесено за цену: реклама, съёмка, тексты, интеграции]</span></li>
+      </ul>
+      <p><b>И главное про цену.</b> На рынке «под ключ» часто означает «стоимость назовём после разговора о задаче». Мы называем 120 000 ₽ до разговора: вам есть что сравнивать ещё до звонка.</p>
+      <p class="w-note">Имя конкурента на странице не упоминаем – только его приём «цена после разговора». В макете: четыре пункта – это ответ на четыре разных сомнения, читаться должны по отдельности, не слитным абзацем.</p>
+    </div>
+  </section>
+
+  <!-- блок 11 – обещания и отказы; снимает «а гарантии»; решение по гарантии – за владельцем -->
+  <section class="w-block" data-n="11" data-name="Обещаем и не обещаем" data-question="Какие гарантии, что это сработает?" data-proof="разделение: что в нашей власти и что не зависит от нас">
+    <div class="w-wrap w-stack">
+      <h2>Что обещаем и чего не обещаем</h2>
+      <div class="w-grid" style="--cols:2;--cols-m:1">
+        <article class="w-card"><h3>Обещаем</h3><ul>
+          <li>120 000 ₽ не меняются в ходе работы</li>
+          <li>Сайт до 100 страниц по утверждённой вами карте сайта</li>
+          <li>Исследование и структуру – до вёрстки, а не после</li>
+          <li>Прототип каждого типа страниц – до дизайна</li>
+          <li>Сайт на вашем домене. Код и файлы: <span class="w-ask">[запросить: передаём ли исходный код и права на него, и на каких условиях]</span></li>
+        </ul></article>
+        <article class="w-card"><h3>Не обещаем</h3><ul>
+          <li>Конкретное место в поиске к дате – его не гарантирует никто, кто не владеет поиском</li>
+          <li>Конкретное число заявок: оно зависит и от цен, и от того, как вы обрабатываете обращения</li>
+          <li>Что сайт будет расти сам без новых страниц – рост даёт работа после сдачи</li>
+        </ul></article>
+      </div>
+      <p>Гарантия и возврат: <span class="w-ask">[запросить: решение владельца по гарантии и возврату – что обещаем письменно, в каких случаях возвращаем деньги]</span></p>
+      <p class="w-note">Колонка «не обещаем» не для красоты: она снимает страх «пообещают топ и исчезнут». В макете: обе колонки одинаково заметные, «не обещаем» не прятать мелким шрифтом.</p>
+    </div>
+  </section>
+
+  <!-- блок 12 – вопросы перед заказом; возражения из плана маркетолога, включая запрос «чем отличается лендинг от многостраничного сайта» -->
+  <section class="w-block" id="voprosy" data-n="12" data-name="Вопросы перед заказом" data-question="Что меня ещё останавливает?" data-proof="вопросы из переписки с клиентами и из поиска">
+    <div class="w-wrap w-stack w-faq">
+      <h2>Что спрашивают перед заказом сайта</h2>
+      <details><summary>Чем многостраничный сайт отличается от лендинга?</summary><p>Лендинг – одна страница под одно предложение: человек пришёл по рекламе, прочитал, оставил заявку. Многостраничный сайт собирает спрос десятками страниц: у каждой свой запрос, своя задача и свой адрес. Лендинг живёт на рекламе, многостраничный сайт – ещё и на поиске.</p></details>
+      <details><summary>Почему цена названа сразу, а не «после обсуждения задачи»?</summary><p>Потому что объём ограничен: сайт до 100 страниц, состав работ перечислен в блоке «что входит». Внутри этих границ 120 000 ₽ не меняются. Если нужно больше – скажем до договора, а не в середине работы.</p></details>
+      <details><summary>Сайт будет на конструкторе?</summary><p>Нет. Мы пишем код на Astro. Сайт лежит там, где решите вы, и не зависит от тарифов и правил чужой площадки.</p></details>
+      <details><summary>Мне нужно страниц 20, а не 100. Цена ниже?</summary><p><span class="w-ask">[запросить: цена, если страниц нужно меньше 30 – та же 120 000 ₽ или ниже]</span></p></details>
+      <details><summary>Можно платить частями?</summary><p><span class="w-ask">[подтвердить: рассрочка 20 000 ₽ на старте и 10 000 ₽ в месяц – из прошлого коммерческого предложения, действует ли сейчас]</span></p></details>
+      <details><summary>Когда сайт начнёт приводить людей из поиска?</summary><p>Не в день запуска: сначала страницы попадают в индекс, дальше визиты набираются постепенно. Честный срок по нашим проектам – в блоке «срок по шагам», он ждёт цифры от нас же.</p></details>
+      <p class="w-note">Шесть вопросов – это шесть реальных возражений, а не «часто задаваемые вопросы» для объёма. Первый вопрос стоит первым осознанно: его ищут в поиске (23 показа в месяц), с него люди и приходят.</p>
+    </div>
+  </section>
+
+  <!-- блок 13 – заявка; обещаем ровно то, что можем дать; заявки сейчас уходят не туда – вопрос владельцу -->
+  <section class="w-block" id="zayavka" data-n="13" data-name="Заявка: структура сайта" data-question="Как сделать первый шаг и что я получу прямо сейчас?" data-proof="на первом шаге обсуждаем вашу нишу и список страниц, а не подписываем договор">
+    <div class="w-wrap w-stack">
+      <form class="w-form" onsubmit="event.preventDefault()">
+        <h2>Получить структуру сайта для вашей ниши</h2>
+        <p>Напишите нишу и город. Разберём спрос и покажем, из каких страниц складывается сайт – до всяких договоров.</p>
+        <label class="w-field">Как к вам обращаться<input id="f-name" autocomplete="name"></label>
+        <label class="w-field">Ниша и город<input id="f-nisha" placeholder="например: мебель на заказ, Самара"></label>
+        <label class="w-field">Телефон или ник в Telegram<input id="f-phone" inputmode="tel" placeholder="+7 (___) ___-__-__ или @nik"></label>
+        <label class="w-field">Адрес текущего сайта, если он есть<input id="f-sayt" placeholder="site.ru"></label>
+        <label class="w-check"><input type="checkbox" id="f-agree" data-agree> <span>Согласен на обработку <a href="#">персональных данных</a></span></label>
+        <button class="w-btn" id="f-send" type="submit" disabled>Получить структуру сайта</button>
+        <p class="w-hint">Нажатие ничего не оплачивает и ни к чему не обязывает. Прочитаем заявку и напишем в тот канал, который вы указали.</p>
+        <div class="w-success">
+          <p><b>Заявка принята.</b></p>
+          <p>Напишет Артём Галимов, основатель студии, лично – не менеджер. Срок ответа: <span class="w-ask">[запросить: срок ответа на заявку – только от владельца]</span></p>
+          <p>Срочно – <a href="https://t.me/Artem1Galimov">написать в Telegram</a> или <a href="https://wa.me/79537777891">в WhatsApp</a>.</p>
+          <p>Чтобы разбор был точнее, пришлите 3–5 сайтов, которые считаете сильными в своей нише. Второй шаг – разбор спроса и список страниц вашего сайта.</p>
+        </div>
+      </form>
+      <p class="w-note">Куда уходит заявка: <span class="w-ask">[запросить: куда отправлять заявки с этой страницы – Telegram-бот, почта, админка; сейчас формы сайта уходят в сторонний сервис, это надо менять]</span>. В макете: поле «Ниша и город» – главное в форме, оно же тема первого сообщения; не убирать ради «короткой формы».</p>
+    </div>
+  </section>
+
+  <!-- блок 14 – автор; снимает «кто это будет делать»; опора – Артём Галимов, 15 лет в маркетинге, сайты с 2015 года -->
+  <section class="w-block" data-n="14" data-name="Кто делает" data-question="Кто это будет делать и можно ли ему доверять?" data-proof="Артём Галимов, основатель студии Дефорд: 15 лет в маркетинге, сайты с 2015 года">
+    <div class="w-wrap">
+      <div class="w-hero">
+        <div class="w-stack">
+          <h2>Кто будет делать сайт</h2>
+          <p><b>Артём Галимов</b>, основатель студии Дефорд. 15 лет в маркетинге, сайты с 2015 года.</p>
+          <p>Отсюда и порядок работы: сначала спрос и структура, потом дизайн. Сайт для нас – инструмент продаж, а не картинка.</p>
+          <p>Сколько проектов за это время: <span class="w-ask">[запросить: точное число проектов и лет работы – в разных материалах стоят 627 и 727 проектов и 9, 10, 11 лет]</span></p>
+          <p>Связь напрямую: <a href="https://t.me/Artem1Galimov">Telegram @Artem1Galimov</a>, <a href="https://wa.me/79537777891">WhatsApp +7 953 777-78-91</a>.</p>
+        </div>
+        <div class="w-media" data-alt="Артём Галимов, основатель студии Дефорд – автор сайтов под ключ">Роль фото: портрет Артёма Галимова за рабочим столом, на экране – карта сайта или прототип, лицо открыто и узнаваемо. Доказывает, что за работой стоит конкретный человек, с которым вы и будете переписываться. Фото нужно от владельца, стока здесь быть не должно.</div>
+      </div>
+      <p class="w-note">Блок автора нужен и для поиска, и для человека: подпись живого автора повышает доверие к странице. В макете: фото живое, не студийный портрет в костюме.</p>
+      <p class="w-note">Виджеты страницы: боковая панель связи справа на компьютере (Telegram, WhatsApp, «Перезвоните мне»); на телефоне – нижняя липкая панель «Написать в Telegram / WhatsApp»; ярлычок «Пример карты сайта с ЧПУ» с 15-й секунды (встроенный лид-магнит, открывает форму блока 13); окно на уходе только на компьютере – «Пришлём список страниц под вашу нишу» с одним полем. Окна по времени нет: страница живёт на поисковом трафике, а Яндекс и Google прямо не любят перекрытия на таких страницах. Почему так: человек здесь считает деньги и сравнивает – мешать ему окном вредно, а лёгкий способ спросить нужен. Правила модуля: первые 10 с ничего не всплывает; не больше двух окон за визит – первое любое, второе только на уходе; после заявки окна молчат; на телефоне при входе с поиска окно не перекрывает страницу, а становится плашкой. В прототипе заявки из окон никуда не уходят (демо). Липкая панель вместо «Позвонить» показывает мессенджеры: телефона для звонков в материалах нет – <span class="w-ask">[запросить: телефон для звонков: ставить ли кнопку «Позвонить»]</span></p>
+    </div>
+  </section>
+</main>
+
+<footer class="w-footer"><div class="w-wrap w-stack">
+  <span>Студия Дефорд · сайты на своём коде с 2015 года · <a href="https://t.me/Artem1Galimov">Telegram</a> · <a href="https://wa.me/79537777891">WhatsApp</a></span>
+  <span>Реквизиты, юридический адрес, политика обработки данных, согласие на обработку, cookie: <span class="w-ask">[запросить: реквизиты и ссылки на юридические документы студии]</span></span>
+</div></footer>
+
+<div class="w-sticky"><a class="w-btn" href="https://t.me/Artem1Galimov">Написать в Telegram</a><a class="w-btn ghost" href="https://wa.me/79537777891">WhatsApp</a></div>
+
+<script>
+// Переключатели прототипа и подпись логики над каждым блоком (по умолчанию скрыто).
+document.querySelectorAll('.w-block').forEach(function (b) {
+  var d = b.dataset, el = document.createElement('div');
+  el.className = 'w-logic';
+  el.innerHTML = '<b>Блок ' + (d.n || '?') + ' · ' + (d.name || '') + '</b><br>Вопрос клиента: ' + (d.question || '–') + '<br>Опора: ' + (d.proof || '–');
+  if (b.tagName === 'HEADER') b.prepend(el); else (b.querySelector('.w-wrap') || b).prepend(el);
+});
+document.getElementById('t-logic').addEventListener('change', function (e) { document.body.classList.toggle('show-logic', e.target.checked); });
+document.getElementById('t-notes').addEventListener('change', function (e) { document.body.classList.toggle('show-notes', e.target.checked); });
+document.getElementById('t-seo').addEventListener('change', function (e) { document.body.classList.toggle('show-seo', e.target.checked); });
+document.getElementById('t-success').addEventListener('change', function (e) { document.body.classList.toggle('show-success', e.target.checked); });
+(function () {
+  var src = document.getElementById('w-seo'), box = document.getElementById('w-seo-box');
+  if (!src || !box) return;
+  var d = JSON.parse(src.textContent), esc = function (t) { return String(t).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); };
+  var len = function (t, max) { return ' <span class="' + (t.length > max ? 'bad' : '') + '">(' + t.length + ' / ' + max + ')</span>'; };
+  var heads = [].map.call(document.querySelectorAll('main h1, main h2, header h1'), function (h) { return '<li>' + h.tagName + ' – ' + esc(h.textContent.trim()) + '</li>'; }).join('');
+  var alts = [].map.call(document.querySelectorAll('.w-media[data-alt]'), function (m) { return '<li>' + esc(m.dataset.alt) + '</li>'; }).join('');
+  box.innerHTML = '<table><tr><td>title</td><td>' + esc(d.title) + len(d.title, 65) + '</td></tr><tr><td>description</td><td>' + esc(d.description) + len(d.description, 160) +
+    '</td></tr><tr><td>запрос</td><td>' + esc(d.zapros || '–') + '</td></tr><tr><td>заголовки</td><td><ul>' + heads + '</ul></td></tr><tr><td>alt</td><td><ul>' + (alts || '<li>–</li>') +
+    '</ul></td></tr><tr><td>разметка</td><td>' + esc(d.schema || '–') + '</td></tr><tr><td>ссылки</td><td><ul>' + (d.links || []).map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul></td></tr></table>';
+})();
+document.getElementById('ask-count').textContent = document.querySelectorAll('.w-ask').length;
+// Любая форма: галочка data-agree включает кнопку отправки своей формы.
+document.querySelectorAll('form').forEach(function (f) {
+  var a = f.querySelector('[data-agree]'), btn = f.querySelector('button[type="submit"], button:not([type])');
+  if (a && btn) a.addEventListener('change', function () { btn.disabled = !a.checked; });
+});
+</script>
+<!-- Виджеты: подключение (раскомментировать вместе с блоком в head).
+<div data-vidzhety data-src="vidzhety-stranica.json"></div>
+<script src="https://tema-mail.github.io/vidzhety/vidzhety.js"></script>
+Пример vidzhety-stranica.json (факты – только с сайта клиента; срок акции не выдумывать):
+{
+  "demo": true, "consent": false, "endpoint": "demo:", "tz": 7, "agreement": "https://<сайт>/soglasie",
+  "widgets": [
+    { "id": "svyaz", "enabled": true, "type": "contacts", "group": "contact", "trigger": { "on": "load" },
+      "content": { "layout": "side", "phone": "+70000000000", "phoneText": "8 (000) 000-00-00", "wa": "https://wa.me/70000000000",
+        "tg": "https://t.me/...", "email": "...", "callback": "zvonok",
+        "buttons": [ { "text": "Главное действие страницы", "open": "zvonok", "kind": "main" }, { "text": "Позвонить", "href": "tel:+70000000000" } ] } },
+    { "id": "akciya", "enabled": true, "type": "modal", "trigger": { "on": "time", "s": 20 }, "mobileAs": "bar",
+      "content": { "title": "Предложение с сайта", "text": "Оставьте телефон – менеджер закрепит условия.", "short": "Коротко для плашки", "button": "Закрепить" },
+      "form": { "fields": ["phone"], "button": "Оставить телефон" } },
+    { "id": "uhod", "enabled": true, "type": "modal", "trigger": { "on": "exit" }, "target": { "device": "desktop" },
+      "content": { "title": "Предложение на уходе" }, "form": { "fields": ["phone"] } },
+    { "id": "zvonok", "enabled": true, "type": "callback", "trigger": { "on": "click" }, "content": { "title": "Перезвоним вам" },
+      "form": { "fields": ["name", "phone"], "button": "Перезвоните мне" } }
+  ]
+}
+В комментарий дизайнеру (.w-note) – строка «Виджеты страницы: … Почему так: …».
+-->
+</body>
+</html>

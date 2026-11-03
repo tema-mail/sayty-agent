@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Прототип – Сайт для цветочного магазина (нишевая страница Deford)</title>
+<!-- kit.css вставляется целиком внутрь <style> (прототип – один файл, открывается без интернета) -->
+<style>/* Комплект чёрно-белого прототипа (маркетолог → site-prototype).
+   Прототип показывает смысл, текст, порядок и действие – не дизайн. Цвета только серые; дизайнер делает визуал после «да» владельца.
+   Блок: <section class="w-block" data-n="1" data-name="Первый экран" data-question="вопрос клиента" data-proof="опора"> */
+:root {
+  --ink: #141414; --muted: #5f5f5f; --line: #b9b9b9; --fill: #ececec; --fill2: #f6f6f6; --paper: #ffffff;
+  --note: #fff6c8; --note-line: #c9b44a; --ask: #7a1f1f;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, Menlo, Consolas, monospace;
+  --wrap: 1180px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 var(--font); }
+img { max-width: 100%; }
+a { color: var(--ink); }
+h1, h2, h3 { margin: 0; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(28px, 4.2vw, 46px); }
+h2 { font-size: clamp(22px, 3vw, 32px); }
+h3 { font-size: 18px; }
+p { margin: 0; }
+.w-wrap { max-width: var(--wrap); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.w-stack { display: grid; gap: 14px; }
+.w-muted { color: var(--muted); }
+
+/* Панель прототипа: переключатели «Логика» и «Комментарии» */
+.w-bar { position: sticky; top: 0; z-index: 50; background: var(--ink); color: #fff; font: 13px/1.3 var(--mono); }
+.w-bar .w-wrap { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding-block: 8px; }
+.w-bar b { font-weight: 600; }
+.w-bar label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+
+/* Блок и его подпись логики */
+.w-block { border-top: 1px dashed var(--line); padding-block: 40px; position: relative; }
+.w-logic { display: none; font: 12.5px/1.45 var(--mono); background: var(--fill2); border: 1px solid var(--line); padding: 8px 10px; margin-bottom: 18px; }
+body.show-logic .w-logic { display: block; }
+.w-logic b { font-weight: 700; }
+.w-note { display: none; background: var(--note); border: 1px dashed var(--note-line); padding: 8px 10px; font-size: 13.5px; margin-top: 12px; }
+body.show-notes .w-note { display: block; }
+.w-note::before { content: "Дизайнеру: "; font-weight: 700; }
+.w-seo { display: none; font: 13px/1.5 var(--mono); background: #eef3ff; border: 1px solid #8aa0d6; padding: 12px 14px; margin: 12px auto; max-width: var(--wrap); }
+body.show-seo .w-seo { display: block; }
+.w-seo table { border-collapse: collapse; width: 100%; }
+.w-seo td { border-top: 1px solid #c9d4ee; padding: 4px 6px; vertical-align: top; }
+.w-seo td:first-child { white-space: nowrap; font-weight: 700; width: 1%; }
+.w-seo .bad { color: var(--ask); font-weight: 700; }
+.w-seo ul { margin: 0; padding-left: 18px; }
+.w-ask { color: var(--ask); font-weight: 600; background: #f7e9e9; padding: 0 4px; }
+
+/* Место под фото/видео/схему: роль, а не «картинка» */
+.w-media { background: repeating-linear-gradient(45deg, var(--fill), var(--fill) 10px, var(--fill2) 10px, var(--fill2) 20px);
+  border: 1px solid var(--line); min-height: 220px; display: grid; place-items: center; text-align: center; padding: 16px;
+  color: var(--muted); font-size: 14px; }
+.w-media::before { content: "▣ "; }
+.w-media.small { min-height: 120px; }
+
+/* Кнопки */
+.w-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border: 2px solid var(--ink);
+  background: var(--ink); color: #fff; font-weight: 600; text-decoration: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+.w-btn.ghost { background: transparent; color: var(--ink); }
+.w-btn[disabled] { opacity: .45; cursor: not-allowed; }
+.w-hint { font-size: 13px; color: var(--muted); }
+
+/* Шапка */
+.w-header .w-wrap { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between; padding-block: 12px; }
+.w-logo { border: 2px solid var(--ink); padding: 6px 10px; font-weight: 700; }
+.w-descr { font-size: 13.5px; color: var(--muted); max-width: 34ch; }
+.w-contacts-top { display: grid; gap: 2px; font-size: 14px; text-align: right; }
+.w-nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14.5px; border-top: 1px solid var(--line); padding-block: 8px; }
+
+/* Первый экран */
+.w-hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; }
+.w-hero ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.w-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* Сетки и карточки */
+.w-grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 14px; }
+.w-card { border: 1px solid var(--line); padding: 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.w-card .w-media { min-height: 140px; }
+.w-price { font-weight: 700; }
+
+/* Этапы */
+.w-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 14px; counter-reset: st; }
+.w-steps li { border: 1px solid var(--line); padding: 14px; counter-increment: st; display: grid; gap: 6px; }
+.w-steps li::before { content: counter(st); font-weight: 700; font-size: 22px; }
+
+/* Таблица */
+.w-table-wrap { overflow-x: auto; }
+.w-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.w-table th, .w-table td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+.w-table th { background: var(--fill2); }
+
+/* FAQ */
+.w-faq details { border: 1px solid var(--line); padding: 12px 14px; }
+.w-faq details + details { border-top: 0; }
+.w-faq summary { font-weight: 600; cursor: pointer; }
+
+/* Форма */
+.w-form { border: 2px solid var(--ink); padding: 18px; display: grid; gap: 12px; max-width: 520px; }
+.w-field { display: grid; gap: 4px; font-size: 14px; }
+.w-field input, .w-field select { min-height: 44px; border: 1px solid var(--ink); padding: 0 10px; font: inherit; background: #fff; }
+.w-check { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; }
+
+/* Полоса призыва */
+.w-cta { background: var(--fill); padding: 24px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+/* Плашка призыва между блоками: section.w-block.w-cta-strip с одной строкой предложения и кнопкой или мини-формой (карточка prizyv-mezhdu-blokami) */
+.w-block.w-cta-strip { padding-block: 16px; }
+.w-cta-strip .w-cta { padding: 14px 18px; }
+.w-cta-strip .w-cta p { margin: 0; font-weight: 600; }
+
+/* Состояние формы после отправки (карточка stranica-spasibo-sleduyushchiy-shag): видно по переключателю «После отправки» */
+.w-success { display: none; border: 2px dashed var(--ink); padding: 14px; background: var(--fill); }
+.w-success p { margin: 0 0 6px; }
+body.show-success .w-success { display: block; }
+
+/* Подвал */
+.w-footer { background: var(--fill2); border-top: 1px solid var(--line); padding-block: 28px; font-size: 14px; }
+
+/* Липкая панель действий на телефоне */
+.w-sticky { display: none; }
+header.w-block { padding-block: 0; border-top: 0; }
+header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
+
+@media (max-width: 760px) {
+  .w-hide-m { display: none !important; }
+  /* Мобильная шапка: логотип, короткий дескриптор и «Меню»; звонок и мессенджеры – в липкой панели снизу */
+  .w-header .w-wrap { flex-wrap: nowrap; padding-block: 8px; gap: 10px; }
+  .w-header .w-contacts-top, .w-header .w-wrap > .w-btn, .w-nav { display: none !important; }
+  .w-header .w-descr { font-size: 12px; line-height: 1.3; }
+  .w-header > div.w-wrap:has(> .w-logo)::after { content: "☰ Меню"; margin-left: auto; border: 1px solid var(--ink); padding: 6px 10px; font-size: 13px; white-space: nowrap; }
+  .w-hero .w-media, .w-block[data-n="1"] .w-media:first-of-type { min-height: 160px; }
+  .w-bar .w-wrap { padding-block: 4px; gap: 4px 10px; font-size: 11px; }
+  .w-hero { grid-template-columns: 1fr; }
+  .w-grid { grid-template-columns: repeat(var(--cols-m, 2), minmax(0, 1fr)); }
+  .w-steps { grid-template-columns: 1fr; }
+  .w-contacts-top { text-align: left; }
+  .w-block { padding-block: 28px; }
+  .w-sticky { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+    background: #fff; border-top: 1px solid var(--line); }
+  body { padding-bottom: 72px; }
+}
+@media (max-width: 420px) { .w-grid.one-m { grid-template-columns: 1fr; } }
+/* Нишевое место шаблона: подставляется при переносе страницы на другую нишу (серый пунктир, не элемент дизайна) */
+.w-slot { border-bottom: 2px dotted var(--line); background: var(--fill2); padding: 0 2px; }
+/* Цифра из прошлого коммерческого предложения: на странице живёт, но твёрдым оффером не является, пока владелец не подтвердил */
+.w-confirm { border-bottom: 1px dashed var(--muted); color: var(--ink); }
+.w-fine { font-size: 13px; color: var(--muted); }
+/* Значок «Меню» на телефоне дорисовывается только к первой строке шапки, а не к обёртке комментария дизайнеру */
+</style>
+<!-- Виджеты страницы (окна, ярлычок, боковая панель мессенджеров, нижняя панель телефона) – модуль tema-mail/vidzhety.
+     Набор под страницу – по справочнику ~/.claude/skills/marketolog/references/vidzhety-spravochnik.md. Чтобы включить – раскомментировать
+     это и блок «Виджеты: подключение» в конце страницы, положить рядом vidzhety-<страница>.json. Образец – ~/Sites/sayty-agent/prototipy/gaz-mag/.
+<link rel="stylesheet" href="https://tema-mail.github.io/vidzhety/vidzhety.css">
+<style>
+:root { --w-accent: #141414; --w-accent-2: #5f5f5f; --w-radius: 6px; --w-wa: #3d3d3d; --w-tg: #3d3d3d; --w-max: #3d3d3d; }
+body.vz-has-sticky .w-sticky { display: none !important; }
+</style>
+-->
+</head>
+<body>
+<!-- Прототип страницы-образца нишевого раздела Deford: /industries/cvetochnyy-magazin/.
+     Отличие от других ниш: цветочный магазин – это интернет-магазин, а не многостраничник. Страница ведёт на /services/online-store/.
+     Это ШАБЛОН под магазинные ниши. Нишевые места подсвечены пунктиром (класс .w-slot) – их меняем при переносе.
+     Цифры из прошлых коммерческих предложений помечены «подтвердить» (класс .w-confirm) – твёрдым оффером они станут после «да» владельца.
+     Инструкция по переносу – комментарием в самом низу файла. Тире только «–». -->
+<div class="w-bar"><div class="w-wrap">
+  <b>Прототип · Deford · /industries/cvetochnyy-magazin/ · версия 03.11.2026</b>
+  <label><input type="checkbox" id="t-logic"> Логика блоков</label>
+  <label><input type="checkbox" id="t-notes"> Комментарии дизайнеру</label>
+  <label><input type="checkbox" id="t-seo"> SEO страницы</label>
+  <label><input type="checkbox" id="t-success"> После отправки</label>
+  <span>Меток «запросить»: <b id="ask-count">0</b></span>
+  <span>Пунктир = нишевое место шаблона · рамка снизу = цифра из прошлого КП, нужно «подтвердить»</span>
+</div></div>
+
+<!-- SEO-задание страницы. Отдельного файла docs/marketing/seo-industry-cvety.md нет – слой собран из задания главного и замера спроса
+     ~/Sites/sayty-agent/deford/nishi-120-2026-10.tsv и spros-2026-10.tsv (Wordstat, Россия, октябрь 2026, снято 03.11.2026).
+     Поисковой задачи у страницы нет: заказной интент – 3 запроса в месяц на всю страну. Страница работает на рекламу и на ссылку из КП. -->
+<script type="application/json" id="w-seo">{"title": "Сайт для цветочного магазина от 70 000 ₽ · Deford", "description": "Интернет-магазин цветов на своём коде: каталог с фильтрами, доставка по дате, кабинет с повторным заказом. От 70 000 ₽. Сначала покажем спрос по вашему городу.", "h1": "Сайт для цветочного магазина", "zapros": "создание сайта для цветочного магазина – 3 запроса в месяц на всю Россию; «сайт для цветочного магазина» 116 широкой частоты, «создать сайт для цветочного магазина» 15, «сайт для цветочного салона» 7, «интернет магазин цветов под ключ» 1 (Wordstat, Россия, октябрь 2026). Поискового спроса нет: страница под рекламу и под коммерческое предложение, не под поиск", "schema": "Service (разработка интернет-магазина цветов), Organization (Deford, Артём Галимов), BreadcrumbList: Главная – Ниши – Сайт для цветочного магазина. Только то, что видно на странице; Review и AggregateRating не ставить, пока клиенты не разрешили называть себя и цифры", "links": ["/services/online-store/ – интернет-магазин под ключ, полный состав работ и тарифы (страницы пока нет, это план)", "/services/seo/ – ведение магазина и подготовка к сезонным датам, 10 000 ₽/мес", "/industries/ – другие ниши", "/cases/ – работы в нише; адрес появится, когда владельцы магазинов разрешат публикацию"]}</script>
+<div class="w-seo" id="w-seo-box"></div>
+
+<header class="w-header w-block" data-n="0" data-name="Шапка" data-question="Куда я попал и как быстро связаться?" data-proof="название студии, канал связи, адрес раздела ниш">
+  <div class="w-wrap">
+    <span class="w-logo">DEFORD</span>
+    <span class="w-descr">Интернет-магазины на коде для <span class="w-slot">цветочных магазинов</span>. Своим кодом, без конструкторов.</span>
+    <span class="w-contacts-top w-hide-m"><a href="https://t.me/Artem1Galimov">Telegram</a><a href="https://wa.me/79537777891">WhatsApp</a><span class="w-muted"><span class="w-ask">[запросить: телефон для шапки – сейчас на странице только мессенджеры]</span></span></span>
+    <a class="w-btn ghost w-hide-m" href="#zayavka">Показать спрос</a>
+  </div>
+  <nav class="w-wrap w-nav"><a href="/services/online-store/">Интернет-магазин</a><a href="/services/seo/">Ведение и рост</a><a href="/industries/">Ниши</a><a href="/cases/">Работы</a><a href="#zayavka">Связаться</a></nav>
+  <div class="w-wrap w-plain"><p class="w-note">Шапка общая для всех нишевых страниц, меняется только дескриптор (нишевое место). Отличие от нишевых страниц услуг: первый пункт меню ведёт на /services/online-store/, а не на сайт под ключ, – цветочный магазин продаём как магазин. На телефоне – логотип, дескриптор в одну строку и «Меню»; мессенджеры и главное действие – в липкой панели снизу. Крошки «Главная – Ниши – Сайт для цветочного магазина» дизайнер ставит под шапкой.</p></div>
+</header>
+
+<main>
+  <section class="w-block" data-n="1" data-name="Первый экран" data-question="Вы делаете магазины именно для цветочных и сколько это стоит?" data-proof="пять проектов в нише и готовый поток сборки по эталону; цены из прошлых КП, ждут подтверждения">
+    <div class="w-wrap">
+      <div class="w-hero">
+        <div class="w-stack">
+          <h1>Сайт для <span class="w-slot">цветочного магазина</span></h1>
+          <p>Это не визитка на пять страниц, а интернет-магазин: каталог с фильтрами, карточка букета с размерами, доставка по дате и интервалу, корзина и кабинет с повторным заказом. На своём коде, не на конструкторе.</p>
+          <ul>
+            <li><b>От <span class="w-confirm">70 000 ₽ [подтвердить]</span></b> – магазин с админкой; три сборки разобраны ниже</li>
+            <li><b>Срок</b> – <span class="w-ask">[запросить: срок сборки магазина по эталону, в неделях]</span></li>
+            <li><b><span class="w-slot">Цветочных магазинов</span> у нас больше, чем в любой другой нише</b> – пять проектов и собранный поток сборки по своему эталону</li>
+          </ul>
+          <div class="w-actions"><a class="w-btn" href="#zayavka">Показать спрос в вашем городе</a><a class="w-btn ghost" href="https://t.me/Artem1Galimov">Написать в Telegram</a></div>
+          <p class="w-hint">Пришлём таблицу: какие <span class="w-slot">букеты и поводы</span> ищут в вашем городе и сколько раз в месяц. Без звонка, если сами не попросите.</p>
+        </div>
+        <div class="w-media" data-alt="каталог цветочного магазина, сделанного студией Deford, на экране телефона – две карточки в ряд">Роль: снимок каталога нашего цветочного магазина на телефоне – две карточки букетов в ряд, в фильтре первым чип «Все». Доказывает, что магазин у нас уже работает и собран по стандарту, а не нарисован под эту страницу.</div>
+      </div>
+      <p class="w-note">Главное про назначение страницы. Поискового спроса на «сайт для цветочного магазина» нет: заказной интент «создание сайта для цветочного магазина» – 3 запроса в месяц на всю Россию, широкая частота 116, «сайт для цветочного салона» 7, «интернет магазин цветов под ключ» 1 (Wordstat, Россия, октябрь 2026, файлы ~/Sites/sayty-agent/deford/nishi-120-2026-10.tsv и spros-2026-10.tsv). Значит страница работает под рекламу и как ссылка из коммерческого предложения, а не под поиск. Отсюда и первый экран: человек пришёл по рекламе, за две секунды должен увидеть свою нишу, цену магазина и то, что в цветах у нас опыта больше всего. Дизайнеру: H1 крупно, цена рядом, кнопка выше первого сгиба; фон – живое фото витрины или сборки букета, не сток с одинаковыми розами.</p>
+      <p class="w-note">Виджеты страницы: на телефоне снизу «Показать спрос» (открывает форму) + «Написать в Telegram»; на компьютере боковая панель связи справа (Telegram, WhatsApp) и окно на уходе «Заберите таблицу спроса по вашему городу» с одним полем. Окна по времени нет. Почему так: трафик рекламный и дорогой, решение долгое, а поискового трафика у страницы нет – значит окно на уходе не мешает поиску и уместно. Правила модуля: первые 10 с ничего не всплывает, не больше двух окон за визит, после заявки окна молчат, на телефоне окно становится плашкой снизу и не перекрывает липкую панель. Подключение – закомментированный блок в конце файла, набор по справочнику ~/.claude/skills/marketolog/references/vidzhety-spravochnik.md.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="2" data-name="Что не так у сайтов ниши" data-question="Вы вообще понимаете, как устроен цветочный магазин?" data-proof="наш осмотр цветочных сайтов при переносах – наблюдение, выборка не посчитана">
+    <div class="w-wrap w-stack">
+      <h2>Что мы видим, когда открываем сайты <span class="w-slot">цветочных магазинов</span></h2>
+      <div class="w-grid" style="--cols:1;--cols-m:1">
+        <article class="w-card"><h3>Главной страницы нет – сразу <span class="w-slot">каталог</span></h3><p>Человек попадает на витрину и не понимает, кто вы, откуда возите, за сколько и когда привезёте. Доверия нет – есть только <span class="w-slot">картинки букетов</span>, как у всех.</p></article>
+        <article class="w-card"><h3>У <span class="w-slot">букетов</span> нет описаний</h3><p>«<span class="w-slot">Букет №12</span> – 3 500 ₽» и больше ничего: ни состава, ни высоты, ни что будет, если <span class="w-slot">нужного цветка</span> не окажется. Такой <span class="w-slot">букет</span> не выбирают, про него звонят и спрашивают.</p></article>
+        <article class="w-card"><h3>Нет подборок по поводам</h3><p>Ищут не «<span class="w-slot">розы</span>», а <span class="w-slot">«что подарить маме», «на 1 сентября», «извиниться»</span>. Если подборок нет, человек листает весь <span class="w-slot">каталог</span> и уходит к тем, кто уже собрал за него.</p></article>
+        <article class="w-card"><h3>Фото из <span class="w-slot">каталога поставщика</span></h3><p>На сайте идеальная картинка, в жизни – другой <span class="w-slot">букет</span>. Один такой заказ забирает и повторные покупки, и отзыв.</p></article>
+        <article class="w-card"><h3>Нет повторного заказа и лояльности</h3><p><span class="w-slot">Цветы</span> покупают не один раз, а по датам. Но повторить прошлый заказ в два тапа нельзя, бонусы копить негде, адрес получателя надо диктовать заново.</p></article>
+        <article class="w-card"><h3><span class="w-slot">Опт и розница</span> в одной корзине</h3><p><span class="w-slot">Оптовик</span> видит розничные цены и считает в уме, розничный покупатель видит <span class="w-slot">«от 50 штук»</span> и пугается. Это два разных разговора и две разных корзины.</p></article>
+      </div>
+      <p class="w-hint"><span class="w-slot">Нишевое место шаблона</span>: весь список болей меняется под нишу. Это наши наблюдения из переносов, а не замер, – ни «никто», ни «всегда», ни процентов здесь нет.</p>
+      <p class="w-note">Чтобы блок стал вторым доказательством после спроса, нужна цифра: открыть 20 сайтов <span class="w-slot">цветочных магазинов</span> города клиента и посчитать, у скольких нет подборок по поводам и описаний. Пока цифр нет, держим формулировки как наблюдение. Дизайнеру: шесть пунктов в одну колонку, читается за 25 секунд; иконки не нужны, нужен контраст заголовка и пояснения. Можно усилить парой «так выглядит у них – так у нас» в блоке ниже, но не превращать в запугивание.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="3" data-name="Спрос и сезонность в вашем городе" data-question="А моих-то покупателей сколько и когда они приходят?" data-proof="Wordstat по региону клиента – замер делаем до разговора; по городу клиента ещё не снят">
+    <div class="w-wrap w-stack">
+      <h2>Сколько людей в вашем городе ищут <span class="w-slot">цветы к конкретному поводу</span> – и есть ли у вас такая страница</h2>
+      <p>Не наши обещания, а спрос ваших покупателей числами. Берём список <span class="w-slot">поводов и товаров</span>, снимаем частоту запросов по вашему региону за прошлый месяц и сверяем с вашим сайтом: есть ли под это отдельная страница. Строки без страницы – это люди, которые ищут <span class="w-slot">ваш букет</span> и не доходят до вас.</p>
+      <p><span class="w-ask">[запросить: снять спрос по городу клиента перед показом – пустую таблицу не показываем никому]</span></p>
+      <div class="w-table-wrap">
+        <table class="w-table">
+          <thead><tr><th><span class="w-slot">Повод или товар</span></th><th>Запросов в месяц в вашем городе</th><th>Есть ли у вас такая страница</th></tr></thead>
+          <tbody>
+            <tr><td><span class="w-slot">Цветы с доставкой</span></td><td>NN</td><td>есть, но без выбора даты</td></tr>
+            <tr><td><span class="w-slot">Букет из роз</span></td><td>NN</td><td>есть, без описаний</td></tr>
+            <tr><td><span class="w-slot">Букет на 8 марта</span></td><td>NN</td><td>нет</td></tr>
+            <tr><td><span class="w-slot">Цветы на 1 сентября</span></td><td>NN</td><td>нет</td></tr>
+            <tr><td><span class="w-slot">Свадебная флористика</span></td><td>NN</td><td>нет</td></tr>
+            <tr><td><span class="w-slot">Подарочные наборы и шары</span></td><td>NN</td><td>нет</td></tr>
+            <tr><td><b>Итого по <span class="w-slot">поводам</span></b></td><td><b>NN</b></td><td><b>без своей страницы – NN запросов в месяц</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><b>Спрос на <span class="w-slot">цветы</span> скачет по датам.</b> <span class="w-slot">8 марта, 1 сентября, День матери, выпускные, свадебный сезон</span> – это не «сезонность вообще», а конкретные недели, когда заказов в разы больше обычного. Страницу под дату готовят заранее: поиску нужно время, рекламе – бюджет и объявления, вам – фото и состав <span class="w-slot">букетов</span>. Поэтому <span class="w-slot">страницу под 8 марта</span> ставим в январе, а не 7 марта вечером.</p>
+      <p class="w-fine">Так мы уже считали спрос в этой нише: по <span class="w-slot">магазину венков и ритуальной флористики</span> вышло около 5 800 запросов в месяц в рознице по Московской области и около 1 300 в опте по России (замер 27 октября 2026). Это пример метода, а не обещание цифр: по вашему городу и вашим <span class="w-slot">поводам</span> числа будут свои, и до замера мы их не называем. <span class="w-ask">[запросить: кого из клиентов можно называть на странице и какие цифры публиковать]</span></p>
+      <div class="w-media" data-alt="снимок Wordstat с выбранным регионом и частотой запросов по поводам цветочного магазина">Роль: снимок окна Wordstat с выбранным регионом клиента и строками его <span class="w-slot">поводов</span> с частотами. Доказывает, откуда цифры, – человек видит инструмент, а не нашу картинку.</div>
+      <p class="w-note">Это главный блок страницы, ради него она и существует: вместо «сделаем красиво» – спрос самого клиента числами плюс календарь дат. Дизайнеру: на 390 таблица перестраивается в карточки «повод / NN / есть страница» (прокрутка внутри таблицы – запасной вариант); строки без страницы выделить, итоговую отбить. Под таблицей на живом сайте – подпись источника: Wordstat, регион, месяц замера, дата снятия. Числа «NN» – место под замер, а не пример. Для сезонности хорошо работает полоса года с отметками дат: её рисуем только после «да» владельца, в прототипе роль описана словами. Высота на 390: блок выходит за два экрана (1744 px) – решение такое: на телефоне открыты первые 4 строки спроса, остальные под строкой «Показать все поводы», а мелкий текст про наш прошлый замер прячем в раскрывающееся «как мы считаем спрос». В прототипе показаны все строки целиком, чтобы владелец видел полный состав таблицы.</p>
+    </div>
+  </section>
+
+  <section class="w-block w-cta-strip" data-n="3а" data-name="Плашка после спроса" data-question="Сколько стоит узнать свои цифры?" data-proof="замер спроса – наш первый шаг, он бесплатный">
+    <div class="w-wrap"><div class="w-cta"><p>Спрос по вашему городу и по датам снимем бесплатно – до любого разговора о магазине</p><a class="w-btn" href="#zayavka">Прислать таблицу спроса</a></div></div>
+  </section>
+
+  <section class="w-block" data-n="4" data-name="Из чего собирается магазин" data-question="Из чего будет состоять мой магазин?" data-proof="карта магазина с адресами страниц – наш первый этап, до вёрстки; стандарты каталога и админки – наши правила">
+    <div class="w-wrap w-stack">
+      <h2>Из чего собирается <span class="w-slot">цветочный магазин</span>, чтобы с него заказывали, а не звонили</h2>
+      <div class="w-grid" style="--cols:3;--cols-m:1">
+        <article class="w-card"><h3><span class="w-slot">Каталог</span> с фильтрами</h3><p>Фильтр по <span class="w-slot">поводу, цвету, цене, составу</span>. Первым идёт чип «Все», на экране показываем только выбранное. На телефоне – две карточки в ряд: <span class="w-slot">букет</span> видно, а список не превращается в простыню.</p></article>
+        <article class="w-card"><h3>Карточка <span class="w-slot">букета</span></h3><p>Состав по стеблям, высота и диаметр, размеры S/M/L со своей ценой, что заменим, если <span class="w-slot">цветка</span> не осталось, и фото именно вашей сборки.</p></article>
+        <article class="w-card"><h3>Подборки по поводам и датам</h3><p><span class="w-slot">8 марта, День матери, выпускной, свадьба, рождение ребёнка, извинения</span>. Это и страницы под спрос из таблицы выше, и ответ человеку, который не знает, что выбрать.</p></article>
+        <article class="w-card"><h3>Доставка с выбором даты</h3><p>Дата и интервал в корзине, зоны и стоимость, самовывоз, доставка «к определённому часу». <span class="w-ask">[запросить: какие зоны, интервалы и курьерские службы мы уже настраивали в магазинах]</span></p></article>
+        <article class="w-card"><h3>Корзина и оформление</h3><p>Оплата онлайн, открытка к <span class="w-slot">букету</span>, анонимная доставка, получатель отдельно от заказчика. Галочка согласия пустая. <span class="w-ask">[запросить: какие платёжные системы подключаем и что нужно от клиента]</span></p></article>
+        <article class="w-card"><h3>Личный кабинет покупателя</h3><p>Заказы, повторный заказ в два тапа, бонусы, адресная книга, свои даты. Кабинет закрыт логином целиком, а не отдельными разделами.</p></article>
+        <article class="w-card"><h3><span class="w-slot">Опт</span> отдельным разделом</h3><p>Свои цены, прайс, минимальная партия и кабинет <span class="w-slot">оптовика</span> – в отдельном разделе или на поддомене, чтобы не смешивать с розницей.</p></article>
+        <article class="w-card"><h3>Админка магазина</h3><p>Товары, заказы, статусы, наличие. Удаление – только внутри самой записи, через окно с выбором «в архив»; архив – отдельный раздел, чтобы случайно не потерять товар за день до <span class="w-slot">8 марта</span>.</p></article>
+        <article class="w-card"><h3>Страницы доверия</h3><p>Главная, доставка и оплата, о магазине с фото мастерской и флористов, отзывы ссылками на Яндекс Карты и 2ГИС. Это то, чего чаще всего нет.</p></article>
+      </div>
+      <p class="w-hint"><span class="w-slot">Нишевое место шаблона</span>: набор узлов целиком свой у каждой магазинной ниши. Стандарты каталога, кабинета и архива – наши общие, они не меняются.</p>
+      <p class="w-note">Блок про устройство магазина, а не про цветы вообще: он показывает, что мы знаем нишу изнутри. Карту магазина с адресами страниц владелец утверждает до вёрстки. Дизайнеру: девять карточек, на компьютере по три в ряд (три полных ряда, вставок на всю ширину внутри сетки нет), на 390 – одна под другой, в две колонки текст не читается. Высота на 390: блок выходит за два экрана (2000 px) – решение такое: на телефоне открыты первые 4 узла (каталог, карточка, подборки, доставка), остальные пять под кнопкой «Показать все узлы магазина». Разбивать блок на два не стоит: ценность именно в том, что состав магазина виден целиком одним списком. Стандарты «две карточки в ряд», «чип Все первым» и «архив вместо удаления» на живом сайте стоит показать мини-снимками интерфейса – это наши решения, и их видно.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="5" data-name="Почему верить в этой нише" data-question="Вы такое уже делали и что это дало?" data-proof="пять проектов в нише и поток сборки по эталону; имена и цифры на странице не публикуем без разрешения">
+    <div class="w-wrap w-stack">
+      <h2><span class="w-slot">Цветочных магазинов</span> мы собрали больше, чем магазинов в любой другой нише</h2>
+      <p>Это не «мы универсалы, сделаем что угодно». В <span class="w-slot">цветах</span> у нас больше всего работ, поэтому мы спорим с вами о составе <span class="w-slot">карточки букета</span> и о датах сезона, а не узнаём нишу по ходу проекта.</p>
+      <div class="w-grid" style="--cols:2;--cols-m:1">
+        <article class="w-card"><h3>Перенос с конструктора на свой код</h3><p><span class="w-slot">Цветочный магазин</span> в Самаре: перенесли с конструктора, добавили кабинет владельца за логином. Этот магазин у нас эталон – новый <span class="w-slot">цветочный</span> собираем по нему, а не с нуля.</p></article>
+        <article class="w-card"><h3>Магазин, который продавал только через ВК</h3><p>Новосибирск: сайта не было вообще, заказы собирали в сообществе. Собрали магазин с <span class="w-slot">каталогом</span>, заказы уходят в ВК – так, как продавец уже привык работать.</p></article>
+        <article class="w-card"><h3><span class="w-slot">Венки и ритуальная флористика</span></h3><p>Сергиев Посад: розница плюс отдельный <span class="w-slot">опт</span> на поддомене с кабинетом <span class="w-slot">оптовика</span>. Две корзины, два прайса, два разных разговора на одном домене.</p></article>
+        <article class="w-card"><h3>Ещё два магазина – по коммерческим предложениям</h3><p>Курск и Тольятти: разбирали <span class="w-slot">каталог, поводы и доставку</span> до запуска. Поэтому мы знаем не только как собрать, но и на чём такие проекты встают.</p></article>
+      </div>
+      <p>Главное – у нас есть собранный поток: берём ваш магазин-донор (сайт, сообщество, прайс), раскладываем <span class="w-slot">каталог и поводы</span> и собираем магазин по эталону. Это быстрее и дешевле, чем магазин в незнакомой нише, и ошибок меньше.</p>
+      <p><span class="w-ask">[запросить: какие магазины можно называть по имени и чьи снимки экранов публиковать – пока на странице нет ни одного имени]</span> <span class="w-ask">[запросить: какие цифры по этим магазинам можно показать – заказы, выручка, доля повторных]</span></p>
+      <div class="w-media" data-alt="эталонный цветочный магазин студии Deford – главная, каталог и кабинет владельца на трёх экранах">Роль: три экрана эталонного <span class="w-slot">цветочного магазина</span> рядом – главная, <span class="w-slot">каталог</span> с фильтром и кабинет владельца. Доказывает, что эталон существует и работает: человек видит интерфейс, а не слова «большой опыт».</div>
+      <p class="w-note">Самый важный блок после спроса: нишевая страница живёт на том, что «вы делали такое у нас». Текст написан так, что его можно показывать уже сейчас – без имён и без цифр. Как усилить после разрешения владельцев: одно имя магазина, адрес сайта, дата запуска, одна цифра «было – стало» и фраза от владельца. Подставлять кейс из другой ниши нельзя – это ровно то, за что не доверяют. Дизайнеру: четыре карточки по две в ряд (два полных ряда), снимки магазинов крупно и кликабельно, фото открывается попапом с листанием, а не новой вкладкой.</p>
+    </div>
+  </section>
+
+  <section class="w-block w-cta-strip" data-n="5а" data-name="Плашка после работ" data-question="Хочу посмотреть, как это выглядит живьём" data-proof="эталонный магазин существует и его можно показать">
+    <div class="w-wrap"><div class="w-cta"><p>Покажем эталонный <span class="w-slot">цветочный магазин</span> живьём и разберём ваш <span class="w-slot">каталог</span></p><a class="w-btn" href="#zayavka">Записаться на показ</a></div></div>
+  </section>
+
+  <section class="w-block" data-n="6" data-name="Тарифы магазина" data-question="Сколько стоит магазин и где подвох?" data-proof="цены из прошлых коммерческих предложений студии – каждая помечена «подтвердить»">
+    <div class="w-wrap w-stack">
+      <h2>Сколько стоит <span class="w-slot">цветочный магазин</span>: три сборки</h2>
+      <div class="w-grid" style="--cols:3;--cols-m:1">
+        <article class="w-card"><h3>Базовый</h3><p><span class="w-slot">Каталог</span> с фильтрами, карточки товаров, корзина, доставка с выбором даты, заказы и админка магазина.</p><span class="w-price"><span class="w-confirm">70 000 ₽ [подтвердить]</span></span></article>
+        <article class="w-card"><h3>Оптимальный</h3><p>Всё из базового плюс дополнительные страницы (поводы, доставка и оплата, о магазине), настройка рекламы и Метрика с целями.</p><span class="w-price"><span class="w-confirm">90 000 ₽ [подтвердить]</span></span></article>
+        <article class="w-card"><h3>Расширенный</h3><p>Всё из оптимального плюс личный кабинет покупателя, бонусы и повторный заказ.</p><span class="w-price"><span class="w-confirm">150 000 ₽ [подтвердить]</span></span></article>
+      </div>
+      <p class="w-fine">Цены взяты из наших прошлых коммерческих предложений и на странице стоят как ориентир, а не как твёрдый оффер: точная сумма фиксируется в договоре после карты магазина. В одном из предложений магазин шёл за <span class="w-confirm">120 000 ₽ вместо 150 000 ₽ [подтвердить]</span> с рассрочкой <span class="w-confirm">20 000 ₽ на старте и 10 000 ₽ в месяц [подтвердить]</span>. <span class="w-ask">[запросить: действуют ли эти цены и рассрочка сейчас и к каким сборкам]</span> Личный кабинет можно взять отдельно от сборки: <span class="w-ask">[запросить: цена личного кабинета – в наших материалах расходится от 30 000 до 100 000 ₽, нужна одна цифра]</span></p>
+      <div class="w-actions"><a class="w-btn ghost" href="/services/online-store/">Подробно про интернет-магазин</a></div>
+      <p class="w-fine"><span class="w-ask">[запросить: когда делаем страницу /services/online-store/ – сейчас её нет, а страница ведёт на неё]</span></p>
+      <p class="w-note">Ключевое отличие этой ниши от других нишевых страниц: здесь НЕ цена сайта под ключ 120 000 ₽ и ссылка не на /services/website/. Цветочный – это магазин, поэтому и цена другая, и ссылка на /services/online-store/. Дизайнеру: три карточки сборок, на 390 одна под другой – цена всегда видна целиком, без прокрутки вбок (таблицей на телефоне цена уезжает за край), без «скидок» и зачёркнутых цен; строка «120 000 вместо 150 000» живёт в мелком тексте как условие прошлого предложения, а не как акция. Пока владелец не подтвердил цены, страница не публикуется: три пометки «подтвердить» в этом блоке – стоп-условие.</p>
+    </div>
+  </section>
+
+  <section class="w-block w-cta-strip" data-n="6а" data-name="Плашка после цены" data-question="Какая сборка моя?" data-proof="сборку считаем по каталогу и поводам клиента">
+    <div class="w-wrap"><div class="w-cta"><p>Не знаете, какая сборка ваша – посчитаем по вашему <span class="w-slot">каталогу</span> и поводам</p><a class="w-btn" href="#zayavka">Посчитать мой магазин</a></div></div>
+  </section>
+
+  <section class="w-block" data-n="7" data-name="Кабинет и повторные заказы" data-question="Зачем мне кабинет и бонусы, если я просто продаю букеты?" data-proof="цветы покупают по датам – поводы повторяются каждый год; доля повторных у клиентов не замерена">
+    <div class="w-wrap w-stack">
+      <h2>Почему в <span class="w-slot">цветах</span> зарабатывает второй, третий и пятый заказ</h2>
+      <p><span class="w-slot">Цветы</span> покупают по датам: дни рождения, годовщина, <span class="w-slot">8 марта, 1 сентября, День матери</span>. Один и тот же человек возвращается несколько раз в год – если ему есть куда возвращаться. Магазин без кабинета каждый раз знакомится с покупателем заново и каждый раз платит за него рекламой.</p>
+      <ol class="w-steps" style="--cols:4">
+        <li><b>Повторить заказ в два тапа</b><span>Прошлый <span class="w-slot">букет</span>, прошлый адрес, новая дата. Самый частый сценарий и самый дешёвый заказ.</span></li>
+        <li><b>Свои даты</b><span>Покупатель сохраняет дни рождения и годовщины, магазин напоминает заранее. Напоминания – только с отдельной галочкой согласия на рассылку, не вместе с согласием на обработку данных.</span></li>
+        <li><b>Бонусы и статусы</b><span>Процент с заказа возвращается на счёт и тратится на следующий <span class="w-slot">букет</span>. Условия пишем вашими, не придуманными.</span></li>
+        <li><b>Адресная книга</b><span>Получатели с адресами и телефонами сохранены: не надо диктовать адрес заново и ошибаться в подъезде.</span></li>
+      </ol>
+      <p>Кабинет входит в расширенную сборку или считается отдельно – смотрите блок с ценами выше. Любой кабинет закрыт логином целиком: ни один раздел не открывается без входа.</p>
+      <div class="w-media" data-alt="личный кабинет покупателя цветочного магазина – список заказов и кнопка повторить заказ">Роль: снимок кабинета покупателя – список прошлых заказов, кнопка «Повторить заказ», счёт бонусов и сохранённые даты. Доказывает, что повторный заказ – это рабочий экран, а не обещание «сделаем лояльность».</div>
+      <p class="w-note">Блок объясняет, почему цветочной нише кабинет нужнее, чем большинству: товар покупают по календарю, а не один раз. Дизайнеру: четыре шага в ряд на компьютере, в столбик на 390; снимок кабинета крупно. Цифру «доля повторных заказов» здесь очень хочется поставить, но у нас её нет ни по одному магазину – если владелец разрешит, она станет сильнейшим доказательством на странице.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="8" data-name="Что дальше после запуска" data-question="Магазин запустили – а заказы откуда?" data-proof="ведение 10 000 ₽/мес – условие студии из прошлых предложений">
+    <div class="w-wrap w-stack">
+      <h2>После запуска: кто готовит магазин к <span class="w-slot">8 марта и 1 сентября</span></h2>
+      <p>Магазин сам себя в поиск не поднимет и к сезону не подготовится. Ведение – <span class="w-confirm">10 000 ₽ в месяц [подтвердить]</span>: добавляем страницы под спрос, который сняли на первом шаге, готовим <span class="w-slot">подборки под даты</span> заранее, следим, с каких страниц приходят заказы, и правим то, что не приносит.</p>
+      <p>Сезонные страницы ставим заранее: <span class="w-slot">под 8 марта – в январе, под 1 сентября – в июле</span>. Поиску нужно время, чтобы страница начала показываться, а вам – успеть снять фото <span class="w-slot">букетов</span> и собрать состав.</p>
+      <p><span class="w-ask">[запросить: что входит в ведение за 10 000 ₽/мес – сверить со страницей /services/seo/]</span></p>
+      <div class="w-actions"><a class="w-btn ghost" href="/services/seo/">Что входит в ведение</a></div>
+      <p class="w-note">Блок замыкает логику страницы: спрос и даты мы посчитали в начале – здесь говорим, кто будет их отрабатывать. Ведение не навязываем: одна строка цены, календарь подготовки и ссылка. Дизайнеру: хорошо смотрится полоса года с отметками дат и подписью «когда начинаем готовить» – рисуем после «да» владельца.</p>
+    </div>
+  </section>
+
+  <section class="w-block" id="zayavka" data-n="9" data-name="Заявка и быстрый канал" data-question="Что я получу, если оставлю заявку?" data-proof="замер спроса по городу – наш первый бесплатный шаг">
+    <div class="w-wrap w-stack">
+      <form class="w-form" onsubmit="event.preventDefault()">
+        <h2>Получить спрос по вашему городу</h2>
+        <p>Пришлём таблицу: какие <span class="w-slot">букеты и поводы</span> ищут в вашем городе, сколько раз в месяц, каких страниц под них нет – и календарь дат, к которым стоит готовиться.</p>
+        <label class="w-field">Имя<input id="f-name" autocomplete="name"></label>
+        <label class="w-field">Телефон или Telegram<input id="f-phone" inputmode="tel" placeholder="+7 (___) ___-__-__"></label>
+        <label class="w-field">Город<input id="f-city" autocomplete="address-level2" placeholder="где работает магазин"></label>
+        <label class="w-field">Сайт или сообщество, если есть<input id="f-site" inputmode="url" placeholder="example.ru или vk.com/..."></label>
+        <label class="w-check"><input type="checkbox" id="f-agree" data-agree> <span>Согласен на обработку <a href="/privacy/">персональных данных</a></span></label>
+        <button class="w-btn" id="f-send" type="submit" disabled>Прислать спрос по моему городу</button>
+        <p class="w-hint">В ответ – таблица спроса, список недостающих страниц и календарь сезонных дат. Бесплатно, без звонка, если сами не попросите.</p>
+        <div class="w-success">
+          <p><b>Заявка принята.</b></p>
+          <p>Спрос по вашему городу снимет Артём Галимов и пришлёт таблицу – <span class="w-ask">[запросить: срок ответа]</span>.</p>
+          <p>Срочно – <a href="https://t.me/Artem1Galimov">написать в Telegram</a> или <a href="https://wa.me/79537777891">в WhatsApp</a>.</p>
+          <p>Чтобы замер был точным, пришлите ссылку на <span class="w-slot">каталог или прайс</span> и список поводов, которые у вас продаются. Пока ждёте – посмотрите, <a href="/services/online-store/">что входит в интернет-магазин</a>.</p>
+        </div>
+      </form>
+      <p>Проще написать – напишите: <a href="https://t.me/Artem1Galimov">Telegram</a>, <a href="https://wa.me/79537777891">WhatsApp</a>. Отвечает Артём, без менеджеров и скриптов.</p>
+      <p class="w-note">Поля подобраны под первый шаг: без города замер не сделать, поэтому город обязателен; сайт не обязателен – его может не быть, и это как раз наш случай с продажами через сообщество. Галочка согласия пустая, кнопка неактивна до отметки. Дизайнеру: на телефоне форму видно целиком без зума, поля 16 px, липкая панель форму не перекрывает.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="10" data-name="Автор" data-question="Кто это вообще и с кем я буду говорить?" data-proof="15 лет в маркетинге, сайты с 2015 года – слова основателя, фото ждём">
+    <div class="w-wrap w-stack">
+      <h2>Кто будет делать ваш магазин</h2>
+      <div class="w-hero">
+        <div class="w-stack">
+          <h3>Артём Галимов, основатель Deford</h3>
+          <p>15 лет в маркетинге, сайты делаю с 2015 года. Разговариваете вы со мной, а не с менеджером: я снимаю спрос, раскладываю <span class="w-slot">каталог</span> и отвечаю за результат.</p>
+          <p>Поэтому страница начинается с ваших цифр, а не с нашего портфолио: если спроса на <span class="w-slot">ваши букеты</span> в городе мало, я скажу это сразу и магазин продавать не буду.</p>
+          <div class="w-actions"><a class="w-btn ghost" href="https://t.me/Artem1Galimov">Написать Артёму</a></div>
+        </div>
+        <div class="w-media" data-alt="Артём Галимов, основатель студии Deford – фото за работой">Роль: фото Артёма за работой (на экране карта магазина или таблица спроса). Доказывает, что студия – конкретный человек, которого видно; стоковое фото «мужчина в костюме» здесь всё портит.</div>
+      </div>
+      <p class="w-note">Блок авторства нужен и для доверия, и для E-E-A-T: на живом сайте тут же разметка автора и ссылка на страницу «Об авторе». Фото владелец даст позже – пока место под фото с ролью.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="w-footer"><div class="w-wrap w-stack">
+  <span>Deford – сайты и интернет-магазины на коде. Основатель Артём Галимов. Связь: <a href="https://t.me/Artem1Galimov">Telegram</a>, <a href="https://wa.me/79537777891">WhatsApp</a>.</span>
+  <span>Ниши: <a href="/industries/">все разделы</a>. Услуги: <a href="/services/online-store/">интернет-магазин</a>, <a href="/services/seo/">ведение</a>.</span>
+  <span class="w-muted"><a href="/privacy/">Политика обработки данных</a> · <a href="/consent/">Согласие на обработку данных</a> · реквизиты студии</span>
+</div></footer>
+
+<div class="w-sticky"><a class="w-btn" href="#zayavka">Показать спрос</a><a class="w-btn ghost" href="https://t.me/Artem1Galimov">Написать</a></div>
+<script>
+// Переключатели прототипа и подпись логики над каждым блоком (по умолчанию скрыто).
+document.querySelectorAll('.w-block').forEach(function (b) {
+  var d = b.dataset, el = document.createElement('div');
+  el.className = 'w-logic';
+  el.innerHTML = '<b>Блок ' + (d.n || '?') + ' · ' + (d.name || '') + '</b><br>Вопрос клиента: ' + (d.question || '–') + '<br>Опора: ' + (d.proof || '–');
+  if (b.tagName === 'HEADER') b.prepend(el); else (b.querySelector('.w-wrap') || b).prepend(el);
+});
+document.getElementById('t-logic').addEventListener('change', function (e) { document.body.classList.toggle('show-logic', e.target.checked); });
+document.getElementById('t-notes').addEventListener('change', function (e) { document.body.classList.toggle('show-notes', e.target.checked); });
+document.getElementById('t-seo').addEventListener('change', function (e) { document.body.classList.toggle('show-seo', e.target.checked); });
+document.getElementById('t-success').addEventListener('change', function (e) { document.body.classList.toggle('show-success', e.target.checked); });
+(function () {
+  var src = document.getElementById('w-seo'), box = document.getElementById('w-seo-box');
+  if (!src || !box) return;
+  var d = JSON.parse(src.textContent), esc = function (t) { return String(t).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); };
+  var len = function (t, max) { return ' <span class="' + (t.length > max ? 'bad' : '') + '">(' + t.length + ' / ' + max + ')</span>'; };
+  var heads = [].map.call(document.querySelectorAll('main h1, main h2, header h1'), function (h) { return '<li>' + h.tagName + ' – ' + esc(h.textContent.trim()) + '</li>'; }).join('');
+  var alts = [].map.call(document.querySelectorAll('.w-media[data-alt]'), function (m) { return '<li>' + esc(m.dataset.alt) + '</li>'; }).join('');
+  box.innerHTML = '<table><tr><td>title</td><td>' + esc(d.title) + len(d.title, 65) + '</td></tr><tr><td>description</td><td>' + esc(d.description) + len(d.description, 160) +
+    '</td></tr><tr><td>запрос</td><td>' + esc(d.zapros || '–') + '</td></tr><tr><td>заголовки</td><td><ul>' + heads + '</ul></td></tr><tr><td>alt</td><td><ul>' + (alts || '<li>–</li>') +
+    '</ul></td></tr><tr><td>разметка</td><td>' + esc(d.schema || '–') + '</td></tr><tr><td>ссылки</td><td><ul>' + (d.links || []).map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul></td></tr></table>';
+})();
+document.getElementById('ask-count').textContent = document.querySelectorAll('.w-ask').length;
+// Любая форма: галочка data-agree включает кнопку отправки своей формы.
+document.querySelectorAll('form').forEach(function (f) {
+  var a = f.querySelector('[data-agree]'), btn = f.querySelector('button[type="submit"], button:not([type])');
+  if (a && btn) a.addEventListener('change', function () { btn.disabled = !a.checked; });
+});
+</script>
+<!-- Виджеты: подключение (раскомментировать вместе с блоком в head).
+<div data-vidzhety data-src="vidzhety-stranica.json"></div>
+<script src="https://tema-mail.github.io/vidzhety/vidzhety.js"></script>
+Пример vidzhety-stranica.json (факты – только с сайта клиента; срок акции не выдумывать):
+{
+  "demo": true, "consent": false, "endpoint": "demo:", "tz": 7, "agreement": "https://<сайт>/soglasie",
+  "widgets": [
+    { "id": "svyaz", "enabled": true, "type": "contacts", "group": "contact", "trigger": { "on": "load" },
+      "content": { "layout": "side", "phone": "+70000000000", "phoneText": "8 (000) 000-00-00", "wa": "https://wa.me/70000000000",
+        "tg": "https://t.me/...", "email": "...", "callback": "zvonok",
+        "buttons": [ { "text": "Главное действие страницы", "open": "zvonok", "kind": "main" }, { "text": "Позвонить", "href": "tel:+70000000000" } ] } },
+    { "id": "akciya", "enabled": true, "type": "modal", "trigger": { "on": "time", "s": 20 }, "mobileAs": "bar",
+      "content": { "title": "Предложение с сайта", "text": "Оставьте телефон – менеджер закрепит условия.", "short": "Коротко для плашки", "button": "Закрепить" },
+      "form": { "fields": ["phone"], "button": "Оставить телефон" } },
+    { "id": "uhod", "enabled": true, "type": "modal", "trigger": { "on": "exit" }, "target": { "device": "desktop" },
+      "content": { "title": "Предложение на уходе" }, "form": { "fields": ["phone"] } },
+    { "id": "zvonok", "enabled": true, "type": "callback", "trigger": { "on": "click" }, "content": { "title": "Перезвоним вам" },
+      "form": { "fields": ["name", "phone"], "button": "Перезвоните мне" } }
+  ]
+}
+В комментарий дизайнеру (.w-note) – строка «Виджеты страницы: … Почему так: …».
+-->
+<!-- ============================================================================
+     ПЕРЕНОС ШАБЛОНА НА ДРУГУЮ НИШУ. Это шаблон МАГАЗИННОЙ нишевой страницы: он ведёт на /services/online-store/ и на тарифы магазина,
+     а не на сайт под ключ за 120 000 ₽. Для ниш, где нужен многостраничник (клиника, автосервис, услуги), берите industry-stomatologiya.html.
+     Меняются только помеченные пунктиром места (.w-slot) и семь смысловых мест:
+
+     1. Название ниши – H1, title, description, дескриптор в шапке, подписи кнопок, формы и плашек.
+        Все вхождения .w-slot: «цветочного магазина», «букет», «каталог», «поводы», «опт», «оптовик», «8 марта / 1 сентября».
+     2. Список болей – блок 2 целиком. Шесть пунктов берём из осмотра сайтов ЭТОЙ ниши, цветочные не переписываем.
+     3. Таблица спроса – блок 3: строки «повод или товар» свои, числа только после замера Wordstat по городу клиента.
+        Строка про сезонность – своя: у каждой ниши свои даты (у подарков декабрь, у шин апрель и октябрь). Нет сезонности – строку убрать.
+     4. Узлы магазина – блок 4: свои у каждой ниши. НЕ меняются наши стандарты: две карточки в ряд на телефоне, чип «Все» первым
+        и показ только выбранного в фильтре, удаление только внутри записи через окно с выбором «в архив», архив отдельным разделом,
+        кабинет закрыт логином целиком.
+     5. Опыт в нише – блок 5: только свои работы в ЭТОЙ нише, без имён и цифр до разрешения владельцев. Работ в нише нет –
+        блок не подменяем чужой нишей, а переписываем честно («в этой нише делаем первый магазин, поэтому условия такие-то»);
+        условия – только от владельца. Нет ни работ, ни условий – страницу не публикуем.
+     6. Тарифы – блок 6: цены и состав сборок берём из актуального КП, каждую цифру держим с меткой «подтвердить» (.w-confirm),
+        пока владелец не подтвердил. Расхождения в материалах (как цена кабинета 30 000–100 000 ₽) выносим в «[запросить: …]», не усредняем.
+     7. Кабинет и повторные покупки – блок 7: аргумент работает там, где покупают по датам или регулярно (цветы, подарки, корма,
+        расходники). Для разовой покупки блок переписать на «что после покупки» или убрать целиком.
+     Плюс адрес страницы: /industries/<nisha>/ английским словом, перелинковка в script#w-seo и крошки «Главная – Ниши – …».
+
+     НЕ меняются: шапка и подвал, плашки призыва (3а, 5а, 6а – меняется только текст предложения), ведение 10 000 ₽/мес (блок 8),
+     форма и текст после отправки (блок 9), блок автора (блок 10), набор виджетов.
+
+     Сколько таких страниц делаем: столько, сколько ниш, где есть показываемая работа. Поискового спроса на «сайт для <ниша>» нет
+     (замер 119 ниш, Wordstat, Россия, октябрь 2026, ~/Sites/sayty-agent/deford/nishi-120-2026-10.tsv): у цветочного магазина заказной
+     интент – 3 запроса в месяц на всю страну. Страницы работают на рекламу и на ссылку из коммерческого предложения, а не на поиск.
+     ============================================================================ -->
+</body>
+</html>

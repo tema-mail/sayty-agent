@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Прототип – Сайт для автосервиса (шаблон нишевой страницы Deford)</title>
+<!-- kit.css вставляется целиком внутрь <style> (прототип – один файл, открывается без интернета) -->
+<style>/* Комплект чёрно-белого прототипа (маркетолог → site-prototype).
+   Прототип показывает смысл, текст, порядок и действие – не дизайн. Цвета только серые; дизайнер делает визуал после «да» владельца.
+   Блок: <section class="w-block" data-n="1" data-name="Первый экран" data-question="вопрос клиента" data-proof="опора"> */
+:root {
+  --ink: #141414; --muted: #5f5f5f; --line: #b9b9b9; --fill: #ececec; --fill2: #f6f6f6; --paper: #ffffff;
+  --note: #fff6c8; --note-line: #c9b44a; --ask: #7a1f1f;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, Menlo, Consolas, monospace;
+  --wrap: 1180px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 var(--font); }
+img { max-width: 100%; }
+a { color: var(--ink); }
+h1, h2, h3 { margin: 0; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(28px, 4.2vw, 46px); }
+h2 { font-size: clamp(22px, 3vw, 32px); }
+h3 { font-size: 18px; }
+p { margin: 0; }
+.w-wrap { max-width: var(--wrap); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.w-stack { display: grid; gap: 14px; }
+.w-muted { color: var(--muted); }
+
+/* Панель прототипа: переключатели «Логика» и «Комментарии» */
+.w-bar { position: sticky; top: 0; z-index: 50; background: var(--ink); color: #fff; font: 13px/1.3 var(--mono); }
+.w-bar .w-wrap { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding-block: 8px; }
+.w-bar b { font-weight: 600; }
+.w-bar label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+
+/* Блок и его подпись логики */
+.w-block { border-top: 1px dashed var(--line); padding-block: 40px; position: relative; }
+.w-logic { display: none; font: 12.5px/1.45 var(--mono); background: var(--fill2); border: 1px solid var(--line); padding: 8px 10px; margin-bottom: 18px; }
+body.show-logic .w-logic { display: block; }
+.w-logic b { font-weight: 700; }
+.w-note { display: none; background: var(--note); border: 1px dashed var(--note-line); padding: 8px 10px; font-size: 13.5px; margin-top: 12px; }
+body.show-notes .w-note { display: block; }
+.w-note::before { content: "Дизайнеру: "; font-weight: 700; }
+.w-seo { display: none; font: 13px/1.5 var(--mono); background: #eef3ff; border: 1px solid #8aa0d6; padding: 12px 14px; margin: 12px auto; max-width: var(--wrap); }
+body.show-seo .w-seo { display: block; }
+.w-seo table { border-collapse: collapse; width: 100%; }
+.w-seo td { border-top: 1px solid #c9d4ee; padding: 4px 6px; vertical-align: top; }
+.w-seo td:first-child { white-space: nowrap; font-weight: 700; width: 1%; }
+.w-seo .bad { color: var(--ask); font-weight: 700; }
+.w-seo ul { margin: 0; padding-left: 18px; }
+.w-ask { color: var(--ask); font-weight: 600; background: #f7e9e9; padding: 0 4px; }
+
+/* Место под фото/видео/схему: роль, а не «картинка» */
+.w-media { background: repeating-linear-gradient(45deg, var(--fill), var(--fill) 10px, var(--fill2) 10px, var(--fill2) 20px);
+  border: 1px solid var(--line); min-height: 220px; display: grid; place-items: center; text-align: center; padding: 16px;
+  color: var(--muted); font-size: 14px; }
+.w-media::before { content: "▣ "; }
+.w-media.small { min-height: 120px; }
+
+/* Кнопки */
+.w-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border: 2px solid var(--ink);
+  background: var(--ink); color: #fff; font-weight: 600; text-decoration: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+.w-btn.ghost { background: transparent; color: var(--ink); }
+.w-btn[disabled] { opacity: .45; cursor: not-allowed; }
+.w-hint { font-size: 13px; color: var(--muted); }
+
+/* Шапка */
+.w-header .w-wrap { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between; padding-block: 12px; }
+.w-logo { border: 2px solid var(--ink); padding: 6px 10px; font-weight: 700; }
+.w-descr { font-size: 13.5px; color: var(--muted); max-width: 34ch; }
+.w-contacts-top { display: grid; gap: 2px; font-size: 14px; text-align: right; }
+.w-nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14.5px; border-top: 1px solid var(--line); padding-block: 8px; }
+
+/* Первый экран */
+.w-hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; }
+.w-hero ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.w-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* Сетки и карточки */
+.w-grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 14px; }
+.w-card { border: 1px solid var(--line); padding: 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.w-card .w-media { min-height: 140px; }
+.w-price { font-weight: 700; }
+
+/* Этапы */
+.w-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 14px; counter-reset: st; }
+.w-steps li { border: 1px solid var(--line); padding: 14px; counter-increment: st; display: grid; gap: 6px; }
+.w-steps li::before { content: counter(st); font-weight: 700; font-size: 22px; }
+
+/* Таблица */
+.w-table-wrap { overflow-x: auto; }
+.w-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.w-table th, .w-table td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+.w-table th { background: var(--fill2); }
+
+/* FAQ */
+.w-faq details { border: 1px solid var(--line); padding: 12px 14px; }
+.w-faq details + details { border-top: 0; }
+.w-faq summary { font-weight: 600; cursor: pointer; }
+
+/* Форма */
+.w-form { border: 2px solid var(--ink); padding: 18px; display: grid; gap: 12px; max-width: 520px; }
+.w-field { display: grid; gap: 4px; font-size: 14px; }
+.w-field input, .w-field select { min-height: 44px; border: 1px solid var(--ink); padding: 0 10px; font: inherit; background: #fff; }
+.w-check { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; }
+
+/* Полоса призыва */
+.w-cta { background: var(--fill); padding: 24px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+/* Плашка призыва между блоками: section.w-block.w-cta-strip с одной строкой предложения и кнопкой или мини-формой (карточка prizyv-mezhdu-blokami) */
+.w-block.w-cta-strip { padding-block: 16px; }
+.w-cta-strip .w-cta { padding: 14px 18px; }
+.w-cta-strip .w-cta p { margin: 0; font-weight: 600; }
+
+/* Состояние формы после отправки (карточка stranica-spasibo-sleduyushchiy-shag): видно по переключателю «После отправки» */
+.w-success { display: none; border: 2px dashed var(--ink); padding: 14px; background: var(--fill); }
+.w-success p { margin: 0 0 6px; }
+body.show-success .w-success { display: block; }
+
+/* Подвал */
+.w-footer { background: var(--fill2); border-top: 1px solid var(--line); padding-block: 28px; font-size: 14px; }
+
+/* Липкая панель действий на телефоне */
+.w-sticky { display: none; }
+header.w-block { padding-block: 0; border-top: 0; }
+header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
+
+@media (max-width: 760px) {
+  .w-hide-m { display: none !important; }
+  /* Мобильная шапка: логотип, короткий дескриптор и «Меню»; звонок и мессенджеры – в липкой панели снизу */
+  .w-header .w-wrap { flex-wrap: nowrap; padding-block: 8px; gap: 10px; }
+  .w-header .w-contacts-top, .w-header .w-wrap > .w-btn, .w-nav { display: none !important; }
+  .w-header .w-descr { font-size: 12px; line-height: 1.3; }
+  .w-header > div.w-wrap:has(> .w-logo)::after { content: "☰ Меню"; margin-left: auto; border: 1px solid var(--ink); padding: 6px 10px; font-size: 13px; white-space: nowrap; }
+  .w-hero .w-media, .w-block[data-n="1"] .w-media:first-of-type { min-height: 160px; }
+  .w-bar .w-wrap { padding-block: 4px; gap: 4px 10px; font-size: 11px; }
+  .w-hero { grid-template-columns: 1fr; }
+  .w-grid { grid-template-columns: repeat(var(--cols-m, 2), minmax(0, 1fr)); }
+  .w-steps { grid-template-columns: 1fr; }
+  .w-contacts-top { text-align: left; }
+  .w-block { padding-block: 28px; }
+  .w-sticky { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+    background: #fff; border-top: 1px solid var(--line); }
+  body { padding-bottom: 72px; }
+}
+@media (max-width: 420px) { .w-grid.one-m { grid-template-columns: 1fr; } }
+/* Нишевое место шаблона: подставляется при переносе страницы на другую нишу (серый пунктир, не элемент дизайна) */
+.w-slot { border-bottom: 2px dotted var(--line); background: var(--fill2); padding: 0 2px; }
+/* Обёртка комментария дизайнеру в шапке: на 390 кит рисует «☰ Меню» у каждого div.w-wrap шапки – здесь он лишний */
+
+</style>
+<!-- Виджеты страницы (окна, ярлычок, боковая панель мессенджеров, нижняя панель телефона) – модуль tema-mail/vidzhety.
+     Набор под страницу – по справочнику ~/.claude/skills/marketolog/references/vidzhety-spravochnik.md. Чтобы включить – раскомментировать
+     это и блок «Виджеты: подключение» в конце страницы, положить рядом vidzhety-<страница>.json. Образец – ~/Sites/sayty-agent/prototipy/gaz-mag/.
+<link rel="stylesheet" href="https://tema-mail.github.io/vidzhety/vidzhety.css">
+<style>
+:root { --w-accent: #141414; --w-accent-2: #5f5f5f; --w-radius: 6px; --w-wa: #3d3d3d; --w-tg: #3d3d3d; --w-max: #3d3d3d; }
+body.vz-has-sticky .w-sticky { display: none !important; }
+</style>
+-->
+</head>
+<body>
+<!-- Прототип страницы-образца нишевого раздела Deford: /industries/avtoservis/.
+     Это ШАБЛОН под остальные ниши. Нишевые места подсвечены пунктиром (класс .w-slot) – их меняем при переносе.
+     Инструкция по переносу – комментарием в самом низу файла. Тире только «–». -->
+<div class="w-bar"><div class="w-wrap">
+  <b>Прототип · Deford · /industries/avtoservis/ · версия 03.11.2026</b>
+  <label><input type="checkbox" id="t-logic"> Логика блоков</label>
+  <label><input type="checkbox" id="t-notes"> Комментарии дизайнеру</label>
+  <label><input type="checkbox" id="t-seo"> SEO страницы</label>
+  <label><input type="checkbox" id="t-success"> После отправки</label>
+  <span>Меток «запросить»: <b id="ask-count">0</b></span>
+  <span>Пунктир = нишевое место шаблона</span>
+</div></div>
+
+<!-- SEO-задание страницы. Отдельного файла docs/marketing/seo-industry-avtoservis.md нет – слой собран из задания главного
+     и замера спроса Wordstat (Россия, октябрь 2026). Поисковой задачи у страницы нет: заказной интент – единицы запросов в месяц. -->
+<script type="application/json" id="w-seo">{"title": "Сайт для автосервиса под ключ – 120 000 ₽ · Deford", "description": "Сайт автосервиса на своём коде: страницы под марки, цены по работам, запись, фото работ. Фиксированно 120 000 ₽ до 100 страниц. Покажем спрос в вашем городе.", "h1": "Сайт для автосервиса", "zapros": "«создание сайта для автосервиса» 9 запросов в месяц на всю Россию, «разработка сайта для автосервиса» 3, «готовый сайт для автосервиса» 9, «шаблон сайта для автосервиса» 9 (Wordstat, Россия, октябрь 2026). Широкая фраза «сайт для автосервиса» 965, но примерно треть внутри – про оборудование («нордберг оборудование для автосервиса официальный сайт»), это не наш клиент. Вывод: страница работает на рекламу и как ссылка из КП, не на поиск", "schema": "Service (разработка сайта для автосервиса), Organization (Deford, Артём Галимов), BreadcrumbList: Главная – Ниши – Сайт для автосервиса. Только то, что видно на странице; AggregateRating и Review не ставить", "links": ["/services/website/ – сайт под ключ, полный состав работ и цена 120 000 ₽", "/services/seo/ – ведение сайта и рост заявок, 10 000 ₽/мес", "/industries/ – другие ниши", "/cases/ – наши работы, в том числе свои автомобильные проекты"]}</script>
+<div class="w-seo" id="w-seo-box"></div>
+
+<header class="w-header w-block" data-n="0" data-name="Шапка" data-question="Куда я попал и как быстро связаться?" data-proof="название студии, канал связи, адрес раздела ниш">
+  <div class="w-wrap">
+    <span class="w-logo">DEFORD</span>
+    <span class="w-descr">Сайты на коде для <span class="w-slot">автосервисов и техцентров</span>. Фиксированная цена, без конструкторов.</span>
+    <span class="w-contacts-top w-hide-m"><a href="https://t.me/Artem1Galimov">Telegram</a><a href="https://wa.me/79537777891">WhatsApp</a><span class="w-muted"><span class="w-ask">[запросить: телефон для шапки]</span></span></span>
+    <a class="w-btn ghost w-hide-m" href="#zayavka">Показать спрос</a>
+  </div>
+  <nav class="w-wrap w-nav"><a href="/services/website/">Сайт под ключ</a><a href="/services/seo/">Ведение и рост</a><a href="/industries/">Ниши</a><a href="/cases/">Работы</a><a href="#zayavka">Связаться</a></nav>
+  <div class="w-wrap w-note-wrap"><p class="w-note">Шапка общая для всех нишевых страниц, меняется только дескриптор (нишевое место). На телефоне – логотип, дескриптор в одну строку и «Меню»; мессенджеры и главное действие – в липкой панели снизу. Хлебные крошки «Главная – Ниши – Сайт для автосервиса» дизайнер ставит под шапкой: человек должен видеть, что ниш несколько.</p></div>
+</header>
+
+<main>
+  <section class="w-block" data-n="1" data-name="Первый экран" data-question="Вы делаете сайты именно для таких сервисов, как мой, и сколько это стоит?" data-proof="цена 120 000 ₽ фиксированно до 100 страниц – условие студии; свои автосервисные сайты Evolution Car Service и TEYES Sibir; срок ждёт подтверждения">
+    <div class="w-wrap">
+      <div class="w-hero">
+        <div class="w-stack">
+          <h1>Сайт для <span class="w-slot">автосервиса</span></h1>
+          <p>Собираем сайт, с которого <span class="w-slot">записываются на ремонт</span>: цены по видам работ, отдельные страницы под марки, живые фото <span class="w-slot">работ из бокса</span>, запись на конкретное время. На своём коде, не на конструкторе.</p>
+          <ul>
+            <li><b>У нас свои <span class="w-slot">автосервисные</span> сайты</b> – <span class="w-slot">Evolution Car Service и TEYES Sibir в Новосибирске</span> мы ведём сами, это наше дело, а не чужой кейс из портфолио</li>
+            <li><b>120 000 ₽ фиксированно</b> – до 100 страниц, цена не меняется по ходу работы</li>
+            <li><b>Срок</b> – <span class="w-ask">[запросить: срок сдачи сайта под ключ, в неделях]</span></li>
+            <li><b>Сначала цифры, потом разговор</b> – покажем, сколько людей в вашем городе ищут <span class="w-slot">ваши работы и ремонт ваших марок</span></li>
+          </ul>
+          <div class="w-actions"><a class="w-btn" href="#zayavka">Показать спрос в вашем городе</a><a class="w-btn ghost" href="https://t.me/Artem1Galimov">Написать в Telegram</a></div>
+          <p class="w-hint">Пришлём таблицу: какие <span class="w-slot">работы и марки</span> ищут в вашем городе, сколько раз в месяц и под какие из них у вас нет страницы. Без звонка, если сами не попросите.</p>
+        </div>
+        <div class="w-media" data-alt="таблица спроса на ремонт по городу клиента рядом с главной страницей нашего техцентра – замер студии Deford">Роль: наша таблица спроса по городу клиента рядом со снимком <span class="w-slot">нашего собственного техцентра</span> в работе. Доказывает сразу два тезиса первого экрана: первый шаг – замер, а <span class="w-slot">сервисные</span> сайты мы держим свои.</div>
+      </div>
+      <p class="w-note">Назначение страницы. Поискового спроса на «сайт для автосервиса» в заказном смысле почти нет (Wordstat, Россия, октябрь 2026): «создание сайта для автосервиса» 9 запросов в месяц на всю страну, «разработка» 3, «готовый сайт» 9, «шаблон сайта» 9. «Заказать сайт для автосервиса» 34 – но это целиком один запрос про Красноярск, то есть один город, а не рынок. Широкая фраза «сайт для автосервиса» 965, и примерно треть внутри – про оборудование («нордберг оборудование для автосервиса официальный сайт»): это не наш клиент. Значит страница работает ПОД РЕКЛАМУ и как ссылка в коммерческом предложении, трафика из поиска от неё не ждём. Отсюда требование к первому экрану: человек приходит по рекламе или по нашей ссылке и за две секунды должен увидеть свою нишу, цену и то, что мы в автомобильной теме не со стороны. Дизайнеру: H1 крупно, цена рядом, кнопка выше первого сгиба; на фоне – кадр из реального бокса, не стоковая «рука с ключом».</p>
+      <p class="w-note">Виджеты страницы: на телефоне снизу «Показать спрос» (открывает форму) и «Написать в Telegram»; на компьютере боковая панель связи справа (Telegram, WhatsApp) и окно на уходе «Заберите таблицу спроса по вашему городу» с одним полем. Окна по времени нет. Почему так: трафик рекламный и дорогой, решение у владельца сервиса долгое – мягкий первый шаг нужен и на уходе. Правила модуля: первые 10 с ничего не всплывает, не больше двух окон за визит, после заявки окна молчат, на телефоне окно становится плашкой. Подключение – закомментированный блок в конце файла, набор по справочнику ~/.claude/skills/marketolog/references/vidzhety-spravochnik.md.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="2" data-name="Что не так у сайтов ниши" data-question="Вы вообще понимаете, как устроен сайт автосервиса?" data-proof="наши наблюдения по сайтам автосервисов – наблюдение, выборка не посчитана">
+    <div class="w-wrap w-stack">
+      <h2>Что мы видим, когда открываем сайты <span class="w-slot">автосервисов</span></h2>
+      <p class="w-muted">Это наши наблюдения, а не замер по выборке: процентов и слова «всегда» здесь нет.</p>
+      <div class="w-grid" style="--cols:1;--cols-m:1">
+        <article class="w-card"><h3>Цен нет – и телефон звонит вместо заявок</h3><p>«<span class="w-slot">Ремонт двигателя</span> – от» без списка работ, или прайс файлом, который на телефоне открывается в полэкрана. Человек звонит только чтобы спросить, сколько стоит: ваш <span class="w-slot">мастер-приёмщик</span> тратит день на вопросы, которые должна снимать страница.</p></article>
+        <article class="w-card"><h3>Нет страниц под марки</h3><p>Ищут «<span class="w-slot">ремонт &lt;марка&gt; в &lt;город&gt;</span>», а на сайте одна общая страница «<span class="w-slot">Ремонт двигателя</span>». Поиск отдаёт такой запрос тому, у кого под эту марку есть своя страница, – и это не вы.</p></article>
+        <article class="w-card"><h3>Фото не ваши</h3><p>Стоковый <span class="w-slot">бокс с идеально чистым полом</span> вместо ваших <span class="w-slot">подъёмников, мастеров и машин</span>. Человек не видит, куда он поедет и кто будет работать, – и выбирает тех, у кого видно.</p></article>
+        <article class="w-card"><h3>Записи нет – только телефон</h3><p>«Позвоните нам» вместо выбора дня и времени. <span class="w-slot">Машину ставят в сервис заранее и планируют день без машины</span>; если нельзя выбрать время на сайте вечером, заявка уходит туда, где можно.</p></article>
+        <article class="w-card"><h3>Про гарантию на работы не сказано ничего</h3><p>Гарантию вы даёте, а на сайте её нет – ни срока, ни того, на что она распространяется. Человек додумывает худшее и идёт сравнивать дальше.</p></article>
+      </div>
+      <p class="w-hint"><span class="w-slot">Нишевое место шаблона</span>: весь список болей меняется под нишу. Стоматологии – врачи и лицензии вместо мастеров и марок.</p>
+      <p class="w-note">Блок держится на наблюдении, поэтому формулировки без цифр. Чтобы он стал вторым доказательством после спроса, надо открыть 20 сайтов автосервисов в городе клиента и посчитать – тогда появится строка вида «у 8 из 10 сервисов города нет цен на сайте». Пока не посчитали – цифру не ставим. Дизайнеру: пять пунктов в одну колонку, короткий подзаголовок и два предложения пояснения, читается за 20 секунд; иконки не нужны, нужен контраст заголовка и текста.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="3" data-name="Спрос в вашем городе" data-question="Сколько людей в моём городе ищет мои работы и сколько я из них не получаю?" data-proof="Wordstat по региону клиента – замер делаем руками до разговора; по городу клиента ещё не снят">
+    <div class="w-wrap w-stack">
+      <h2>Сколько людей в вашем городе ищут <span class="w-slot">ваши работы</span> – и сколько из них вас не находят</h2>
+      <p>Не наши обещания, а спрос ваших клиентов числами. Берём список <span class="w-slot">ваших работ и марок, с которыми вы работаете</span>, снимаем частоту запросов по вашему региону за прошлый месяц и сверяем с вашим сайтом: есть ли под эту строку отдельная страница. Строки без страницы – это люди, которые ищут <span class="w-slot">вашу работу</span> и доходят до соседей.</p>
+      <p><span class="w-ask">[запросить: снять спрос по городу и маркам клиента перед показом – без замера блок не показываем]</span></p>
+      <div class="w-table-wrap">
+        <table class="w-table">
+          <thead><tr><th><span class="w-slot">Работа</span></th><th>Запросов в месяц в вашем городе</th><th>Есть ли у вас такая страница</th></tr></thead>
+          <tbody>
+            <tr><td><span class="w-slot">ТО и замена масла</span></td><td>NN</td><td>нет</td></tr>
+            <tr><td><span class="w-slot">Диагностика двигателя</span></td><td>NN</td><td>есть, но без цен</td></tr>
+            <tr><td><span class="w-slot">Ремонт двигателя</span></td><td>NN</td><td>нет</td></tr>
+            <tr><td><span class="w-slot">Ремонт подвески</span></td><td>NN</td><td>нет</td></tr>
+            <tr><td><span class="w-slot">Автоэлектрика</span></td><td>NN</td><td>нет</td></tr>
+            <tr><td><span class="w-slot">Кузовной ремонт и покраска</span></td><td>NN</td><td>нет</td></tr>
+            <tr><td><span class="w-slot">Ремонт &lt;марка&gt; в &lt;город&gt;</span> – строка на каждую вашу марку</td><td>NN</td><td>нет ни по одной марке</td></tr>
+            <tr><td><b>Итого по <span class="w-slot">вашим работам и маркам</span></b></td><td><b>NN</b></td><td><b>без своей страницы – NN запросов в месяц</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="w-hint">Под таблицей на сайте – подпись источника: Wordstat, регион и месяц замера, дата снятия. «NN» – место под замер, а не пример: числа подставляем только после снятия спроса по городу и маркам клиента.</p>
+      <div class="w-media" data-alt="снимок Wordstat с выбранным регионом и частотой запросов на ремонт по видам работ и маркам">Роль: снимок окна Wordstat с выбранным регионом клиента и строками его работ и марок с частотами. Доказывает, откуда цифры: человек видит инструмент, а не нашу картинку.</div>
+      <p class="w-note">Главный блок страницы, ради него она и существует. В автосервисе у него есть особенность, которой нет у других ниш: спрос дробится по маркам, и сумма строк «ремонт &lt;марка&gt;» часто больше, чем спрос на саму работу. Поэтому в таблице отдельная строка на каждую марку клиента – это же объясняет, почему страниц у сайта будет много, а не пять. Дизайнеру: на 390 таблица или прокручивается внутри себя, или перестраивается в карточки «работа / NN / есть страница»; строки без страницы выделить, итоговую отбить. Анимации не нужно, нужна читаемость чисел. Замер делаем руками до показа: пустую таблицу не показываем никому.</p>
+    </div>
+  </section>
+
+  <section class="w-block w-cta-strip" data-n="3а" data-name="Плашка после спроса" data-question="Сколько стоит узнать свои цифры?" data-proof="замер спроса – наш первый шаг, он бесплатный">
+    <div class="w-wrap"><div class="w-cta"><p>Спрос по вашему городу и вашим маркам снимем бесплатно – до любого разговора о сайте</p><a class="w-btn" href="#zayavka">Прислать таблицу спроса</a></div></div>
+  </section>
+
+  <section class="w-block" data-n="4" data-name="Страницы сайта ниши" data-question="Из чего будет состоять мой сайт?" data-proof="карта сайта с адресами страниц – наш первый этап, до вёрстки">
+    <div class="w-wrap w-stack">
+      <h2>Из каких страниц собирается сайт <span class="w-slot">автосервиса</span>, чтобы его находили и чтобы с него записывались</h2>
+      <article class="w-card">
+        <h3>Главное: страницы под марки и модели</h3>
+        <p>Это то, чего почти ни у кого нет и что приносит <span class="w-slot">сервису</span> поиск. Человек ищет не «автосервис», а «<span class="w-slot">ремонт &lt;марка&gt; в &lt;город&gt;</span>», «<span class="w-slot">замена масла &lt;модель&gt;</span>». Одна марка – своя страница: что умеем по этой марке, какие работы делаем чаще, какие запчасти возим, сроки, цены, фото именно таких машин. Дальше – связка «работа + марка» для частых пар.</p>
+        <p>Адреса по-английски и с иерархией: <span class="w-slot">/services/to/</span>, <span class="w-slot">/brands/&lt;марка&gt;/</span>, <span class="w-slot">/brands/&lt;марка&gt;/&lt;работа&gt;/</span>. Карту сайта вы утверждаете до вёрстки.</p>
+      </article>
+      <div class="w-grid" style="--cols:4;--cols-m:1">
+        <article class="w-card"><h3><span class="w-slot">Работы по видам</span></h3><p>Одна работа – одна страница с ценой и сроком: <span class="w-slot">ТО, диагностика, ремонт двигателя, подвеска, электрика, кузовной</span>. Общий список «Услуги» не находится.</p></article>
+        <article class="w-card"><h3>Цены и прайс</h3><p>Таблица по работам с датой обновления: что входит в цену и от чего она зависит. Файлом прайс не прячем.</p></article>
+        <article class="w-card"><h3><span class="w-slot">Запись на сервис</span></h3><p>Выбор дня и времени, а не «оставьте телефон». <span class="w-ask">[запросить: с какими программами записи и учёта (АвтоДилер и другие) мы умеем связывать сайт]</span></p></article>
+        <article class="w-card"><h3><span class="w-slot">Мастера</span></h3><p>Кто работает с машиной: фото, <span class="w-slot">марки и узлы</span>, стаж.</p></article>
+        <article class="w-card"><h3><span class="w-slot">Выполненные работы</span></h3><p>Разобранные <span class="w-slot">случаи с фото</span>: что было, что сделали, сколько заняло. Подробнее – ниже.</p></article>
+        <article class="w-card"><h3>Отзывы</h3><p>Ссылки на Яндекс Карты и 2ГИС, где отзывы живые, плюс истории <span class="w-slot">ремонта</span> с разрешения <span class="w-slot">владельца машины</span>.</p></article>
+        <article class="w-card"><h3>Гарантия на работы</h3><p>Срок, на что распространяется и что делать, если что-то не так. Текст ваш – мы разворачиваем его в страницу.</p></article>
+        <article class="w-card"><h3>Где находимся и как заехать</h3><p>Карта, въезд, ориентиры, часы, фото <span class="w-slot">въезда в бокс</span>: «как заехать» важнее адреса строкой.</p></article>
+      </div>
+      <p class="w-hint"><span class="w-slot">Нишевое место шаблона</span>: набор страниц целиком свой у каждой ниши – именно он и показывает, что мы в теме.</p>
+      <p class="w-note">Структура, а не рассказ про ниши. Выделенная карточка про марки стоит отдельно над сеткой и шире её: это главный тезис блока, он не должен тонуть среди восьми равных карточек. Дизайнеру: восемь карточек на компьютере по четыре в ряд (два полных ряда, пустых ячеек нет). На 390 блок самый длинный на странице, поэтому решение такое: выделенную карточку про марки показываем целиком, а восемь карточек ниже сворачиваем в список заголовков, который раскрывается по нажатию, – смысл («страниц много и каждая под свой запрос») читается и в свёрнутом виде. Резать список нельзя: именно он показывает, что мы знаем устройство сервисного сайта.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="5" data-name="Почему нам верить в этой нише" data-question="Вы в автомобильной теме разбираетесь или просто берёте заказы?" data-proof="свои действующие проекты: Evolution Car Service и TEYES Sibir в Новосибирске, прототипы 15 моносайтов марок, редизайн Plutos Auto; цифры ждут разрешения владельца">
+    <div class="w-wrap w-stack">
+      <h2>Почему нам можно верить именно в <span class="w-slot">автомобильной</span> теме</h2>
+      <p>Обычно студия показывает чужие кейсы. У нас иначе: <span class="w-slot">автосервисные</span> сайты – это наше собственное дело, мы живём с их заявками и их поиском каждый день.</p>
+      <div class="w-grid" style="--cols:2;--cols-m:1">
+        <article class="w-card"><h3><span class="w-slot">Evolution Car Service</span> – наш техцентр</h3><p><span class="w-slot">Техцентр в Новосибирске, только электромобили и гибриды</span>. Сайт делали и ведём мы: структура, страницы под марки, тексты, поиск, заявки. На нём и обкатана схема «страница на марку», которую предлагаем вам.</p><p><span class="w-ask">[запросить: какие цифры по Evolution Car Service можно публиковать – визиты из поиска, заявки, за какой период]</span></p></article>
+        <article class="w-card"><h3><span class="w-slot">TEYES Sibir</span> – наш установочный центр</h3><p><span class="w-slot">Установочный центр мультимедиа в Новосибирске</span>. Живой поисковый трафик, блог, страницы услуг – сайт работает годами, а не стоит визиткой. Видно, что происходит с <span class="w-slot">автомобильным</span> сайтом через год и два, а не только на момент сдачи.</p><p><span class="w-ask">[запросить: какие цифры по TEYES Sibir можно публиковать – визиты из поиска, заявки, за какой период]</span></p></article>
+        <article class="w-card"><h3>15 <span class="w-slot">моносайтов под марки</span></h3><p>Разобрали, как устроены сети <span class="w-slot">монобрендовых сервисов</span>, и собрали прототипы <span class="w-slot">15 марок</span>. Поэтому про страницы под марки мы говорим не как про идею: структура посчитана и нарисована.</p></article>
+        <article class="w-card"><h3><span class="w-slot">Plutos Auto</span> – редизайн</h3><p>Заказная работа в <span class="w-slot">автомобильной</span> теме: переделали сайт. Это к тому, что мы работаем не только на себя.</p></article>
+      </div>
+      <div class="w-media" data-alt="два наших автомобильных сайта рядом: страница марки Evolution Car Service и страница услуги TEYES Sibir">Роль: два наших сайта рядом на одном экране – открытая страница марки <span class="w-slot">Evolution Car Service</span> и страница услуги <span class="w-slot">TEYES Sibir</span>. Доказывает, что сайты существуют и устроены так, как мы предлагаем; человек может открыть их и проверить сам.</div>
+      <p class="w-note">Главное отличие этой нишевой страницы от остальных: здесь доказательство не «кейс клиента», а своё дело. Такой аргумент не повторить конкуренту, поэтому он стоит и на первом экране, и здесь. Цифры роста по EV и TEYES в задании не дали, выдумывать нельзя – до разрешения владельца блок держится на факте владения и на открытых адресах, которые можно проверить. Как только цифры разрешат, они встают сюда крупной строкой и усиливают блок сильнее любого текста. Дизайнеру: четыре карточки по две в ряд, адреса сайтов – ссылками, их будут открывать; снимки сайтов настоящие, не мокап-рамки с абстрактным интерфейсом.</p>
+    </div>
+  </section>
+
+  <section class="w-block w-cta-strip" data-n="5а" data-name="Плашка после доказательств" data-question="А мне так же сделаете?" data-proof="схему страниц под марки обкатали на своём техцентре">
+    <div class="w-wrap"><div class="w-cta"><p>Разложим эту же схему на <span class="w-slot">ваши марки и работы</span> – покажем, сколько страниц нужно и что они соберут</p><a class="w-btn" href="#zayavka">Хочу так же, посчитайте</a></div></div>
+  </section>
+
+  <section class="w-block" data-n="6" data-name="Что входит в цену" data-question="Что я получу за 120 000 ₽ и где подвох?" data-proof="цена студии: 120 000 ₽ фиксированно, до 100 страниц; ведение отдельно 10 000 ₽/мес">
+    <div class="w-wrap w-stack">
+      <h2>Что входит в 120 000 ₽</h2>
+      <ol class="w-steps" style="--cols:4">
+        <li><b>Карта сайта и адреса страниц</b><span>Согласуем до вёрстки: вы видите все <span class="w-slot">работы и марки</span> списком и понимаете, за что платите.</span></li>
+        <li><b>Прототип каждой страницы</b><span>Такой же чёрно-белый документ, как этот: тексты, порядок блоков, действия. Правки – здесь, а не в готовом сайте.</span></li>
+        <li><b>Дизайн и код на Astro</b><span>Своим кодом, не конструктором. До 100 страниц – внутри этой цены, а <span class="w-slot">страниц под марки</span> их получается много.</span></li>
+        <li><b>Запуск на вашем домене</b><span>Формы с согласием на обработку данных, заявки приходят вам.</span></li>
+      </ol>
+      <p><span class="w-ask">[запросить: полный состав работ и что в цену НЕ входит – сверить со страницей /services/website/]</span></p>
+      <div class="w-actions"><a class="w-btn ghost" href="/services/website/">Подробно про сайт под ключ</a></div>
+      <p class="w-note">Коротко, без повтора страницы услуги: четыре шага и ссылка. Дизайнеру: 120 000 ₽ в блоке один раз и крупно, рядом строка «до 100 страниц». Ничего про скидки и акции: фиксированная цена – и есть аргумент. Для автосервиса важен акцент в третьем шаге: лимит 100 страниц для этой ниши не теоретический, под марки страниц набирается много, и это надо проговорить до счёта.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="7" data-name="Работы и фото" data-question="Как на сайте показать то, что мы реально делаем?" data-proof="схема карточки работы с нашего техцентра; правило студии – госномер скрыт по контуру">
+    <div class="w-wrap w-stack">
+      <h2>Выполненные <span class="w-slot">работы</span>: как мы это устраиваем на сайте</h2>
+      <p>Самый сильный раздел <span class="w-slot">сервисного</span> сайта и самый заброшенный. Человек ищет свой случай: «такую же машину с такой же болячкой уже делали». Поэтому <span class="w-slot">работа</span> – не фото в галерее, а разобранный случай с постоянным набором полей.</p>
+      <div class="w-grid" style="--cols:2;--cols-m:1">
+        <article class="w-card"><h3>Что в карточке <span class="w-slot">работы</span></h3><p><span class="w-slot">Марка, модель, год, пробег</span>; с чем приехали; что нашли; что сделали и что меняли; сколько заняло по времени; цена или диапазон; <span class="w-slot">мастер</span>, который делал.</p></article>
+        <article class="w-card"><h3>Фото – только свои</h3><p>Кадры из вашего <span class="w-slot">бокса</span>: <span class="w-slot">снятый узел рядом с новым</span>, до и после, строка <span class="w-slot">заказ-наряда</span> крупно. Стоковых фото здесь не бывает в принципе.</p></article>
+        <article class="w-card"><h3>Связь с остальным сайтом</h3><p>Каждая <span class="w-slot">работа</span> привязана к <span class="w-slot">странице марки и странице работы</span>: со страницы <span class="w-slot">марки</span> видно «вот что мы по ней делали», и это главный аргумент перед записью.</p></article>
+        <article class="w-card"><h3>Что нужно от вас</h3><p>Снимать по ходу, а не потом: 5–7 кадров и три строки текста на случай. Дадим памятку, что фотографировать, и шаблон, куда это складывать. <span class="w-ask">[запросить: можно ли брать фото работ из Evolution Car Service и TEYES Sibir как образец на эту страницу]</span></p></article>
+      </div>
+      <div class="w-media" data-alt="карточка выполненной работы: снятый узел рядом с новым и строка заказ-наряда, госномер скрыт по контуру рамки">Роль: разворот карточки <span class="w-slot">работы</span> – <span class="w-slot">снятый узел рядом с новым</span>, рядом строка <span class="w-slot">заказ-наряда</span> и подпись «что меняли». Доказывает, что работа была сделана и видно, за что заплатили. Госномер на кадре скрыт аккуратно по контуру рамки.</div>
+      <p class="w-note">ПРАВИЛО СТУДИИ, не забыть при вёрстке и при обработке фото: на любых фото машин госномер всегда скрыт, и скрыт аккуратно по контуру самой рамки номера, а не пятном на пол-машины. Можно оставить видимой только табличку <span class="w-slot">сервиса</span>. Это касается и фото в карточках работ, и фото в отзывах, и фото на страницах марок. Дизайнеру: в макете карточки работы заранее предусмотреть, что номер затёрт, – чтобы фотограф и контент-менеджер видели правило в примере, а не узнавали о нём на выкладке. Галерея фото открывается лайтбоксом с листанием, не новой вкладкой.</p>
+    </div>
+  </section>
+
+  <section class="w-block w-cta-strip" data-n="7а" data-name="Плашка после работ" data-question="У нас фото лежат в телефоне мастера, это вообще годится?" data-proof="разбор ваших снимков делаем до договора">
+    <div class="w-wrap"><div class="w-cta"><p>Пришлите 5 фото из <span class="w-slot">бокса</span> – скажем, что из них годится на сайт и что доснять</p><a class="w-btn" href="https://t.me/Artem1Galimov">Отправить фото в Telegram</a></div></div>
+  </section>
+
+  <section class="w-block" data-n="8" data-name="Что дальше после запуска" data-question="Сайт сделали – а записи откуда?" data-proof="ведение 10 000 ₽/мес – условие студии">
+    <div class="w-wrap w-stack">
+      <h2>После запуска: кто ведёт сайт и растит <span class="w-slot">записи</span></h2>
+      <p>Сайт сам себя в поиск не поднимет. Ведение – 10 000 ₽ в месяц: следим за страницами, смотрим, с каких страниц приходят <span class="w-slot">записи</span>, и добавляем новые страницы под спрос, который снимали на первом шаге.</p>
+      <p><b><span class="w-slot">Новые марки – в ведении.</span></b> <span class="w-slot">Взяли в работу ещё одну марку или новую модель – страница под неё появляется не отдельным заказом, а внутри ведения</span>: спрос по ней смотрим, страницу собираем, связываем с <span class="w-slot">работами и выполненными случаями</span>. Это и есть причина не останавливаться на сдаче сайта.</p>
+      <p><span class="w-ask">[запросить: сколько страниц под новые марки входит в ведение за 10 000 ₽/мес и что считается сверх]</span></p>
+      <div class="w-actions"><a class="w-btn ghost" href="/services/seo/">Что входит в ведение</a></div>
+      <p class="w-note">Блок замыкает логику страницы: спрос посчитали в начале – здесь говорим, кто его отрабатывает дальше. Для автосервиса это не допродажа, а продолжение главного тезиса: марки меняются, спрос по ним меняется, и сайт должен за этим идти. Ведение не навязываем: одна строка цены и ссылка.</p>
+    </div>
+  </section>
+
+  <section class="w-block" id="zayavka" data-n="9" data-name="Заявка и быстрый канал" data-question="Что я получу, если оставлю заявку?" data-proof="замер спроса по городу и маркам – наш первый бесплатный шаг">
+    <div class="w-wrap w-stack">
+      <form class="w-form" onsubmit="event.preventDefault()">
+        <h2>Получить спрос по вашему городу</h2>
+        <p>Пришлём таблицу: какие <span class="w-slot">работы и марки</span> ищут в вашем городе, сколько раз в месяц и каких страниц под них нет на вашем сайте.</p>
+        <label class="w-field">Имя<input id="f-name" autocomplete="name"></label>
+        <label class="w-field">Телефон или Telegram<input id="f-phone" inputmode="tel" placeholder="+7 (___) ___-__-__"></label>
+        <label class="w-field">Город<input id="f-city" autocomplete="address-level2" placeholder="где находится сервис"></label>
+        <label class="w-field"><span class="w-slot">Марки, с которыми работаете</span><input id="f-brands" placeholder="три-четыре основные"></label>
+        <label class="w-field">Адрес сайта, если есть<input id="f-site" inputmode="url" placeholder="example.ru"></label>
+        <label class="w-check"><input type="checkbox" id="f-agree" data-agree> <span>Согласен на обработку <a href="/privacy/">персональных данных</a></span></label>
+        <button class="w-btn" id="f-send" type="submit" disabled>Прислать спрос по моему городу</button>
+        <p class="w-hint">В ответ – таблица спроса по <span class="w-slot">работам и маркам</span> и список недостающих страниц. Бесплатно, без звонка, если сами не попросите.</p>
+        <div class="w-success">
+          <p><b>Заявка принята.</b></p>
+          <p>Спрос по вашему городу снимет Артём Галимов и пришлёт таблицу – <span class="w-ask">[запросить: срок ответа]</span>.</p>
+          <p>Срочно – <a href="https://t.me/Artem1Galimov">написать в Telegram</a> или <a href="https://wa.me/79537777891">в WhatsApp</a>.</p>
+          <p>Чтобы замер был точным, пришлите список <span class="w-slot">работ и марок</span> – хоть из прайса или из программы учёта. Пока ждёте, посмотрите, <a href="/services/website/">что входит в сайт под ключ</a>.</p>
+        </div>
+      </form>
+      <p>Проще написать – напишите: <a href="https://t.me/Artem1Galimov">Telegram</a>, <a href="https://wa.me/79537777891">WhatsApp</a>. Отвечает Артём, без менеджеров и скриптов.</p>
+      <p class="w-note">Поля под первый шаг: без города и без марок замер не сделать, поэтому они в форме, а сайт – нет (его может не быть, и это как раз наш случай). Поле марок – нишевое: в другой нише на его месте список услуг. Галочка согласия пустая, кнопка неактивна до отметки. Дизайнеру: на телефоне форма видна целиком без зума, поля 16 px, липкая панель форму не перекрывает.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="10" data-name="Автор" data-question="Кто это вообще и с кем я буду говорить?" data-proof="15 лет в маркетинге, сайты с 2015 года, свои автомобильные проекты – слова основателя, фото ждём">
+    <div class="w-wrap w-stack">
+      <h2>Кто будет делать ваш сайт</h2>
+      <div class="w-hero">
+        <div class="w-stack">
+          <h3>Артём Галимов, основатель Deford</h3>
+          <p>15 лет в маркетинге, сайты делаю с 2015 года. Разговариваете вы со мной, а не с менеджером: я снимаю спрос, собираю структуру и отвечаю за результат.</p>
+          <p>И <span class="w-slot">свой техцентр у меня тоже есть</span> – <span class="w-slot">Evolution Car Service</span>. Поэтому про <span class="w-slot">запись, цены и поток в сервисе</span> говорим на одном языке, а страница начинается с ваших цифр, а не с нашего портфолио: если спроса на <span class="w-slot">ваши работы</span> в городе мало, я скажу это сразу и сайт продавать не буду.</p>
+          <div class="w-actions"><a class="w-btn ghost" href="https://t.me/Artem1Galimov">Написать Артёму</a></div>
+        </div>
+        <div class="w-media" data-alt="Артём Галимов, основатель студии Deford – фото за работой">Роль: фото Артёма за работой, в кадре экран с картой сайта или таблицей спроса. Доказывает, что студия – конкретный человек, которого видно; стоковое «мужчина в костюме» здесь всё портит.</div>
+      </div>
+      <p class="w-note">Блок авторства нужен и для доверия, и для E-E-A-T: на живом сайте тут же разметка автора и ссылка на страницу «Об авторе». Фото владелец даст позже – пока место под фото с ролью. Для этой ниши в блоке добавлена одна фраза про свой техцентр: в других нишах её не будет, это нишевое место.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="w-footer"><div class="w-wrap w-stack">
+  <span>Deford – сайты на коде. Основатель Артём Галимов. Связь: <a href="https://t.me/Artem1Galimov">Telegram</a>, <a href="https://wa.me/79537777891">WhatsApp</a>.</span>
+  <span>Ниши: <a href="/industries/">все разделы</a>. Услуги: <a href="/services/website/">сайт под ключ</a>, <a href="/services/seo/">ведение</a>.</span>
+  <span class="w-muted"><a href="/privacy/">Политика обработки данных</a> · <a href="/consent/">Согласие на обработку данных</a> · реквизиты студии</span>
+</div></footer>
+
+<div class="w-sticky"><a class="w-btn" href="#zayavka">Показать спрос</a><a class="w-btn ghost" href="https://t.me/Artem1Galimov">Написать</a></div>
+
+<script>
+// Переключатели прототипа и подпись логики над каждым блоком (по умолчанию скрыто).
+document.querySelectorAll('.w-block').forEach(function (b) {
+  var d = b.dataset, el = document.createElement('div');
+  el.className = 'w-logic';
+  el.innerHTML = '<b>Блок ' + (d.n || '?') + ' · ' + (d.name || '') + '</b><br>Вопрос клиента: ' + (d.question || '–') + '<br>Опора: ' + (d.proof || '–');
+  if (b.tagName === 'HEADER') b.prepend(el); else (b.querySelector('.w-wrap') || b).prepend(el);
+});
+document.getElementById('t-logic').addEventListener('change', function (e) { document.body.classList.toggle('show-logic', e.target.checked); });
+document.getElementById('t-notes').addEventListener('change', function (e) { document.body.classList.toggle('show-notes', e.target.checked); });
+document.getElementById('t-seo').addEventListener('change', function (e) { document.body.classList.toggle('show-seo', e.target.checked); });
+document.getElementById('t-success').addEventListener('change', function (e) { document.body.classList.toggle('show-success', e.target.checked); });
+(function () {
+  var src = document.getElementById('w-seo'), box = document.getElementById('w-seo-box');
+  if (!src || !box) return;
+  var d = JSON.parse(src.textContent), esc = function (t) { return String(t).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); };
+  var len = function (t, max) { return ' <span class="' + (t.length > max ? 'bad' : '') + '">(' + t.length + ' / ' + max + ')</span>'; };
+  var heads = [].map.call(document.querySelectorAll('main h1, main h2, header h1'), function (h) { return '<li>' + h.tagName + ' – ' + esc(h.textContent.trim()) + '</li>'; }).join('');
+  var alts = [].map.call(document.querySelectorAll('.w-media[data-alt]'), function (m) { return '<li>' + esc(m.dataset.alt) + '</li>'; }).join('');
+  box.innerHTML = '<table><tr><td>title</td><td>' + esc(d.title) + len(d.title, 65) + '</td></tr><tr><td>description</td><td>' + esc(d.description) + len(d.description, 160) +
+    '</td></tr><tr><td>запрос</td><td>' + esc(d.zapros || '–') + '</td></tr><tr><td>заголовки</td><td><ul>' + heads + '</ul></td></tr><tr><td>alt</td><td><ul>' + (alts || '<li>–</li>') +
+    '</ul></td></tr><tr><td>разметка</td><td>' + esc(d.schema || '–') + '</td></tr><tr><td>ссылки</td><td><ul>' + (d.links || []).map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul></td></tr></table>';
+})();
+document.getElementById('ask-count').textContent = document.querySelectorAll('.w-ask').length;
+// Любая форма: галочка data-agree включает кнопку отправки своей формы.
+document.querySelectorAll('form').forEach(function (f) {
+  var a = f.querySelector('[data-agree]'), btn = f.querySelector('button[type="submit"], button:not([type])');
+  if (a && btn) a.addEventListener('change', function () { btn.disabled = !a.checked; });
+});
+</script>
+<!-- Виджеты: подключение (раскомментировать вместе с блоком в head).
+<div data-vidzhety data-src="vidzhety-stranica.json"></div>
+<script src="https://tema-mail.github.io/vidzhety/vidzhety.js"></script>
+Пример vidzhety-stranica.json (факты – только с сайта клиента; срок акции не выдумывать):
+{
+  "demo": true, "consent": false, "endpoint": "demo:", "tz": 7, "agreement": "https://<сайт>/soglasie",
+  "widgets": [
+    { "id": "svyaz", "enabled": true, "type": "contacts", "group": "contact", "trigger": { "on": "load" },
+      "content": { "layout": "side", "phone": "+70000000000", "phoneText": "8 (000) 000-00-00", "wa": "https://wa.me/70000000000",
+        "tg": "https://t.me/...", "email": "...", "callback": "zvonok",
+        "buttons": [ { "text": "Главное действие страницы", "open": "zvonok", "kind": "main" }, { "text": "Позвонить", "href": "tel:+70000000000" } ] } },
+    { "id": "akciya", "enabled": true, "type": "modal", "trigger": { "on": "time", "s": 20 }, "mobileAs": "bar",
+      "content": { "title": "Предложение с сайта", "text": "Оставьте телефон – менеджер закрепит условия.", "short": "Коротко для плашки", "button": "Закрепить" },
+      "form": { "fields": ["phone"], "button": "Оставить телефон" } },
+    { "id": "uhod", "enabled": true, "type": "modal", "trigger": { "on": "exit" }, "target": { "device": "desktop" },
+      "content": { "title": "Предложение на уходе" }, "form": { "fields": ["phone"] } },
+    { "id": "zvonok", "enabled": true, "type": "callback", "trigger": { "on": "click" }, "content": { "title": "Перезвоним вам" },
+      "form": { "fields": ["name", "phone"], "button": "Перезвоните мне" } }
+  ]
+}
+В комментарий дизайнеру (.w-note) – строка «Виджеты страницы: … Почему так: …».
+-->
+<!-- ============================================================================
+     ПЕРЕНОС ШАБЛОНА НА ДРУГУЮ НИШУ. Эта страница – образец нишевого раздела: /industries/avtoservis/.
+     Меняются только помеченные пунктиром места (.w-slot) и семь смысловых мест.
+
+     1. Название ниши – H1, title, description, дескриптор в шапке, подписи кнопок, поля формы.
+        Вхождения .w-slot в этой версии: «автосервиса», «сервис», «работы», «марки и модели», «мастера»,
+        «бокс», «заказ-наряд», «запись на ремонт», «владелец машины».
+     2. Список болей – блок 2 целиком. Пять пунктов берём из осмотра сайтов этой ниши, автосервисные не переписываем.
+     3. Таблица спроса – блок 3: строки работ свои, числа только после замера Wordstat по городу клиента.
+        ВАЖНО для авто и похожих ниш: здесь есть вторая ось – марки. В нишах без такой оси (цветы, стоматология)
+        строка «ремонт <марка>» убирается, остаётся только список работ или услуг.
+     4. Набор нужных страниц – блок 4 целиком. Выделенная карточка над сеткой = главный нишевой тезис:
+        в автосервисе это страницы под марки, в другой нише – своё (у стоматологии это врачи и лицензии).
+        Если такого одного главного тезиса в нише нет, карточку убираем, а не заполняем общими словами.
+     5. Доказательство – блок 5. В автосервисе это уникальный случай: у нас свои действующие проекты
+        (Evolution Car Service, TEYES Sibir, 15 прототипов моносайтов марок, редизайн Plutos Auto),
+        и это сильнее любого кейса. В нишах, где своего дела нет, блок становится кейсом КЛИЕНТА в этой нише,
+        и правило жёсткое: нет кейса в нише – страницу не публикуем, кейс из другой ниши не подставляем.
+     6. Работы и фото – блок 7: у каждой ниши свой набор полей карточки работы и свои кадры.
+        Правило про скрытый по контуру госномер остаётся во всех автомобильных нишах (сервис, салон, шиномонтаж,
+        тюнинг, установочный центр, детейлинг); в неавтомобильных – убрать.
+     7. Плашки призыва (3а, 5а, 7а) – текст предложения свой, он привязан к блоку над плашкой. Число плашек
+        не копировать механически: ставим после тех блоков, которые реально снимают сомнение в этой нише.
+
+     Плюс адрес страницы: /industries/<nisha>/ английским словом, перелинковка в script#w-seo
+     и крошки «Главная – Ниши – <название>».
+
+     НЕ меняются: шапка и подвал, цена 120 000 ₽ и состав работ (блок 6), ведение 10 000 ₽/мес (блок 8),
+     форма и текст после отправки (блок 9, кроме одного нишевого поля), блок автора (блок 10), набор виджетов,
+     сама логика страницы: сначала спрос клиента числами, потом структура, потом доказательство, потом цена.
+
+     Сколько таких страниц делаем: столько, сколько ниш, где есть показываемое доказательство. Поискового спроса
+     на «сайт для <ниша>» нет: по автосервису заказной интент 9–34 запроса в месяц на всю Россию (Wordstat,
+     октябрь 2026), и часть широкой частоты вообще про оборудование. Страницы работают на рекламу
+     и как ссылка в коммерческом предложении, не на поиск.
+     ============================================================================ -->
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Прототип – НАЗВАНИЕ СТРАНИЦЫ</title>
+<!-- kit.css вставляется целиком внутрь <style> (прототип – один файл, открывается без интернета) -->
+<style>/* Комплект чёрно-белого прототипа (маркетолог → site-prototype).
+   Прототип показывает смысл, текст, порядок и действие – не дизайн. Цвета только серые; дизайнер делает визуал после «да» владельца.
+   Блок: <section class="w-block" data-n="1" data-name="Первый экран" data-question="вопрос клиента" data-proof="опора"> */
+:root {
+  --ink: #141414; --muted: #5f5f5f; --line: #b9b9b9; --fill: #ececec; --fill2: #f6f6f6; --paper: #ffffff;
+  --note: #fff6c8; --note-line: #c9b44a; --ask: #7a1f1f;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, Menlo, Consolas, monospace;
+  --wrap: 1180px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 var(--font); }
+img { max-width: 100%; }
+a { color: var(--ink); }
+h1, h2, h3 { margin: 0; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: clamp(28px, 4.2vw, 46px); }
+h2 { font-size: clamp(22px, 3vw, 32px); }
+h3 { font-size: 18px; }
+p { margin: 0; }
+.w-wrap { max-width: var(--wrap); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.w-stack { display: grid; gap: 14px; }
+.w-muted { color: var(--muted); }
+
+/* Панель прототипа: переключатели «Логика» и «Комментарии» */
+.w-bar { position: sticky; top: 0; z-index: 50; background: var(--ink); color: #fff; font: 13px/1.3 var(--mono); }
+.w-bar .w-wrap { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding-block: 8px; }
+.w-bar b { font-weight: 600; }
+.w-bar label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+
+/* Блок и его подпись логики */
+.w-block { border-top: 1px dashed var(--line); padding-block: 40px; position: relative; }
+.w-logic { display: none; font: 12.5px/1.45 var(--mono); background: var(--fill2); border: 1px solid var(--line); padding: 8px 10px; margin-bottom: 18px; }
+body.show-logic .w-logic { display: block; }
+.w-logic b { font-weight: 700; }
+.w-note { display: none; background: var(--note); border: 1px dashed var(--note-line); padding: 8px 10px; font-size: 13.5px; margin-top: 12px; }
+body.show-notes .w-note { display: block; }
+.w-note::before { content: "Дизайнеру: "; font-weight: 700; }
+.w-seo { display: none; font: 13px/1.5 var(--mono); background: #eef3ff; border: 1px solid #8aa0d6; padding: 12px 14px; margin: 12px auto; max-width: var(--wrap); }
+body.show-seo .w-seo { display: block; }
+.w-seo table { border-collapse: collapse; width: 100%; }
+.w-seo td { border-top: 1px solid #c9d4ee; padding: 4px 6px; vertical-align: top; }
+.w-seo td:first-child { white-space: nowrap; font-weight: 700; width: 1%; }
+.w-seo .bad { color: var(--ask); font-weight: 700; }
+.w-seo ul { margin: 0; padding-left: 18px; }
+.w-ask { color: var(--ask); font-weight: 600; background: #f7e9e9; padding: 0 4px; }
+
+/* Место под фото/видео/схему: роль, а не «картинка» */
+.w-media { background: repeating-linear-gradient(45deg, var(--fill), var(--fill) 10px, var(--fill2) 10px, var(--fill2) 20px);
+  border: 1px solid var(--line); min-height: 220px; display: grid; place-items: center; text-align: center; padding: 16px;
+  color: var(--muted); font-size: 14px; }
+.w-media::before { content: "▣ "; }
+.w-media.small { min-height: 120px; }
+
+/* Кнопки */
+.w-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border: 2px solid var(--ink);
+  background: var(--ink); color: #fff; font-weight: 600; text-decoration: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+.w-btn.ghost { background: transparent; color: var(--ink); }
+.w-btn[disabled] { opacity: .45; cursor: not-allowed; }
+.w-hint { font-size: 13px; color: var(--muted); }
+
+/* Шапка */
+.w-header .w-wrap { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between; padding-block: 12px; }
+.w-logo { border: 2px solid var(--ink); padding: 6px 10px; font-weight: 700; }
+.w-descr { font-size: 13.5px; color: var(--muted); max-width: 34ch; }
+.w-contacts-top { display: grid; gap: 2px; font-size: 14px; text-align: right; }
+.w-nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14.5px; border-top: 1px solid var(--line); padding-block: 8px; }
+
+/* Первый экран */
+.w-hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; }
+.w-hero ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.w-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* Сетки и карточки */
+.w-grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 14px; }
+.w-card { border: 1px solid var(--line); padding: 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.w-card .w-media { min-height: 140px; }
+.w-price { font-weight: 700; }
+
+/* Этапы */
+.w-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 14px; counter-reset: st; }
+.w-steps li { border: 1px solid var(--line); padding: 14px; counter-increment: st; display: grid; gap: 6px; }
+.w-steps li::before { content: counter(st); font-weight: 700; font-size: 22px; }
+
+/* Таблица */
+.w-table-wrap { overflow-x: auto; }
+.w-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.w-table th, .w-table td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+.w-table th { background: var(--fill2); }
+
+/* FAQ */
+.w-faq details { border: 1px solid var(--line); padding: 12px 14px; }
+.w-faq details + details { border-top: 0; }
+.w-faq summary { font-weight: 600; cursor: pointer; }
+
+/* Форма */
+.w-form { border: 2px solid var(--ink); padding: 18px; display: grid; gap: 12px; max-width: 520px; }
+.w-field { display: grid; gap: 4px; font-size: 14px; }
+.w-field input, .w-field select { min-height: 44px; border: 1px solid var(--ink); padding: 0 10px; font: inherit; background: #fff; }
+.w-check { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; }
+
+/* Полоса призыва */
+.w-cta { background: var(--fill); padding: 24px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+/* Плашка призыва между блоками: section.w-block.w-cta-strip с одной строкой предложения и кнопкой или мини-формой (карточка prizyv-mezhdu-blokami) */
+.w-block.w-cta-strip { padding-block: 16px; }
+.w-cta-strip .w-cta { padding: 14px 18px; }
+.w-cta-strip .w-cta p { margin: 0; font-weight: 600; }
+
+/* Состояние формы после отправки (карточка stranica-spasibo-sleduyushchiy-shag): видно по переключателю «После отправки» */
+.w-success { display: none; border: 2px dashed var(--ink); padding: 14px; background: var(--fill); }
+.w-success p { margin: 0 0 6px; }
+body.show-success .w-success { display: block; }
+
+/* Подвал */
+.w-footer { background: var(--fill2); border-top: 1px solid var(--line); padding-block: 28px; font-size: 14px; }
+
+/* Липкая панель действий на телефоне */
+.w-sticky { display: none; }
+header.w-block { padding-block: 0; border-top: 0; }
+header.w-block > .w-logic { margin: 8px auto; max-width: var(--wrap); }
+
+@media (max-width: 760px) {
+  .w-hide-m { display: none !important; }
+  /* Мобильная шапка: логотип, короткий дескриптор и «Меню»; звонок и мессенджеры – в липкой панели снизу */
+  .w-header .w-wrap { flex-wrap: nowrap; padding-block: 8px; gap: 10px; }
+  .w-header .w-contacts-top, .w-header .w-wrap > .w-btn, .w-nav { display: none !important; }
+  .w-header .w-descr { font-size: 12px; line-height: 1.3; }
+  .w-header > div.w-wrap:has(> .w-logo)::after { content: "☰ Меню"; margin-left: auto; border: 1px solid var(--ink); padding: 6px 10px; font-size: 13px; white-space: nowrap; }
+  .w-hero .w-media, .w-block[data-n="1"] .w-media:first-of-type { min-height: 160px; }
+  .w-bar .w-wrap { padding-block: 4px; gap: 4px 10px; font-size: 11px; }
+  .w-hero { grid-template-columns: 1fr; }
+  .w-grid { grid-template-columns: repeat(var(--cols-m, 2), minmax(0, 1fr)); }
+  .w-steps { grid-template-columns: 1fr; }
+  .w-contacts-top { text-align: left; }
+  .w-block { padding-block: 28px; }
+  .w-sticky { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+    background: #fff; border-top: 1px solid var(--line); }
+  body { padding-bottom: 72px; }
+}
+@media (max-width: 420px) { .w-grid.one-m { grid-template-columns: 1fr; } }
+</style>
+<!-- Виджеты страницы (окна, ярлычок, боковая панель мессенджеров, нижняя панель телефона) – модуль tema-mail/vidzhety.
+     Набор под страницу – по справочнику ~/.claude/skills/marketolog/references/vidzhety-spravochnik.md. Чтобы включить – раскомментировать
+     это и блок «Виджеты: подключение» в конце страницы, положить рядом vidzhety-<страница>.json. Образец – ~/Sites/sayty-agent/prototipy/gaz-mag/.
+<link rel="stylesheet" href="https://tema-mail.github.io/vidzhety/vidzhety.css">
+<style>
+:root { --w-accent: #141414; --w-accent-2: #5f5f5f; --w-radius: 6px; --w-wa: #3d3d3d; --w-tg: #3d3d3d; --w-max: #3d3d3d; }
+body.vz-has-sticky .w-sticky { display: none !important; }
+</style>
+-->
+</head>
+<body>
+<!-- Шаблон прототипа. Каждый блок – section.w-block с data-n, data-name, data-question, data-proof.
+     Нет данных – <span class="w-ask">[запросить: что именно]</span>. Место под фото – .w-media с ролью.
+     Комментарий дизайнеру – <p class="w-note">…</p>. Тире только «–». Удалить ненужные блоки-примеры. -->
+<div class="w-bar"><div class="w-wrap">
+  <b>Прототип · Дефорд · Рассрочка /installment/ · 4 ноября 2026</b>
+  <label><input type="checkbox" id="t-logic"> Логика блоков</label>
+  <label><input type="checkbox" id="t-notes"> Комментарии дизайнеру</label>
+  <label><input type="checkbox" id="t-seo"> SEO страницы</label>
+  <label><input type="checkbox" id="t-success"> После отправки</label>
+  <span>Меток «запросить»: <b id="ask-count">0</b></span>
+</div></div>
+
+<!-- SEO-задание страницы от site-seo: показывается переключателем «SEO страницы»; title до 65 знаков, description до 160. -->
+<script type="application/json" id="w-seo">{"title": "Сайт в рассрочку: старт от 25 000 ₽ · Дефорд", "description": "Внутренняя рассрочка на все тарифы: старт от 25 000 ₽, дальше 10–15 тысяч в месяц, поддержка и наполнение входят. Сайт работает на вашем домене с первого дня.", "h1": "Можно начать с 25 000 ₽", "zapros": "страница служебная, под рассрочку поискового спроса нет. Приходят на неё со страниц услуг и ниш по ссылке «подробнее» у цены, и из разговора с клиентом. Поисковые ключи не натягиваем: задача страницы – снять возражение по деньгам, а не собрать трафик", "schema": "Organization (Deford, Артём Галимов), FAQPage по блоку вопросов, Person для автора. Offer с рассрочкой не ставить, пока условия не заверены юристом", "links": ["/services/website/ – сайт под ключ, полная цена и состав", "/services/online-store/ – интернет-магазин и тарифы (страницы пока нет, план)", "/industries/cvetochnyy-magazin/ – откуда приходят по ссылке «подробнее»", "/services/seo/ – ведение сайта, входит в платёж"]}</script>
+<div class="w-seo" id="w-seo-box"></div>
+
+<header class="w-header w-block" data-n="0" data-name="Шапка" data-question="Кто это предлагает и можно ли этим людям верить?" data-proof="название студии, канал связи, ссылки на страницы услуг">
+  <div class="w-wrap">
+    <span class="w-logo">ДЕФОРД</span>
+    <span class="w-descr">Сайты и интернет-магазины на своём коде. С 2015 года</span>
+    <span class="w-contacts-top"><a href="https://t.me/Artem1Galimov">Telegram</a><span class="w-muted"><span class="w-ask">[запросить: телефон и часы ответа]</span></span></span>
+    <a class="w-btn ghost" href="#zayavka">Обсудить мой случай</a>
+  </div>
+  <nav class="w-wrap w-nav"><a href="/services/website/">Сайт под ключ</a><a href="/services/online-store/">Интернет-магазин</a><a href="/services/seo/">Ведение</a><a href="/installment/">Рассрочка</a></nav>
+  <p class="w-note">Шапка общая со страницами услуг. Эта страница служебная: на неё приходят по ссылке «подробнее» от цены на страницах ниш и услуг, поэтому в меню она отмечена как текущая, а главное действие – не заявка на сайт, а разговор про деньги.</p>
+</header>
+
+<main>
+  <section class="w-block" data-n="1" data-name="Первый экран" data-question="Сколько нужно денег, чтобы начать?" data-proof="условие студии: старт от 25 000 ₽, дальше 10–15 тыс в месяц с поддержкой внутри">
+    <div class="w-wrap">
+      <div class="w-hero">
+        <div class="w-stack">
+          <h1>Можно начать с 25 000 ₽</h1>
+          <p>Внутренняя рассрочка на все наши тарифы. Сайт делается и начинает работать сразу, а ваши деньги остаются там, где они сейчас нужнее – в рекламе и закупках.</p>
+          <div class="w-actions"><a class="w-btn" href="#zayavka">Обсудить мой случай</a><a class="w-btn ghost" href="#kak">Как это работает</a></div>
+          <p class="w-hint">Посчитаем ваш платёж и скажем, подходит ли вам рассрочка. Без обязательств.</p>
+        </div>
+        <div class="w-media" data-alt="Артём Галимов, основатель студии Дефорд">Роль: фото Артёма – живое, рабочее, не студийный портрет в костюме. Страница написана от первого лица, человек должен сразу видеть, кто это говорит. <span class="w-ask">[запросить: фото Артёма]</span></div>
+      </div>
+      <p class="w-note">Служебная страница, приходят по ссылке «подробнее» от цены. Задача одна: снять возражение по деньгам и не наобещать лишнего. Поэтому первый экран говорит сумму входа, а не «выгодные условия». Дизайнеру: сумма крупно, фото рядом, никаких процентов и калькуляторов на первом экране.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="2" data-name="От меня лично" data-question="Вы вообще понимаете, каково мне сейчас?" data-proof="Артём – действующий предприниматель с офлайн-бизнесом; цифра 80% заявок с сайта – его собственный бизнес">
+    <div class="w-wrap w-stack">
+      <h2>Почему я это придумал</h2>
+      <p>2026 год бизнесу в России даётся непросто. Это не новость и не повод для красивых слов. Я говорю так не со стороны: у меня есть свой офлайн-бизнес, и всё, что происходит со спросом, ценами и деньгами, я вижу на себе, а не в чужих отчётах.</p>
+      <p>При этом я точно знаю и другое. <b>Сайт в моём собственном бизнесе даёт около 80% всех заявок.</b> Часть из них приходит вообще без рекламного бюджета – из поиска, потому что сайт довели до состояния, когда он работает сам.</p>
+      <p>Поэтому я не продаю сайты «чтобы было». Я считаю, сколько они приносят, на своих же деньгах.</p>
+      <p class="w-note">Главный блок доверия на странице. Текст от первого лица и не должен причёсываться до корпоративного: ценность именно в том, что это говорит предприниматель предпринимателю. Цифра 80% – слова Артёма о своём бизнесе, не замер по клиентам; если решим её показывать, рядом стоит сказать, какой это бизнес. <span class="w-ask">[запросить: называем ли мы этот бизнес на странице или говорим «мой бизнес» без имени]</span></p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="3" data-name="Что мешает начать" data-question="Почему я до сих пор не сделал сайт?" data-proof="наблюдение из разговоров с клиентами, не замер">
+    <div class="w-wrap w-stack">
+      <h2>И я вижу, что мешает начать</h2>
+      <p>Почти никогда дело не в том, что человек не верит в сайт. Дело в выборе: отдать сумму целиком за сайт – или вложить её в рекламу, в закупку, в товар. И выбор обычно не в нашу пользу. Для бизнеса это, если честно, правильный выбор.</p>
+      <p>Поэтому мы сделали внутреннюю рассрочку на все тарифы. Чтобы вам не приходилось выбирать между сайтом и оборотом: сайт делается, а деньги остаются в деле.</p>
+      <p class="w-note">Блок признаёт правоту клиента вместо того, чтобы его переубеждать. Это и есть переход от личной истории к условиям: сначала «я вас понимаю», потом «вот что мы с этим сделали».</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="4" data-name="Магии не бывает" data-question="Мне сейчас пообещают золотые горы?" data-proof="честное ограничение студии; сроки раскачки – запросить">
+    <div class="w-wrap w-stack">
+      <h2>Сразу о том, чего не будет</h2>
+      <p>Магии не бывает, волшебных таблеток мы не продаём. Сайт не начинает приносить деньги сам по себе от того, что он красивый и быстрый.</p>
+      <p>Бизнесу нужно время: раскачаться, научиться работать с новым каналом и – это важнее всего – научиться продавать тем людям, которые из него приходят. Человек из интернета не похож на того, кто пришёл по сарафану: он сравнивает, задаёт другие вопросы и решает дольше. С ним надо разговаривать иначе, и этому тоже надо научиться.</p>
+      <p>Поэтому мы говорим честно: первый месяц – это настройка и обучение, а не рекорды. Рассрочка как раз и даёт это время, не вынимая из бизнеса всю сумму сразу.</p>
+      <p><span class="w-ask">[запросить: какой срок раскачки мы называем честно – через сколько месяцев клиент обычно выходит на стабильные заявки]</span></p>
+      <p class="w-note">Этот блок обязателен и его нельзя смягчать: он защищает и клиента, и нас. Если человек ждёт продаж в первую неделю, лучше чтобы он ушёл здесь, а не через месяц с претензией. Дизайнеру: без иконок-предупреждений и красных рамок, спокойный текст.</p>
+    </div>
+  </section>
+
+  <section class="w-block w-cta-strip" data-n="4а" data-name="Плашка после честного блока" data-question="Мне подходит такой подход – что дальше?" data-proof="разговор без обязательств">
+    <div class="w-wrap"><div class="w-cta"><p>Если такой разговор вам ближе, чем обещания – напишите, обсудим ваш случай.</p><a class="w-btn ghost" href="https://t.me/Artem1Galimov">Написать в Telegram</a></div></div>
+  </section>
+
+  <section class="w-block" id="kak" data-n="5" data-name="Как работает рассрочка" data-question="Сколько и когда я плачу?" data-proof="условия студии: старт 25 000 ₽, платёж 10–15 тыс, поддержка и наполнение внутри платежа">
+    <div class="w-wrap w-stack">
+      <h2>Как работает рассрочка</h2>
+      <div class="w-grid" style="--cols:3;--cols-m:1">
+        <article class="w-card"><h3>Старт – от 25 000 ₽</h3><p>Этой суммы хватает, чтобы начать работу: исследование, структура, прототип. Остальное – дальше, платежами.</p></article>
+        <article class="w-card"><h3>Дальше – 10 000–15 000 ₽ в месяц</h3><p>Размер платежа зависит от тарифа. Процентов нет: это наша рассрочка, не банк и не кредит.</p></article>
+        <article class="w-card"><h3>Поддержка уже внутри</h3><p>В этот же платёж входит поддержка сайта и его наполнение – отдельного счёта за это не будет.</p></article>
+      </div>
+      <p><span class="w-ask">[запросить: срок рассрочки до полного выкупа – сколько месяцев платежей]</span> <span class="w-ask">[запросить: что именно входит в поддержку и наполнение за эти деньги – сколько страниц, правок, часов в месяц]</span> <span class="w-ask">[запросить: на какие тарифы распространяется рассрочка – на все или есть исключения]</span></p>
+      <p><span class="w-ask">[запросить: можно ли выкупить досрочно и меняется ли сумма]</span> <span class="w-ask">[запросить: что происходит, если платежи остановились – ждём, замораживаем сайт, расторгаем]</span></p>
+      <p class="w-note">Самый проверяемый блок страницы: здесь клиент считает. Пока не ответим на пять вопросов выше, в бой страницу не выпускаем – недосказанность про деньги хуже высокой цены. Дизайнеру: три карточки в ряд, под ними одна строка «итого за первый месяц» – поставим, когда будут точные цифры по тарифам.</p>
+    </div>
+  </section>
+
+  <section class="w-block w-cta-strip" data-n="5а" data-name="Плашка после условий" data-question="Сколько выйдет именно у меня?" data-proof="расчёт по тарифу клиента">
+    <div class="w-wrap"><div class="w-cta"><p>Назовите задачу – посчитаем ваш старт и месячный платёж.</p><a class="w-btn" href="#zayavka">Посчитать мой платёж</a></div></div>
+  </section>
+
+  <section class="w-block" data-n="6" data-name="Чей сайт до выкупа" data-question="А сайт вообще мой или нет?" data-proof="условие студии: сайт у студии до полного выкупа, домен и заявки клиента с первого дня">
+    <div class="w-wrap w-stack">
+      <h2>Чей сайт, пока рассрочка не закрыта</h2>
+      <p>Говорю прямо, без мелкого шрифта. <b>До последнего платежа сайт остаётся нашим</b> – это и есть обеспечение рассрочки, вместо банка, залога и процентов.</p>
+      <p>При этом он уже стоит <b>на вашем домене</b>, уже работает и уже приносит вам заявки. Домен ваш с первого дня, заявки приходят вам, аналитика ваша, тексты и фото ваши. Вы не ждёте, пока рассрочка закроется, чтобы начать получать деньги.</p>
+      <p>После последнего платежа сайт полностью ваш.</p>
+      <p><span class="w-ask">[запросить: что именно передаём при выкупе – код, доступы, права, и как это оформляется документом]</span> <span class="w-ask">[запросить: сверить формулировки этого блока с юристом – до сверки в бой не выпускаем]</span></p>
+      <p class="w-note">Второе по важности возражение после цены. Если про это не сказать прямо и сразу, человек додумает хуже, чем есть. Формулировка «сайт наш до выкупа, но домен и заявки ваши с первого дня» – это сильная сторона предложения, а не то, что надо прятать. Дизайнеру: блок спокойный, без юридического шрифта 11 px.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="7" data-name="Кому подходит" data-question="Это вообще про меня?" data-proof="наш опыт отбора клиентов; пороги – запросить">
+    <div class="w-wrap w-stack">
+      <h2>Кому рассрочка подходит, а кому нет</h2>
+      <div class="w-grid" style="--cols:2;--cols-m:1">
+        <article class="w-card"><h3>Подходит</h3><ul><li>Бизнес уже работает и есть какой-то поток клиентов</li><li>Готовы вкладывать в рекламу хотя бы небольшой бюджет</li><li>Готовы разбираться, как работать с новым каналом</li></ul></article>
+        <article class="w-card"><h3>Не подходит</h3><ul><li>Сайт нужен «чтобы был», для галочки</li><li>На рекламу денег нет совсем</li><li>Ждёте заказов на первой неделе без своего участия</li></ul></article>
+      </div>
+      <p><span class="w-ask">[запросить: есть ли у нас порог – сколько месяцев бизнес должен работать, минимальный рекламный бюджет]</span></p>
+      <p class="w-note">Блок отсева. Он экономит нам месяцы работы с теми, кто всё равно уйдёт недовольным, и повышает доверие тех, кто подходит: видно, что мы берём не всех.</p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="8" data-name="Вопросы" data-question="Что меня ещё останавливает?" data-proof="ответы по условиям студии; незакрытые – метками">
+    <div class="w-wrap w-stack">
+      <h2>Вопросы про рассрочку</h2>
+      <details class="w-faq"><summary>Это кредит? Будут проценты?</summary><p>Нет. Это наша внутренняя рассрочка: договор с нами, без банка, без процентов и без переплаты за срок.</p></details>
+      <details class="w-faq"><summary>Что входит в месячный платёж, кроме самой рассрочки?</summary><p>Поддержка сайта и его наполнение. <span class="w-ask">[запросить: точный состав и объём]</span></p></details>
+      <details class="w-faq"><summary>Сколько платежей всего?</summary><p><span class="w-ask">[запросить: срок рассрочки]</span></p></details>
+      <details class="w-faq"><summary>Могу я выкупить сайт раньше?</summary><p><span class="w-ask">[запросить: условия досрочного выкупа]</span></p></details>
+      <details class="w-faq"><summary>Что будет, если я не смогу платить?</summary><p><span class="w-ask">[запросить: решение владельца – пауза, заморозка или расторжение, и что происходит с сайтом]</span></p></details>
+      <details class="w-faq"><summary>Домен тоже ваш до выкупа?</summary><p>Нет. Домен ваш с первого дня, сайт работает на нём, заявки приходят вам.</p></details>
+      <p class="w-note">Шесть вопросов – ровно те, что задают про рассрочку. Четыре из них пока без ответа, и это честно показано: лучше увидеть метку и спросить, чем получить гладкий текст без обязательств.</p>
+    </div>
+  </section>
+
+  <section class="w-block" id="zayavka" data-n="9" data-name="Заявка" data-question="Как узнать свой платёж?" data-proof="расчёт делаем до договора и бесплатно">
+    <div class="w-wrap w-stack">
+      <h2>Посчитаем ваш платёж</h2>
+      <p>Расскажите, что за бизнес и что нужно – посчитаем старт и месячный платёж, скажем честно, подходит вам рассрочка или лучше взять тариф попроще.</p>
+      <form class="w-form" onsubmit="event.preventDefault()">
+        <label class="w-field">Имя<input id="f-name" autocomplete="name"></label>
+        <label class="w-field">Телефон или Telegram<input id="f-contact" inputmode="tel" placeholder="куда ответить"></label>
+        <label class="w-field">Что за бизнес и что нужно<input id="f-task" placeholder="ниша, город, есть ли сайт сейчас"></label>
+        <label class="w-check"><input type="checkbox" id="f-agree" data-agree> <span>Согласен на обработку <a href="/privacy/">персональных данных</a></span></label>
+        <button class="w-btn" type="submit" disabled>Посчитать мой платёж</button>
+        <p class="w-hint">Ответим <span class="w-ask">[запросить: срок ответа]</span>. Без звонков, если сами не попросите.</p>
+        <div class="w-success">
+          <p><b>Заявка пришла.</b></p>
+          <p>Считает лично Артём, ответ придёт <span class="w-ask">[запросить: срок ответа]</span>.</p>
+          <p>Срочно – Telegram <a href="https://t.me/Artem1Galimov">@Artem1Galimov</a> или <a href="https://wa.me/79537777891">WhatsApp</a>.</p>
+          <p>Что подготовить к разговору: адрес текущего сайта или группы, примерный рекламный бюджет в месяц и сроки, к которым нужен результат.</p>
+        </div>
+      </form>
+      <p class="w-note">Форма короткая на три поля: страница служебная, человек уже тёплый, лишние поля здесь только мешают. Галочка пустая, кнопка до неё неактивна. <span class="w-ask">[запросить: куда уходят заявки – сейчас формы сайта шлют в сторонний сервис, это надо менять]</span></p>
+    </div>
+  </section>
+
+  <section class="w-block" data-n="10" data-name="Автор" data-question="Кто это говорил всю страницу?" data-proof="Артём Галимов, основатель, 15 лет в маркетинге, сайты с 2015 года">
+    <div class="w-wrap w-stack">
+      <h2>Кто это написал</h2>
+      <p><b>Артём Галимов</b> – основатель Дефорд. 15 лет в маркетинге, сайты делаем с 2015 года. Действующий предприниматель: у меня свой офлайн-бизнес, и сайт в нём даёт около 80% заявок.</p>
+      <p>Рассрочку придумал, потому что сам считал этот выбор – отдать деньги за сайт или оставить в обороте.</p>
+      <div class="w-media" data-alt="Артём Галимов, основатель студии Дефорд, за работой">Роль: второе фото Артёма или то же, что на первом экране. Подпись с именем и ролью обязательна – страница личная. <span class="w-ask">[запросить: фото]</span></div>
+      <p class="w-note">Подпись автора нужна и людям, и поиску: страница от первого лица без имени и лица не работает. Ставим имя, роль и фото, разметку Person.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="w-footer"><div class="w-wrap w-stack">
+  <span>Дефорд · сайты и интернет-магазины на своём коде с 2015 года</span>
+  <span>Telegram <a href="https://t.me/Artem1Galimov">@Artem1Galimov</a> · <a href="https://wa.me/79537777891">WhatsApp</a> · <span class="w-ask">[запросить: телефон, реквизиты, ссылки на политику и согласие]</span></span>
+</div></footer>
+
+<div class="w-sticky"><a class="w-btn" href="#zayavka">Посчитать платёж</a><a class="w-btn ghost" href="https://t.me/Artem1Galimov">Telegram</a></div>
+
+<script>
+// Переключатели прототипа и подпись логики над каждым блоком (по умолчанию скрыто).
+document.querySelectorAll('.w-block').forEach(function (b) {
+  var d = b.dataset, el = document.createElement('div');
+  el.className = 'w-logic';
+  el.innerHTML = '<b>Блок ' + (d.n || '?') + ' · ' + (d.name || '') + '</b><br>Вопрос клиента: ' + (d.question || '–') + '<br>Опора: ' + (d.proof || '–');
+  if (b.tagName === 'HEADER') b.prepend(el); else (b.querySelector('.w-wrap') || b).prepend(el);
+});
+document.getElementById('t-logic').addEventListener('change', function (e) { document.body.classList.toggle('show-logic', e.target.checked); });
+document.getElementById('t-notes').addEventListener('change', function (e) { document.body.classList.toggle('show-notes', e.target.checked); });
+document.getElementById('t-seo').addEventListener('change', function (e) { document.body.classList.toggle('show-seo', e.target.checked); });
+document.getElementById('t-success').addEventListener('change', function (e) { document.body.classList.toggle('show-success', e.target.checked); });
+(function () {
+  var src = document.getElementById('w-seo'), box = document.getElementById('w-seo-box');
+  if (!src || !box) return;
+  var d = JSON.parse(src.textContent), esc = function (t) { return String(t).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); };
+  var len = function (t, max) { return ' <span class="' + (t.length > max ? 'bad' : '') + '">(' + t.length + ' / ' + max + ')</span>'; };
+  var heads = [].map.call(document.querySelectorAll('main h1, main h2, header h1'), function (h) { return '<li>' + h.tagName + ' – ' + esc(h.textContent.trim()) + '</li>'; }).join('');
+  var alts = [].map.call(document.querySelectorAll('.w-media[data-alt]'), function (m) { return '<li>' + esc(m.dataset.alt) + '</li>'; }).join('');
+  box.innerHTML = '<table><tr><td>title</td><td>' + esc(d.title) + len(d.title, 65) + '</td></tr><tr><td>description</td><td>' + esc(d.description) + len(d.description, 160) +
+    '</td></tr><tr><td>запрос</td><td>' + esc(d.zapros || '–') + '</td></tr><tr><td>заголовки</td><td><ul>' + heads + '</ul></td></tr><tr><td>alt</td><td><ul>' + (alts || '<li>–</li>') +
+    '</ul></td></tr><tr><td>разметка</td><td>' + esc(d.schema || '–') + '</td></tr><tr><td>ссылки</td><td><ul>' + (d.links || []).map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul></td></tr></table>';
+})();
+document.getElementById('ask-count').textContent = document.querySelectorAll('.w-ask').length;
+// Любая форма: галочка data-agree включает кнопку отправки своей формы.
+document.querySelectorAll('form').forEach(function (f) {
+  var a = f.querySelector('[data-agree]'), btn = f.querySelector('button[type="submit"], button:not([type])');
+  if (a && btn) a.addEventListener('change', function () { btn.disabled = !a.checked; });
+});
+</script>
+<!-- Виджеты: подключение (раскомментировать вместе с блоком в head).
+<div data-vidzhety data-src="vidzhety-stranica.json"></div>
+<script src="https://tema-mail.github.io/vidzhety/vidzhety.js"></script>
+Пример vidzhety-stranica.json (факты – только с сайта клиента; срок акции не выдумывать):
+{
+  "demo": true, "consent": false, "endpoint": "demo:", "tz": 7, "agreement": "https://<сайт>/soglasie",
+  "widgets": [
+    { "id": "svyaz", "enabled": true, "type": "contacts", "group": "contact", "trigger": { "on": "load" },
+      "content": { "layout": "side", "phone": "+70000000000", "phoneText": "8 (000) 000-00-00", "wa": "https://wa.me/70000000000",
+        "tg": "https://t.me/...", "email": "...", "callback": "zvonok",
+        "buttons": [ { "text": "Главное действие страницы", "open": "zvonok", "kind": "main" }, { "text": "Позвонить", "href": "tel:+70000000000" } ] } },
+    { "id": "akciya", "enabled": true, "type": "modal", "trigger": { "on": "time", "s": 20 }, "mobileAs": "bar",
+      "content": { "title": "Предложение с сайта", "text": "Оставьте телефон – менеджер закрепит условия.", "short": "Коротко для плашки", "button": "Закрепить" },
+      "form": { "fields": ["phone"], "button": "Оставить телефон" } },
+    { "id": "uhod", "enabled": true, "type": "modal", "trigger": { "on": "exit" }, "target": { "device": "desktop" },
+      "content": { "title": "Предложение на уходе" }, "form": { "fields": ["phone"] } },
+    { "id": "zvonok", "enabled": true, "type": "callback", "trigger": { "on": "click" }, "content": { "title": "Перезвоним вам" },
+      "form": { "fields": ["name", "phone"], "button": "Перезвоните мне" } }
+  ]
+}
+В комментарий дизайнеру (.w-note) – строка «Виджеты страницы: … Почему так: …».
+-->
+</body>
+</html>
